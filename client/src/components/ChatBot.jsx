@@ -1,61 +1,75 @@
-import React, { useState } from 'react';
+import ChatBox from "./ChatBox";
+import { useState, useEffect, useCallback } from "react";
+import { gemini } from "@/lib/constant";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import chatService from "@/services/chat";
+const ChatBot = () => {
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chat, setChat] = useState(null);
 
-const ChatBox = () => {
-  const [newMessage, setNewMessage] = useState("");
+  const genAI = new GoogleGenerativeAI(gemini);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-  const handleSend = (e) => {
+  useEffect(() => {
+    const initialChat = model.startChat();
+    setChat(initialChat);
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newMessage.trim()) {
-      setNewMessage("");
+    if (!message.trim() || !chat) return;
+
+    try {
+      setIsLoading(true);
+      const newMessage = { role: "user", parts: [{ text: message }] };
+      setMessages(prev => [...prev, newMessage]);
+
+      const result = await chat.sendMessage(message);
+      const response = await result.response;
       
+      setMessages(prev => [...prev, { 
+        role: "model", 
+        parts: [{ text: response.text() }] 
+      }]);
+
+      setMessage("");
+      if (history.length ===0) {
+        const response = chatService.createChat(messages);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto h-[600px] flex flex-col">
-      <ScrollArea className="flex-1 p-4">
-        <div className="space-y-4">
-          {history.map((message, index) => (
-            <div
-              key={index}
-              className={`flex ${
-                message.role === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                  message.role === "user"
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-100 text-gray-900"
-                }`}
-              >
-                {message.parts[0].text}
-              </div>
-            </div>
-          ))}
-        </div>
-      </ScrollArea>
-      
-      <CardContent className="border-t p-4">
-        <form onSubmit={handleSend} className="flex gap-2">
-          <Input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message..."
-            className="flex-1"
-          />
-          <Button type="submit" size="icon">
-            <Send className="h-4 w-4" />
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-md mx-auto space-y-4">
+      <ChatBox history={messages} />
+      <Card>
+        <CardContent className="border-t p-4">
+          <form onSubmit={handleSubmit} className="flex gap-2">
+            <Input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1"
+              disabled={isLoading}
+            />
+            <Button type="submit" size="icon" disabled={isLoading}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
-export default ChatBox;
+export default ChatBot;
