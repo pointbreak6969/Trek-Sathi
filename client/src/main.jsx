@@ -9,6 +9,7 @@ import Details from "./Pages/Details";
 import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Protected from "./components/Protected";
+import ChatBox from "./components/ChatBot";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const publicRoutes = [
   {
@@ -19,7 +20,7 @@ const publicRoutes = [
         <Home />
       </Protected>
     ),
-  }
+  }, {path: "/chatbot", element: <ChatBox/>}
 ]
 const authRoutes = [
   {
