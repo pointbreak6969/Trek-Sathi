@@ -25,10 +25,10 @@ const SignupPage = () => {
             <Input type="tel" id="phone" name="phone" required className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
           </div>
 
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <label htmlFor="image" className="block text-sm font-medium text-gray-700">Profile Image</label>
             <Input type="file" id="image" name="image" accept="image/*" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
-          </div>
+          </div> */}
 
           <div className="mb-6">
             <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
@@ -51,14 +51,24 @@ const SignupPage = () => {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="socials" className="block text-sm font-medium text-gray-700">Social Media Links (optional)</label>
-            <Textarea id="socials" name="socials" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Add your social media links here..."/>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <Input type="password" id="password" name="password" required className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
           </div>
 
           <div className="mb-6">
+            <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+            <Input type="password" id="confirm_password" name="confirm_password" required className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
+          </div>
+
+          {/* <div className="mb-6">
+            <label htmlFor="socials" className="block text-sm font-medium text-gray-700">Social Media Links (optional)</label>
+            <Textarea id="socials" name="socials" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Add your social media links here..."/>
+          </div> */}
+{/* 
+          <div className="mb-6">
             <label htmlFor="past_treks" className="block text-sm font-medium text-gray-700">Past Treks (optional)</label>
             <Textarea id="past_treks" name="past_treks" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Describe your past treks here..."/>
-          </div>
+          </div> */}
 
           <Button type="submit" className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             Sign Up
