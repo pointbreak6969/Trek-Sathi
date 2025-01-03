@@ -25,11 +25,8 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const { register, handleSubmit, control } = useForm();
   const create = async (data) => {
-    setError("");
-    if (!isagreed) {
-      setError("You must accept the terms of service");
-      return;
-    }
+
+   
     try {
       const createdUser = await authService.createUser(data);
       const userData = {
@@ -44,7 +41,8 @@ const SignupPage = () => {
         navigate("/");
       }
     } catch (error) {
-      setError(error.message);
+      console.error("Error:", error);
+
     }
   };
   return (
