@@ -2,15 +2,15 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-  } from "@/components/ui/select";
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import authService from "@/services/auth";
-import { useForm , Controller} from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const SignupPage = () => {
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
     { value: "Other", label: "Other" },
-    { value: "Prefer not to say", label: "Prefer not to say" },
+    // { value: "Prefer not to say", label: "Prefer not to say" },
   ];
   const dispatch = useDispatch();
   const { register, handleSubmit, control } = useForm();
@@ -53,9 +53,7 @@ const SignupPage = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
           Sign Up
         </h2>
-        <form
-         onSubmit={handleSubmit(create)}
-        >
+        <form onSubmit={handleSubmit(create)}>
           <div className="mb-6">
             <label
               htmlFor="name"
@@ -66,7 +64,6 @@ const SignupPage = () => {
             <Input
               id="name"
               name="name"
-
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               {...register("fullName", { required: true })}
             />
@@ -87,35 +84,13 @@ const SignupPage = () => {
                 required: true,
                 validate: {
                   matchPatern: (value) =>
-                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-                      value
-                    ) || "Email address must be a valid address",
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                    "Email address must be a valid address",
                 },
               })}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
           </div>
-
-          {/* <div className="mb-6">
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Phone Number
-            </label>
-            <Input
-              type="tel"
-              id="phone"
-              name="phone"
-              required
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-            />
-          </div> */}
-
-          {/* <div className="mb-6">
-            <label htmlFor="image" className="block text-sm font-medium text-gray-700">Profile Image</label>
-            <Input type="file" id="image" name="image" accept="image/*" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"/>
-          </div> */}
 
           <div className="mb-6">
             <label
@@ -125,46 +100,27 @@ const SignupPage = () => {
               Gender
             </label>
             <Controller
-                name="gender"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="w-full h-8">
-                      <SelectValue placeholder="Select your Gender" />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-[160px] overflow-y-auto">
-                      <SelectGroup>
-                        {gender.map((item) => (
-                          <SelectItem
-                            key={item.value}
-                            value={item.value}
-                          >
-                            {item.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-          </div>
-
-          {/* <div className="mb-6">
-            <label
-              htmlFor="age"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Age
-            </label>
-            <Input
-              type="number"
-              id="age"
-              name="age"
-              required
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              name="gender"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger className="w-full h-8">
+                    <SelectValue placeholder="Select your Gender" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[160px] overflow-y-auto">
+                    <SelectGroup>
+                      {gender.map((item) => (
+                        <SelectItem key={item.value} value={item.value}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
             />
-          </div> */}
+          </div>
 
           <div className="mb-6">
             <label
@@ -181,16 +137,6 @@ const SignupPage = () => {
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
           </div>
-
-          {/* <div className="mb-6">
-            <label htmlFor="socials" className="block text-sm font-medium text-gray-700">Social Media Links (optional)</label>
-            <Textarea id="socials" name="socials" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Add your social media links here..."/>
-          </div> */}
-          {/* 
-          <div className="mb-6">
-            <label htmlFor="past_treks" className="block text-sm font-medium text-gray-700">Past Treks (optional)</label>
-            <Textarea id="past_treks" name="past_treks" className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="Describe your past treks here..."/>
-          </div> */}
 
           <Button
             type="submit"
