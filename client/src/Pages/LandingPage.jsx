@@ -24,8 +24,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-
-
       {/* Main Content */}
       <main className="container px-4 py-6">
         {/* Title */}
