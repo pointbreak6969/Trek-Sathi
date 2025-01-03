@@ -20,6 +20,10 @@ const UserSchema = new Schema(
     refreshToken: {
       type: String,
     },
+    gender: {
+      type: String,
+      required: [true, "Gender is required"]
+    }
   },
   {
     timestamps: true,

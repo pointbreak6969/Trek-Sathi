@@ -20,7 +20,7 @@ const generateAccessAndRefreshToken = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { fullName, email, password } = req.body;
+  const { fullName, email, password, gender } = req.body;
   if (!(fullName && email && password)) {
     throw new ApiError(400, "Please provide all required fields: full name, email, and password");
   }
@@ -28,7 +28,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) {
     throw new ApiError(409, "User already exists");
   }
-  const user = await User.create({ fullName, email, password });
+  const user = await User.create({ fullName, email, password, gender });
   const createdUser = await User.findById(user._id).select(
     "-password -refreshToken -otp -otpExpiry"
   );
