@@ -1,5 +1,5 @@
 import axios from "axios";
-import { baseUrl } from "@/lib/constants";
+import { baseUrl } from "@/lib/constant";
 export class AuthService {
   async createUser({ fullName, email, password, gender }) {
     try {

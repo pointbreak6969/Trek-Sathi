@@ -5,10 +5,10 @@ import { Tabs, TabsList, TabsTrigger } from "../components/tabs";
 
 import { Button } from "@/components/button";
 import { useTheme } from "../components/theme-provider"; // You'll need to create this
-
+import { useSelector } from "react-redux";
 import mardiImage from "../assets/mardi.jpg";
 import abcImage from "../assets/abc.jpg";
-import Navbar from "../components/navbar";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -24,9 +24,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navbar */}
-      {/* Navbar */}
-      <Navbar />
+
 
       {/* Main Content */}
       <main className="container px-4 py-6">

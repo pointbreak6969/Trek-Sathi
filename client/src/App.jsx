@@ -1,16 +1,13 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Home from "./Pages/LandingPage";
-import Details from "./Pages/Details";
-
+import Navbar from "./components/Navbar";
+import { Outlet } from "react-router-dom";
+import { Toaster } from "sonner";
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/details/:name" element={<Details />} />
-      </Routes>
-    </Router>
+    <>
+      <Toaster position="top-center" richColors closeButton theme="light" />
+      <Navbar />
+      <Outlet />
+    </>
   );
 }
 
