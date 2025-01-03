@@ -8,12 +8,10 @@ import { useTheme } from "../components/theme-provider"; // You'll need to creat
 import { useSelector } from "react-redux";
 import mardiImage from "../assets/mardi.jpg";
 import abcImage from "../assets/abc.jpg";
-import Navbar from "../components/Navbar";
 
 export default function Home() {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
-
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");

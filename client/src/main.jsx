@@ -10,6 +10,7 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Protected from "./components/Protected";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Social from "./Pages/Social";
 const publicRoutes = [
   {
     path: "/", 
@@ -45,6 +46,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
       <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/social",
+    element: (
+      <Protected authentication={true}>
+      <Social />
       </Protected>
     ),
   },
