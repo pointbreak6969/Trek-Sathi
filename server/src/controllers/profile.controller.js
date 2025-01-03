@@ -13,13 +13,12 @@ const completeProfile = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields are required");
   }
   const Profilelocation = req.file.path;
-
   if (!Profilelocation) {
     throw new ApiError(401, "Failed to upload Profile");
   }
   const uploadProfile = await uploadOnCloudinary(Profilelocation);
   const profilePicture = uploadProfile;
-  const profile = UserProfile.create({
+  const profile = await UserProfile.create({
     user: req.user._id,
     profilePicture: {
       publicId: profilePicture.public_id,
@@ -28,6 +27,7 @@ const completeProfile = asyncHandler(async (req, res) => {
     contactInfo: { phone, location},
     
   });
+ 
   if (!profile) {
     throw new ApiError(401, "Failed to edit Profile");
   }
