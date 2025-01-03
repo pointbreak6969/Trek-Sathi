@@ -17,6 +17,8 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const authStatus = useSelector((state) => state.auth.status);
+  // Add state to control Sheet open/close
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const navItems = [
     {
@@ -30,6 +32,18 @@ const Navbar = () => {
       icon: <Book className="h-5 w-5" />,
     },
   ];
+
+  // Handle navigation with auto-close
+  const handleNavigation = (path) => {
+    navigate(path);
+    setIsOpen(false);
+  };
+
+  // Handle theme toggle
+  const handleThemeToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+    setIsOpen(false);
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -63,12 +77,13 @@ const Navbar = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={handleThemeToggle}
+            className="transition-transform hover:scale-110"
           >
             {theme === "dark" ? (
-              <Sun className="h-5 w-5" />
+              <Sun className="h-5 w-5 transition-all" />
             ) : (
-              <Moon className="h-5 w-5" />
+              <Moon className="h-5 w-5 transition-all" />
             )}
           </Button>
 
@@ -76,16 +91,22 @@ const Navbar = () => {
           <div className="hidden md:flex md:items-center md:space-x-2">
             {!authStatus ? (
               <>
-                <Button variant="ghost" onClick={() => navigate("/login")}>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleNavigation("/login")}
+                >
                   Login
                 </Button>
-                <Button onClick={() => navigate("/signup")}>Sign up</Button>
+                <Button onClick={() => handleNavigation("/signup")}>
+                  Sign up
+                </Button>
               </>
             ) : (
               <Button
                 variant="ghost"
                 onClick={() => {
                   // Implement your logout logic here
+                  setIsOpen(false);
                 }}
               >
                 <LogOut className="h-5 w-5 mr-2" />
@@ -95,45 +116,55 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Menu */}
-          <Sheet>
+          <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
-                <Menu className="h-5 w-5" />
+                {isOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
               </Button>
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
-              <div className="flex flex-col space-y-4 mt-4 ">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.slug}
-                    to={item.slug}
-                    className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary ${
-                      location.pathname === item.slug
-                        ? "text-primary"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {item.icon}
-                    <span>{item.name}</span>
-                  </Link>
-                ))}
-                <div className="pt-4 border-t flex flex-row space-x-2 justify-center">
+              <div className="flex flex-col h-full">
+                {/* Navigation Items */}
+                <div className="flex-grow flex flex-col space-y-4 mt-4">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.slug}
+                      to={item.slug}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary ${
+                        location.pathname === item.slug
+                          ? "text-primary"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.name}</span>
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Login and Signup Buttons */}
+                <div className="pt-4 pb-4 flex flex-col space-y-2">
                   {!authStatus ? (
                     <>
                       <Button
                         variant="ghost"
-                        className=" justify-center "
-                        onClick={() => navigate("/login")}
+                        className="justify-center"
+                        onClick={() => handleNavigation("/login")}
                       >
                         <LogIn className="h-5 w-5 mr-2" />
                         Login
                       </Button>
                       <Button
-                        className=" justify-center"
-                        onClick={() => navigate("/signup")}
+                        className="justify-center"
+                        onClick={() => handleNavigation("/signup")}
                       >
                         Sign up
                       </Button>
@@ -144,6 +175,7 @@ const Navbar = () => {
                       className="w-full justify-start"
                       onClick={() => {
                         // Implement your logout logic here
+                        setIsOpen(false);
                       }}
                     >
                       <LogOut className="h-5 w-5 mr-2" />
