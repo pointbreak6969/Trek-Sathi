@@ -1,43 +1,53 @@
-import Post from "../models/post";
+import Post from '../models/post.js';
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
-const AddPost = async (req, res) => {
-    const { user_id, image, text } = req.body;
-    try {
-        const newPost = new Post({ user_id, image, text });
-        const savedPost = await newPost.save();
-        return res.status(201).json({ message: "Post added successfully", postId: savedPost._id });
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "An error occurred while adding the post" });
+const AddPost = asyncHandler(async (req, res) => {
+    const { text, location } = req.body;
+    if (!text) {
+        throw new ApiError(400, "Text field is required");
     }
-}
 
-const DeletePost = async (req, res) => {
+    let imageUrl = null;
+    if (req.file) {
+        const uploadResponse = await uploadOnCloudinary(req.file.path);
+        if (!uploadResponse) {
+            throw new ApiError(500, "Failed to upload image");
+        }
+        imageUrl = uploadResponse;
+    }
+
+    const newPost = new Post({
+        user: req.user._id,
+        location,
+        image: imageUrl ? {
+            publicId: imageUrl.public_id,
+            url: imageUrl.url,
+        } : null,
+        text
+    });
+
+    const savedPost = await newPost.save();
+    res.status(201).json(new ApiResponse(201, { postId: savedPost._id }, "Post added successfully"));
+});
+
+const DeletePost = asyncHandler(async (req, res) => {
     const { id } = req.params;
     if (!id) {
-        return res.status(400).json("post is not present");
+        throw new ApiError(400, "Post ID is required");
     }
-    try {
-        const result = await Post.findByIdAndDelete(id);
-        if (result) {
-            return res.status(200).json({ "message": "post deleted successfully" });
-        } else {
-            return res.status(404).json({ "message": "Post not found" });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error deleting post" });
+    const result = await Post.findByIdAndDelete(id);
+    if (!result) {
+        throw new ApiError(404, "Post not found");
     }
-}
+    res.status(200).json(new ApiResponse(200, null, "Post deleted successfully"));
+});
 
-const getAllpost = async (req, res) => {
-    try {
-        const posts = await Post.find().sort({ created_at: -1 });
-        return res.status(200).json({ results: posts });
-    } catch (error) {
-        console.error('Error fetching posts:', error);
-        return res.status(500).json({ message: "Error fetching posts" });
-    }
-}
+const getAllpost = asyncHandler(async (req, res) => {
+    const posts = await Post.find().sort({ created_at: -1 });
+    res.status(200).json(new ApiResponse(200, posts, "Posts fetched successfully"));
+});
 
 export { AddPost, getAllpost, DeletePost };

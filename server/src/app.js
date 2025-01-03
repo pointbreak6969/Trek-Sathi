@@ -18,9 +18,11 @@ app.use(
 //routes
 import userRotuer from "./routes/user.routes.js"
 import profileRouter from "./routes/profile.routes.js"
+import postRoute from './routes/post.routes.js'
+import CommentRoute from './routes/comment.routes.js'
 app.use("/api/v1/user", userRotuer);
 app.use("/api/v1/profile", profileRouter);
-app.use('/api/v1',postRoute);
-app.use('/api/v1',CommentRoute)
+app.use('/api/v1/comment',CommentRoute);
+app.use('/api/v1/post',postRoute)
 
 export { app };
