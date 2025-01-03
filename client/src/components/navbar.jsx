@@ -17,7 +17,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const authStatus = useSelector((state) => state.auth.status);
-  // Add state to control Sheet open/close
   const [isOpen, setIsOpen] = React.useState(false);
 
   const navItems = [
