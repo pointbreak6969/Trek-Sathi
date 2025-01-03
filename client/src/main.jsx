@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
-import {store} from "./store/store.js";
+import { store } from "./store/store.js";
 import Home from "./Pages/LandingPage";
 import Details from "./Pages/Details";
 import SignupPage from "./Pages/Signup";
@@ -12,15 +12,23 @@ import Protected from "./components/Protected";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 const publicRoutes = [
   {
-    path: "/", 
+    path: "/",
     element: (
       <Protected authentication={false}>
         {" "}
         <Home />
       </Protected>
     ),
-  }
-]
+  },
+  {
+    path: "/details/:id",
+    element: (
+      <Protected authentication={false}>
+        <Details />
+      </Protected>
+    ),
+  },
+];
 const authRoutes = [
   {
     path: "/login",
@@ -34,7 +42,7 @@ const authRoutes = [
     path: "/signup",
     element: (
       <Protected authentication={false} redirectPath="/">
-        <SignupPage/>
+        <SignupPage />
       </Protected>
     ),
   },
@@ -44,11 +52,11 @@ const protectedRoutes = [
     path: "/details/:name",
     element: (
       <Protected authentication={true}>
-      <Details />
+        <Details />
       </Protected>
     ),
   },
-]
+];
 
 const router = createBrowserRouter([
   {
@@ -61,7 +69,7 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </Provider>
   </StrictMode>
 );
