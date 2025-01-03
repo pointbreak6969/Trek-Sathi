@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
 import { Home, Book, LogIn, LogOut, Menu, Sun, Moon, X } from "lucide-react";
 import {
@@ -11,13 +11,27 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useTheme } from "@/components/theme-provider";
+import authService from "@/services/auth";
+import { logout } from "@/store/authSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const authStatus = useSelector((state) => state.auth.status);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      dispatch(logout());
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+    setIsOpen(false);
+  };
 
   const navItems = [
     {
@@ -32,13 +46,11 @@ const Navbar = () => {
     },
   ];
 
-  // Handle navigation with auto-close
   const handleNavigation = (path) => {
     navigate(path);
     setIsOpen(false);
   };
 
-  // Handle theme toggle
   const handleThemeToggle = () => {
     setTheme(theme === "dark" ? "light" : "dark");
     setIsOpen(false);
@@ -47,12 +59,10 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold">TrekSathi</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <div className="hidden md:flex md:items-center md:space-x-6">
           {navItems.map((item) => (
             <Link
@@ -70,9 +80,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right side items */}
         <div className="flex items-center space-x-4">
-          {/* Theme Toggle */}
           <Button
             variant="ghost"
             size="icon"
@@ -86,7 +94,6 @@ const Navbar = () => {
             )}
           </Button>
 
-          {/* Auth Buttons - Desktop */}
           <div className="hidden md:flex md:items-center md:space-x-2">
             {!authStatus ? (
               <>
@@ -101,20 +108,13 @@ const Navbar = () => {
                 </Button>
               </>
             ) : (
-              <Button
-                variant="ghost"
-                onClick={() => {
-                  // Implement your logout logic here
-                  setIsOpen(false);
-                }}
-              >
+              <Button variant="ghost" onClick={handleLogout}>
                 <LogOut className="h-5 w-5 mr-2" />
                 Logout
               </Button>
             )}
           </div>
 
-          {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild className="md:hidden">
               <Button variant="ghost" size="icon">
@@ -130,7 +130,6 @@ const Navbar = () => {
                 <SheetTitle>Menu</SheetTitle>
               </SheetHeader>
               <div className="flex flex-col h-full">
-                {/* Navigation Items */}
                 <div className="flex-grow flex flex-col space-y-4 mt-4">
                   {navItems.map((item) => (
                     <Link
@@ -149,7 +148,6 @@ const Navbar = () => {
                   ))}
                 </div>
 
-                {/* Login and Signup Buttons */}
                 <div className="pt-4 pb-4 flex flex-col space-y-2">
                   {!authStatus ? (
                     <>
@@ -172,10 +170,7 @@ const Navbar = () => {
                     <Button
                       variant="ghost"
                       className="w-full justify-start"
-                      onClick={() => {
-                        // Implement your logout logic here
-                        setIsOpen(false);
-                      }}
+                      onClick={handleLogout}
                     >
                       <LogOut className="h-5 w-5 mr-2" />
                       Logout
