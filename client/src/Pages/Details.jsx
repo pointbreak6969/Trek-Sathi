@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 import socialServices from "../services/socialServices";
 import CommentsModal from "../components/CommentsModal";
 import mardi from "../assets/mardi.jpg";
+import abc from "../assets/abc.jpg";
+import everest from "../assets/everest.jpg";
+import langtang from "../assets/langtang.jpg";
+import manaslu from "../assets/manaslu.jpg";
+
 import {
   ArrowLeft,
   ArrowDown,
@@ -34,58 +39,54 @@ const getDestinationDetails = (id) => {
     console.log("comment for post", commentForPost);
   };
 
+ 
   const trekDetails = {
     mardi: {
       name: "Mardi Base Camp",
       location: "Mardi Himal Trek",
-      image: mardi, // Change to actual image path
+      image: mardi,
       distance: "14.7 km",
       duration: "5 Days",
       elevation: "4,500 m",
-      description:
-        "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
+      description: "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
     },
     abc: {
       name: "Annapurna Base Camp",
       location: "Annapurna Sanctuary Trek",
-      image: "/assets/abc.jpg", // Change to actual image path
+      image: abc,
       distance: "37 km",
       duration: "7 Days",
       elevation: "4,130 m",
-      description:
-        "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
+      description: "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
     },
     everest: {
       name: "Everest Base Camp",
       location: "Everest Region Trek",
-      image: "/assets/everest.jpg", // Change to actual image path
+      image: everest,
       distance: "65 km",
       duration: "12 Days",
       elevation: "5,364 m",
-      description:
-        "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
+      description: "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
     },
     langtang: {
       name: "Langtang Valley",
       location: "Langtang Trek",
-      image: "/assets/langtang.jpg", // Change to actual image path
+      image: langtang,
       distance: "19 km",
       duration: "7 Days",
       elevation: "3,870 m",
-      description:
-        "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
+      description: "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
     },
     manaslu: {
       name: "Manaslu Circuit",
       location: "Manaslu Trek",
-      image: "/assets/manaslu.jpg", // Change to actual image path
+      image: manaslu,
       distance: "177 km",
       duration: "14 Days",
       elevation: "5,106 m",
-      description:
-        "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
+      description: "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
     },
-  };
+  }
 
   return (
     trekDetails[id] || {
