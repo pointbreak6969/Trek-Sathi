@@ -85,11 +85,11 @@ const SignupPage = () => {
     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-slate-50 via-blue-50 to-sky-100 flex items-center justify-center p-4 relative overflow-hidden">
       <Card className="w-full max-w-md relative backdrop-blur-sm bg-white/90 border-2 border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-500">
         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
-          <PiMountainsDuotone className="h-16 w-16 text-sky-400 animate-bounce" />
+          <PiMountainsDuotone className="h-16 w-16 text-[#6366f1] animate-bounce" />
         </div>
 
         <CardHeader className="space-y-1 pt-8">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-sky-400 to-blue-300 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-sky-400 to-blue-300 bg-clip-text text-[#6366f1]">
             Reach New Heights
           </CardTitle>
           <p className="text-sm text-center text-gray-600">
@@ -101,7 +101,7 @@ const SignupPage = () => {
           <form onSubmit={handleSubmit(create)} className="space-y-4">
             <div className="space-y-2">
               <div className="relative">
-                <User className="absolute left-3 top-4 h-4 w-4 text-sky-400" />
+                <User className="absolute left-3 top-4 h-4 w-4 text-[#6366f1]" />
                 <Input
                   id="name"
                   placeholder="Name"
@@ -110,15 +110,13 @@ const SignupPage = () => {
                 />
               </div>
               {errors.fullName && (
-                <p className="text-sm text-red-500">
-                  {errors.fullName.message}
-                </p>
+                <p className="text-sm text-red-500">{errors.fullName.message}</p>
               )}
             </div>
 
             <div className="space-y-2">
               <div className="relative">
-                <Mail className="absolute left-3 top-4 h-4 w-4 text-sky-400" />
+                <Mail className="absolute left-3 top-4 h-4 w-4 text-[#6366f1]" />
                 <Input
                   type="email"
                   placeholder="Email"
@@ -158,9 +156,7 @@ const SignupPage = () => {
                         </SelectGroup>
                       </SelectContent>
                     </Select>
-                    {error && (
-                      <p className="text-sm text-red-500">{error.message}</p>
-                    )}
+                    {error && <p className="text-sm text-red-500">{error.message}</p>}
                   </div>
                 )}
               />
@@ -168,7 +164,7 @@ const SignupPage = () => {
 
             <div className="space-y-2">
               <div className="relative">
-                <Lock className="absolute left-3 top-4 h-4 w-4 text-sky-400" />
+                <Lock className="absolute left-3 top-4 h-4 w-4 text-[#6366f1]" />
                 <Input
                   type="password"
                   placeholder="Password"
@@ -183,15 +179,13 @@ const SignupPage = () => {
                 />
               </div>
               {errors.password && (
-                <p className="text-sm text-red-500">
-                  {errors.password.message}
-                </p>
+                <p className="text-sm text-red-500">{errors.password.message}</p>
               )}
             </div>
 
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-sky-400 to-blue-300 hover:from-sky-500 hover:to-blue-400 text-white font-medium rounded-lg transition-all duration-300"
+              className="w-full h-12 bg-[#6366f1] hover:from-sky-500 hover:to-blue-400 text-white font-medium rounded-lg transition-all duration-300"
             >
               Begin Your Ascent
               <Flag className="ml-2 h-4 w-4" />
@@ -205,7 +199,7 @@ const SignupPage = () => {
             <br />
             <button
               onClick={() => navigate("/login")}
-              className="text-sky-500 hover:text-sky-600 font-medium transition-colors duration-300"
+              className="text-[#6366f1] hover:text-sky-600 font-medium transition-colors duration-300"
             >
               Return to Base Camp (Login)
             </button>

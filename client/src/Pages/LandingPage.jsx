@@ -69,7 +69,7 @@ export default function Home() {
               onClick={() => navigate(`/details/${destination.name}`)}
             >
               <img
-                src={destination.image} // Use the dynamically mapped image
+                src={destination.image} 
                 alt={destination.name}
                 className="object-cover w-full h-full"
               />

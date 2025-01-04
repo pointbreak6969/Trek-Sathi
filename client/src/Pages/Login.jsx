@@ -64,11 +64,11 @@ const Login = () => {
 
       <Card className="w-full max-w-md relative backdrop-blur-sm bg-white/90 border-2 border-slate-200 shadow-xl hover:shadow-2xl transition-all duration-500">
         <div className="absolute -top-8 left-1/2 transform -translate-x-1/2">
-          <PiMountainsDuotone className="h-16 w-16 text-sky-400 animate-bounce" />
+          <PiMountainsDuotone className="h-16 w-16 text-[#6366f1] animate-bounce" />
         </div>
 
         <CardHeader className="space-y-1 pt-8">
-          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-sky-400 to-blue-300 bg-clip-text text-transparent">
+          <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-sky-400 to-blue-300 bg-clip-text text-[#6366f1]">
             Welcome Back
           </CardTitle>
           <p className="text-sm text-center text-gray-600">
@@ -81,7 +81,7 @@ const Login = () => {
             {/* Email Input */}
             <div className="space-y-2">
               <div className="relative">
-                <Mail className="absolute left-3 top-4 h-4 w-4 text-sky-400" />
+                <Mail className="absolute left-3 top-4 h-4 w-4 text-[#6366f1]" />
                 <Input
                   type="email"
                   id="email"
@@ -104,7 +104,7 @@ const Login = () => {
             {/* Password Input */}
             <div className="space-y-2">
               <div className="relative">
-                <Lock className="absolute left-3 top-4 h-4 w-4 text-sky-400" />
+                <Lock className="absolute left-3 top-4 h-4 w-4 text-[#6366f1]" />
                 <Input
                   type="password"
                   id="password"
@@ -129,7 +129,7 @@ const Login = () => {
             {/* Submit Button */}
             <Button
               type="submit"
-              className="w-full h-12 bg-gradient-to-r from-sky-400 to-blue-300 hover:from-sky-500 hover:to-blue-400 text-white font-medium rounded-lg transition-all duration-300"
+              className="w-full h-12 bg-[#6366f1] hover:from-sky-500 hover:to-blue-400 text-white font-medium rounded-lg transition-all duration-300"
             >
               Embark
               <Flag className="ml-2 h-4 w-4" />
@@ -141,7 +141,7 @@ const Login = () => {
             <br />
             <button
               onClick={() => navigate("/signup")}
-              className="text-sky-500 hover:text-sky-600 font-medium transition-colors duration-300"
+              className="text-[#6366f1] hover:text-sky-600 font-medium transition-colors duration-300"
             >
               Join the Expedition (Signup)
             </button>
