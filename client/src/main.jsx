@@ -19,7 +19,7 @@ import UserProfile from "./Pages/UserProfile";
 import MapComponent from "./components/MapComponent";
 // Import ThemeProvider for theme management
 import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
-
+import GroupChat from "./Pages/GroupChat";
 const publicRoutes = [
   {
     path: "/",
@@ -43,7 +43,8 @@ const publicRoutes = [
     element: (
       <MapComponent />
     )
-   }
+   },
+   
 ];
 
 const authRoutes = [
@@ -111,6 +112,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <GroupFormation />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupchat",
+    element: (
+      <Protected authentication={true}>
+        <GroupChat />
       </Protected>
     ),
   },

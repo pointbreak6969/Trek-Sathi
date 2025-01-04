@@ -121,40 +121,12 @@ const ChatBot = () => {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto space-y-4">
-      <ChatBox history={messages} />
-      <Card>
-        <CardContent className="border-t p-4">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-            <div className="flex gap-2">
-              <Input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type your message..."
-                className="flex-1"
-                disabled={isLoading}
-              />
-              <Button 
-                type="button"
-                size="icon" 
-                variant="ghost"
-                onClick={handleFileClick}
-                disabled={isLoading}
-              >
-                <Image className="h-4 w-4" />
-              </Button>
-              <Button type="submit" size="icon" disabled={isLoading}>
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              className="hidden"
-            />
-            {selectedFile && (
+    <div className="w-full max-w-sm mx-auto space-y-3">
+    <ChatBox history={messages} />
+    <Card className="border-t">
+      <CardContent className="p-3">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        {selectedFile && (
               <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
                 <span>{selectedFile.name}</span>
                 <Button
@@ -168,6 +140,35 @@ const ChatBot = () => {
                 </Button>
               </div>
             )}
+          <div className="flex gap-2">
+            <Input
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 text-sm"
+              disabled={isLoading}
+            />
+            <Button 
+              type="button"
+              size="sm" 
+              variant="ghost"
+              onClick={handleFileClick}
+              disabled={isLoading}
+            >
+              <Image className="h-4 w-4" />
+            </Button>
+            <Button type="submit" size="sm" disabled={isLoading} className="bg-[#6366f1] hover:bg-blue-700">
+              <Send className="h-4 w-4 " />
+            </Button>
+          </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            
           </form>
         </CardContent>
       </Card>
