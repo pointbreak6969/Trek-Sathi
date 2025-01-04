@@ -6,6 +6,7 @@ import abc from "../assets/abc.jpg";
 import everest from "../assets/everest.jpg";
 import langtang from "../assets/langtang.jpg";
 import manaslu from "../assets/manaslu.jpg";
+import { useSelector } from "react-redux";
 import {
   ArrowLeft,
   Share2,
@@ -245,7 +246,15 @@ export default function Details() {
               </div>
 
               <button
-                onClick={() => navigate(`/groupformation/${id}`)}
+                onClick={() => {
+                  const status = useSelector((state) => state.auth.status); // Access Redux state
+                  
+                  if (status) {
+                    navigate(`/groupformation/${id}`);
+                  } else {
+                    navigate("/login");
+                  }
+                }}
                 className="flex ml-1  items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
               >
                 <Footprints className="h-5 w-5" />

@@ -31,14 +31,7 @@ const publicRoutes = [
       </Protected>
     ),
   },
-  {
-    path: "/groupformation/:id",
-    element: (
-      <Protected authentication={false}>
-        <GroupFormation />
-      </Protected>
-    ),
-  },
+  
 ];
 
 const authRoutes = [
@@ -82,6 +75,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <UsersHomePage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupformation/:id",
+    element: (
+      <Protected authentication={true}>
+        <GroupFormation />
       </Protected>
     ),
   },
