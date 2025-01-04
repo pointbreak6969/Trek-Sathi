@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import {Card, CardContent} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Separator } from "@/components/ui/separator"
+import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import socialServices from "../services/socialServices";
 import mardi from "../assets/mardi.jpg";
@@ -12,6 +16,11 @@ import {
   Mountain,
   Ruler,
   Footprints,
+  MoreHorizontal,
+  Heart,
+  MessageCircle,
+  Trash2,
+  Send,
 } from "lucide-react";
 
 const getDestinationDetails = (id) => {
@@ -345,82 +354,135 @@ export default function Details() {
 
           {/* Display Posts */}
           {posts.length === 0 ? (
-            <div className="text-center text-gray-500">
-              No posts available. Be the first to share!
-            </div>
-          ) : (
-            <div className="space-y-6 pb-20">
-              {posts.map((post) => (
-                <div
-                  key={post._id}
-                  className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={post?.userProfile?.profilePicture?.url}
-                      alt="profile"
-                      className="h-12 w-12 rounded-full object-cover"
-                    />
-                    <div className="ml-4">
-                      <span className="font-semibold text-gray-900">
-                        {post.user.fullName}
-                      </span>
-                      <span className="text-xs text-gray-500 ml-2">
-                        {new Date(post.created_at).toLocaleString()}
-                      </span>
+        <Card className="p-12">
+          <div className="text-center space-y-4">
+            <div className="text-4xl">🏔️</div>
+            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">No Stories Yet</h3>
+            <p className="text-gray-600 dark:text-gray-400">Share your trekking adventure and inspire others!</p>
+          </div>
+        </Card>
+      ) : (
+        <div className="space-y-6 pb-20">
+          {posts.map((post) => (
+            <Card key={post._id} className="overflow-hidden transition-all duration-300 hover:shadow-lg">
+              <CardContent className="p-0">
+                {/* Post Header */}
+                <div className="p-4 flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={post?.userProfile?.profilePicture?.url} alt={post.user.fullName} />
+                      <AvatarFallback>{post.user.fullName[0]}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium text-sm">{post.user.fullName}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(post.created_at).toLocaleDateString(undefined, { 
+                          month: 'short', 
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
                     </div>
                   </div>
-                  <p className="mt-4 text-lg text-gray-800">{post.text}</p>
-                  {post.image?.url && (
-                    <div className="mt-4">
-                      <img
-                        src={post.image?.url}
-                        alt="post"
-                        className="w-full h-64 object-cover rounded-xl"
-                      />
-                    </div>
-                  )}
+                  <Button variant="ghost" size="icon">
+                    <MoreHorizontal className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                {/* Post Content */}
+                <div className="px-4 py-2">
+                  <p className="text-sm leading-relaxed">{post.text}</p>
+                </div>
+
+                {/* Post Image */}
+                {post.image?.url && (
+                  <div className="mt-2 relative aspect-video">
+                    <img
+                      src={post.image.url}
+                      alt="post"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+
+                {/* Post Actions */}
+                <div className="px-4 py-2 flex items-center justify-between">
+                  <div className="flex items-center space-x-4">
+                    <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600">
+                      <Heart className="h-5 w-5 mr-1" />
+                      <span className="text-xs">24</span>
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      <MessageCircle className="h-5 w-5 mr-1" />
+                      <span className="text-xs">{post.comments?.length || 0}</span>
+                    </Button>
+                    <Button variant="ghost" size="sm">
+                      <Share2 className="h-5 w-5" />
+                    </Button>
+                  </div>
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => handleDeletePost(post._id)}
+                    className="text-red-500 hover:text-red-600"
+                  >
+                    <Trash2 className="h-5 w-5" />
+                  </Button>
+                </div>
+
+                <Separator />
+
+                {/* Comments Section */}
+                <div className="px-4 py-2">
                   {post.comments?.length > 0 && (
-                    <div className="mt-4 space-y-2">
+                    <div className="space-y-2 mb-3">
                       {post.comments.map((comment) => (
-                        <div
-                          key={comment._id}
-                          className="flex items-center gap-2"
-                        >
-                          <span className="font-semibold text-gray-900">
-                            {comment.user}
-                          </span>
-                          <span className="text-sm text-gray-500">
-                            {comment.text}
-                          </span>
+                        <div key={comment._id} className="flex items-start space-x-2">
+                          <Avatar className="h-6 w-6">
+                            <AvatarFallback>{comment.user[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 py-2">
+                            <p className="text-xs font-medium">{comment.user}</p>
+                            <p className="text-sm">{comment.text}</p>
+                          </div>
                         </div>
                       ))}
                     </div>
                   )}
-                  <textarea
-                    placeholder="Add a comment"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    className="mt-4 w-full p-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  />
-                  <div className="flex space-x-4 mt-4">
-                    <button
-                      className="text-blue-600 hover:text-blue-800 transition duration-200"
-                      onClick={() => handleAddComment(post._id, newComment)}
-                    >
-                      Add Comment
-                    </button>
-                    <button
-                      className="text-red-600 hover:text-red-800 transition duration-200"
-                      onClick={() => handleDeletePost(post._id)}
-                    >
-                      Delete Post
-                    </button>
+
+                  {/* Comment Input */}
+                  <div className="flex items-center space-x-2">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>Y</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 relative">
+                      <input
+                        type="text"
+                        placeholder="Add a comment..."
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                      />
+                      <Button 
+                        size="icon" 
+                        variant="ghost" 
+                        className="absolute right-1 top-1/2 -translate-y-1/2"
+                        onClick={() => {
+                          handleAddComment(post._id, newComment);
+                          setNewComment('');
+                        }}
+                      >
+                        <Send className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
         </div>
       </div>
     </div>
