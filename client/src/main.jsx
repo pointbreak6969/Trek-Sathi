@@ -19,6 +19,7 @@ import UserProfile from "./Pages/UserProfile";
 
 // Import ThemeProvider for theme management
 import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
+import Journal from "./Pages/Journal";
 
 const publicRoutes = [
   {
@@ -120,6 +121,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <TrekDetails />
+      </Protected>
+    ),
+  },
+  {
+    path: "/journal",
+    element: (
+      <Protected authentication={true}>
+        <Journal />
       </Protected>
     ),
   },
