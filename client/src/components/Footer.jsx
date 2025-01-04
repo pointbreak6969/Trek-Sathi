@@ -124,7 +124,7 @@ const Footer = () => {
         </div>
         <div className="mt-8 pt-8 border-t border-slate-700 text-center text-sm text-gray-400">
           <p>
-            &copy; {new Date().getFullYear()} Trek Adventures. All rights
+            &copy; {new Date().getFullYear()} TrekSathi. All rights
             reserved.
           </p>
         </div>

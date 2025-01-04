@@ -7,33 +7,28 @@ const Home = () => {
   const services = [
     {
       title: "Hiking",
-      description:
-        "Lorem ipsum dolor sit amet, conse ipsum dolor sit magna aliqua.",
+      description: "Explore hidden trails and breathtaking views. Our hiking programs take you through diverse landscapes, from lush forests to mountain peaks.",
       imageUrl: "/hiking.webp",
     },
     {
       title: "Camping",
-      description:
-        "Lorem ipsum dolor sit amet, conse ipsum dolor sit magna aliqua.",
+      description: "Immerse yourself in nature and spend unforgettable nights under the stars. We provide all the necessary equipment for an unforgettable camping experience.",
       imageUrl: "/camping.jpg",
     },
     {
       title: "Trekking",
-      description:
-        "Lorem ipsum dolor sit amet, conse ipsum dolor sit magna aliqua.",
+      description: "Embark on multi-day adventures, crossing remote valleys and scaling mountain passes. A unique experience for exploration enthusiasts.",
       imageUrl: "/trekking.jpg",
     },
     {
       title: "Mountaineering",
-      description:
-        "Lorem ipsum dolor sit amet, conse ipsum dolor sit magna aliqua.",
+      description: "Challenge yourself and reach new heights. Our expert guides will accompany you on technical climbs of various mountain ranges.",
       imageUrl: "/mountaineering.jpg",
     },
     {
-      title: "Hiking",
-      description:
-        "Lorem ipsum dolor sit amet, conse ipsum dolor sit magna aliqua.",
-      imageUrl: "/hiking.webp",
+      title: "Bikepacking",
+      description: "Combine your passion for cycling with a love for nature. Explore off-road trails with your bike and carry everything you need in specialized packs.",
+      imageUrl: "/bikepacking.jpg", 
     },
   ];
   const teamMembers = [
@@ -78,45 +73,49 @@ const Home = () => {
       },
     },
   ];
-  
+
   const trekLocations = [
     {
       name: "Everest Base Camp",
       imageUrl: "/trek-1.webp",
-      description: "A challenging trek to the base of the world's highest peak, offering stunning views of the Himalayas.",
+      description:
+        "A challenging trek to the base of the world's highest peak, offering stunning views of the Himalayas.",
       difficulty: "Difficult",
       duration: "14 days",
     },
     {
       name: "Annapurna Circuit",
       imageUrl: "/trek-2.jpg",
-      description: "A classic Himalayan trek that takes you through diverse landscapes, from lush valleys to alpine peaks.",
+      description:
+        "A classic Himalayan trek that takes you through diverse landscapes, from lush valleys to alpine peaks.",
       difficulty: "Moderate",
       duration: "16 days",
     },
     {
-      name: "Sahara Desert Trek",
-      imageUrl: "/trek-3.jpg",
-      description: "An unforgettable journey across the golden sands of the Sahara, exploring oases and desert culture.",
+      name: "Langtang Valley Trek",
+      imageUrl: "/everest.jpg",
+      description:
+        "Trek through a beautiful valley with stunning views of the Langtang Himal.",
       difficulty: "Moderate",
-      duration: "7 days",
+      duration: "7-10 days",
     },
     {
-      name: "Inca Trail to Machu Picchu",
-      imageUrl: "/trek-4.jpg",
-      description: "Follow ancient pathways through the Andes to the iconic ruins of Machu Picchu.",
-      difficulty: "Moderate",
-      duration: "4 days",
+      name: "Ghorepani Poon Hill Trek",
+      imageUrl: "/manaslu.jpg",
+      description:
+        "A shorter trek offering incredible sunrise views over the Annapurna range.",
+      difficulty: "Easy",
+      duration: "5-7 days",
     },
     {
-      name: "Kilimanjaro Trek",
+      name: "Manaslu Circuit Trek",
       imageUrl: "/trek-5.jpg",
-      description: "Climb Africa's highest peak, experiencing diverse ecosystems on your way to the summit.",
-      difficulty: "Difficult",
-      duration: "7-9 days",
+      description:
+        "A challenging trek around the Manaslu massif, offering stunning scenery and cultural experiences.",
+      difficulty: "Challenging",
+      duration: "14-21 days",
     },
   ];
-  
 
   return (
     <div className="bg-[#6366f1]">
