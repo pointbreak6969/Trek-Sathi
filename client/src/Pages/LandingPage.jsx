@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Bell, Menu, MapPin, Bookmark, Sun, Moon } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "../components/tabs";
-
 import { Button } from "@/components/button";
 import { useTheme } from "../components/theme-provider"; // You'll need to create this
 import { useSelector } from "react-redux";
@@ -23,15 +22,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Main Content */}
-      <main className="container px-4 py-6">
+      <main className="container mx-auto px-4 py-6">
         {/* Title */}
-        <h1 className="text-4xl font-bold mb-12">
+        <h1 className="text-4xl font-bold mb-12 text-center md:text-left">
           Book your private adventure
         </h1>
 
         {/* Activities */}
         <section className="mb-12">
-          <h2 className="text-xl font-semibold mb-4">Your Personal Diary</h2>
+          <h2 className="text-xl font-semibold mb-4 text-center md:text-left">
+            Your Personal Diary
+          </h2>
           <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4">
             {activities.map((activity) => (
               <button
@@ -54,22 +55,22 @@ export default function Home() {
 
         {/* Tabs */}
         <Tabs defaultValue="recommended" className="mb-8">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3">
             <TabsTrigger value="recommended">Recommended</TabsTrigger>
             <TabsTrigger value="popular">Popular</TabsTrigger>
           </TabsList>
         </Tabs>
 
         {/* Destinations */}
-        <div className="grid gap-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((destination) => (
             <div
               key={destination.name}
-              className="relative rounded-3xl overflow-hidden aspect-[4/3]"
+              className="relative rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer"
               onClick={() => navigate(`/details/${destination.name}`)}
             >
               <img
-                src={destination.image} 
+                src={destination.image}
                 alt={destination.name}
                 className="object-cover w-full h-full"
               />

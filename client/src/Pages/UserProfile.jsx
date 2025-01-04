@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
 import { X, Instagram, Facebook, Twitter, Camera } from "lucide-react";
-import axios from "axios";
+import profileService from "@/services/profile";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -13,19 +14,15 @@ const UserProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
   const [selectedTreks, setSelectedTreks] = useState([]);
   const [previewUrl, setPreviewUrl] = useState(null);
-
+  const user=useSelector((state)=>state.auth.userData);
+  console.log(user);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_URL}/user/me`,
-          {
-            withCredentials: true,
-          }
-        );
-        setUserData(response.data.data);
-        if (response.data.data?.profileImage) {
-          setPreviewUrl(response.data.data.profileImage);
+        const response = await profileService.getProfileDetails();
+        setUserData(response);
+        if (response?.profilePicture?.url) {
+          setPreviewUrl(response.profilePicture.url);
         }
         setError(null);
       } catch (error) {
@@ -65,7 +62,7 @@ const UserProfile = () => {
       // Append all form fields
       Object.keys(data).forEach((key) => {
         if (key === "image" && profileImage) {
-          formData.append("image", profileImage);
+          formData.append("profilePicture", profileImage);
         } else if (key !== "image") {
           formData.append(key, data[key]);
         }
@@ -74,18 +71,12 @@ const UserProfile = () => {
       // Append selected treks
       formData.append("past_treks", JSON.stringify(selectedTreks));
 
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/user/profile`,
-        formData,
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await profileService.updateProfile({
+        newProfilePicture: profileImage,
+        ...data,
+      });
 
-      if (response.data.success) {
+      if (response) {
         // Handle success (e.g., show success message, redirect, etc.)
         console.log("Profile updated successfully");
       }
@@ -162,7 +153,7 @@ const UserProfile = () => {
             htmlFor="image"
             className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white p-2 rounded-full shadow-lg"
           >
-            <Camera className="w-5 h-5 text-gray-600" />
+            <Camera className="w-5 h-5 text-gray-600  " />
           </label>
         </div>
 
@@ -187,7 +178,7 @@ const UserProfile = () => {
               id="fullname"
               readOnly
               className="mt-1"
-              placeholder={userData?.fullName || "Your full name"}
+              placeholder={user?.fullName || "Your full name"}
               {...register("fullname")}
             />
           </div>

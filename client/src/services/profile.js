@@ -1,12 +1,8 @@
 import axios from "axios";
-import { baseUrl } from "@/lib/constants";
+import { baseUrl } from "@/lib/constant";
+
 class ProfileService {
-  async completeProfile({
-    profilePicture,
-    phone,
-    location,
-  
-  }) {
+  async completeProfile({ profilePicture, phone, location }) {
     try {
       const formData = new FormData();
       if (!profilePicture || !phone || !location) {
@@ -65,6 +61,7 @@ class ProfileService {
       throw new Error(errorMessage);
     }
   }
+
   async getProfileDetails() {
     try {
       const response = await axios.get(`${baseUrl}/profile/get`, {
@@ -77,5 +74,6 @@ class ProfileService {
     }
   }
 }
+
 const profileService = new ProfileService();
 export default profileService;

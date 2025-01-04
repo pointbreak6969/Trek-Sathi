@@ -44,7 +44,7 @@ const authRoutes = [
   {
     path: "/userprofile",
     element: (
-      <Protected authentication={false} redirectPath="/usershomepage">
+      <Protected authentication={true} redirectPath="/usershomepage">
         <UserProfile />
       </Protected>
     ),
