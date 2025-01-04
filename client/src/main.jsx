@@ -19,6 +19,7 @@ import ChatBot from "./components/ChatBot";
 import path from "path";
 import UserProfile from "./Pages/UserProfile";
 import MapComponent from "./components/MapComponent";
+import JoinGroups from "./Pages/JoinGroups";
 // Import ThemeProvider for theme management
 import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
 
@@ -34,6 +35,7 @@ const publicRoutes = [
   
   {
     path: "/groupformation/:id",
+    // path:"/groupformtaion",
     element: (
       <Protected authentication={false}>
         <GroupFormation />
@@ -135,6 +137,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <TrekDetails />
+      </Protected>
+    ),
+  },
+  {
+    path: "/joingroups",
+    element: (
+      <Protected authentication={false} redirectPath="/joingroups">
+        <JoinGroups />
       </Protected>
     ),
   },

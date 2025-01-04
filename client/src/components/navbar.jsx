@@ -58,15 +58,16 @@ const Navbar = () => {
     },
     {
       name: "Join Group",
-      slug: "/join-group",
+      slug: "/joingroups",
       icon: <UserPlus className="h-5 w-5" />,
     },
     {
       name: "Group Chat",
-      slug: "/chat",
+      slug: "/GroupFormation/mardi",
       icon: <MessageCircle className="h-5 w-5" />,
       badge: 3, // Optional: Add badge for unread messages
     },
+
   ];
 
   const handleNavigation = (path) => {
