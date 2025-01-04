@@ -10,6 +10,7 @@ import everestImage from "@/assets/everest.jpg";
 import langtangImage from "@/assets/langtang.jpg";
 import manasluImage from "@/assets/manaslu.jpg";
 import { useSelector } from 'react-redux';
+import ChatBotIcon from '@/components/ChatBotIcon';
 
 export default function UserHomePage() {
   const navigate = useNavigate();
@@ -48,6 +49,9 @@ export default function UserHomePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+   <div className='fixed bottom-6 right-6 z-50'>
+        <ChatBotIcon />
+      </div>
       <div className="container mx-auto px-4 py-8">
         {/* Welcome Section */}
         <div className="mb-12">

@@ -55,18 +55,20 @@ class SocialServices {
     }
   }
 
-  async addComment({ post_id, text, user_id }) {
+  async addComment({ post_id, text }) {
     try {
-      console.log("post_id at addComment", post_id);
-      if (!user_id || !post_id || !text) {
-        throw new Error("All fields are required");
+      if (!post_id || !text) {
+        throw new Error("Post ID and text are required");
       }
 
       const response = await axios.post(
         `${baseUrl}/comment/addcomment`,
-        { post_id, text, user_id },
+        { post_id, text },
         {
           withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
 
@@ -77,9 +79,13 @@ class SocialServices {
     }
   }
 
-  async getAllComments({postId}) {
+  async getAllComments({ postId }) {
     try {
-      const response = await axios.get(`${baseUrl}/comment/getallcomment/${postId}`, {
+      if (!postId) {
+        throw new Error("Post ID is required");
+      }
+      
+      const response = await axios.get(`${baseUrl}/comment/getcomment/${postId}`, {
         withCredentials: true,
       });
       return response.data.data;

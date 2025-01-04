@@ -441,7 +441,6 @@ export default function Details() {
                     )}
 
                     {/* Post Actions */}
-                    {/* Post Actions */}
                     <div className="px-4 py-2 flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         {/* Upvote Button */}
@@ -479,7 +478,7 @@ export default function Details() {
                         >
                           <MessageCircle className="h-5 w-5 mr-1" />
                           <span className="text-xs">
-                           5
+                           {post.commentCount}
                           </span>
                         </Button>
                       </div>
@@ -504,6 +503,7 @@ export default function Details() {
                 <CommentsModal
                   post={selectedPost}
                   onClose={handleCloseComments}
+                  
                 />
               )}
             </div>
