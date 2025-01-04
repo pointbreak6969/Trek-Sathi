@@ -41,6 +41,14 @@ const authRoutes = [
       </Protected>
     ),
   },
+  {
+    path: "/userprofile",
+    element: (
+      <Protected authentication={true} redirectPath="/usershomepage">
+        <UserProfile />
+      </Protected>
+    ),
+  },
 ];
 
 const protectedRoutes = [
