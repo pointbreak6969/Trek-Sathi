@@ -202,7 +202,6 @@ export default function Details() {
               >
                 <ArrowLeft className="h-5 w-5" />
               </Link>
-
               {/* Right Section */}
               <div className="flex items-center gap-4 sm:gap-8">
                 <div className="flex flex-col-reverse sm:flex-col items-center">
@@ -478,9 +477,7 @@ export default function Details() {
                           onClick={() => handleOpenComments(post)}
                         >
                           <MessageCircle className="h-5 w-5 mr-1" />
-                          <span className="text-xs">
-                           5
-                          </span>
+                          <span className="text-xs">5</span>
                         </Button>
                       </div>
 

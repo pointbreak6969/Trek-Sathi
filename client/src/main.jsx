@@ -32,7 +32,7 @@ const publicRoutes = [
       </Protected>
     ),
   },
-  
+
   {
     path: "/groupformation/:id",
     // path:"/groupformtaion",
@@ -42,12 +42,10 @@ const publicRoutes = [
       </Protected>
     ),
   },
-   {
+  {
     path: "/map",
-    element: (
-      <MapComponent />
-    )
-   }
+    element: <MapComponent />,
+  },
 ];
 
 const authRoutes = [
@@ -81,7 +79,7 @@ const protectedRoutes = [
   {
     path: "/details/:name",
     element: (
-      <Protected authentication={false}>
+      <Protected authentication={true}>
         <Details />
       </Protected>
     ),
@@ -110,17 +108,19 @@ const protectedRoutes = [
       </Protected>
     ),
   },
-  {path: "/TrekDetails",
-    element:(
+  {
+    path: "/TrekDetails",
+    element: (
       <Protected authentication={true}>
-        <TrekDetails/>
+        <TrekDetails />
       </Protected>
     ),
   },
-  {path: "/DetailedItinerary",
-    element:(
+  {
+    path: "/DetailedItinerary",
+    element: (
       <Protected authentication={true}>
-        <DetailedItinerary/>
+        <DetailedItinerary />
       </Protected>
     ),
   },
