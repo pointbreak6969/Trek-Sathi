@@ -29,14 +29,7 @@ const publicRoutes = [
       </Protected>
     ),
   },
-  {
-    path: "/details/:id",
-    element: (
-      <Protected authentication={false} redirectPath="/details">
-        <Details />
-      </Protected>
-    ),
-  },
+  
   {
     path: "/groupformation/:id",
     element: (
