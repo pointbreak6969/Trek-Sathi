@@ -45,52 +45,70 @@ const ChatBot = () => {
 
     try {
       setIsLoading(true);
-      
-      if (message.trim()) {
-        const userMessage = { role: "user", parts: [{ text: message }] };
-        setMessages((prev) => [...prev, userMessage]);
-      } else if (selectedFile) {
-        const userFileMessage = { role: "user", parts: [{ text: "(File sent)" }] };
-        setMessages((prev) => [...prev, userFileMessage]);
+
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = async () => {
+          const base64Data = reader.result.split(",")[1];
+          // Create message parts array with both image and text if present
+          const messageParts = [
+            {
+              inlineData: {
+                data: base64Data,
+                mimeType: selectedFile.type
+              }
+            }
+          ];
+          
+          // Add text part if message exists
+          if (message.trim()) {
+            messageParts.push({ text: message });
+          }
+
+          // Add the user message with all parts
+          const userMessage = {
+            role: "user",
+            parts: messageParts
+          };
+          setMessages(prev => [...prev, userMessage]);
+
+          // Process the image and text with the AI
+          const result = await model.generateContent([
+            {
+              inlineData: {
+                data: base64Data,
+                mimeType: selectedFile.type,
+              },
+            },
+            message || "Describe this file.",
+          ]);
+          const response = result.response;
+          setMessages((prev) => [
+            ...prev,
+            { role: "model", parts: [{ text: response.text() }] },
+          ]);
+          setSelectedFile(null);
+          setMessage("");
+        };
+        reader.readAsDataURL(selectedFile);
+      } else if (message.trim()) {
+        // Text-only message
+        const userMessage = { 
+          role: "user", 
+          parts: [{ text: message }] 
+        };
+        setMessages(prev => [...prev, userMessage]);
+
+        const result = await model.generateContent(message);
+        const response = await result.response;
+        
+        setMessages(prev => [
+          ...prev,
+          { role: "model", parts: [{ text: response.text() }] },
+        ]);
+        
+        setMessage("");
       }
-
- 
-if (selectedFile) {
-  const reader = new FileReader();
-  reader.onload = async () => {
-    const base64Data = reader.result.split(",")[1];
-    // Add the image message to the chat history
-    const userImageMessage = {
-      role: "user",
-      parts: [{
-        inlineData: {
-          data: base64Data,
-          mimeType: selectedFile.type
-        }
-      }]
-    };
-    setMessages(prev => [...prev, userImageMessage]);
-
-    // Process the image with the AI
-    const result = await model.generateContent([
-      {
-        inlineData: {
-          data: base64Data,
-          mimeType: selectedFile.type,
-        },
-      },
-      message || "Describe this file.",
-    ]);
-    const response = result.response;
-    setMessages((prev) => [
-      ...prev,
-      { role: "model", parts: [{ text: response.text() }] },
-    ]);
-    setSelectedFile(null);
-    setMessage("");
-  };
-  reader.readAsDataURL(selectedFile);
-}
     } catch (error) {
       console.error("Error:", error);
       setMessages((prev) => [
