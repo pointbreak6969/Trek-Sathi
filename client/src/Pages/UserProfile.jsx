@@ -3,18 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { X, Instagram, Facebook, Twitter } from "lucide-react";
-import authService from "@/services/auth";
+import { X, Instagram, Facebook, Twitter, Camera } from "lucide-react";
 import axios from "axios";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
-  const [error, setError] = useState(null); // State to store error
+  const [error, setError] = useState(null);
   const { register, handleSubmit, control } = useForm();
+  const [profileImage, setProfileImage] = useState(null);
+  const [selectedTreks, setSelectedTreks] = useState([]);
+  const [previewUrl, setPreviewUrl] = useState(null);
 
-  useEffect(() => {
-    console.log("userdata", userData);
-  }, [userData]);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -25,19 +24,75 @@ const UserProfile = () => {
           }
         );
         setUserData(response.data.data);
-        console.log(response.data);
-        setError(null); // Clear any previous errors
+        if (response.data.data?.profileImage) {
+          setPreviewUrl(response.data.data.profileImage);
+        }
+        setError(null);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setError("Failed to load user data. Please try again later."); // Set error message
+        setError("Failed to load user data. Please try again later.");
       }
     };
 
     fetchUserData();
   }, []);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(file);
+      const imageUrl = URL.createObjectURL(file);
+      setPreviewUrl(imageUrl);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (
+        previewUrl &&
+        !previewUrl.startsWith("data:") &&
+        !previewUrl.startsWith("http")
+      ) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [previewUrl]);
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+
+      // Append all form fields
+      Object.keys(data).forEach((key) => {
+        if (key === "image" && profileImage) {
+          formData.append("image", profileImage);
+        } else if (key !== "image") {
+          formData.append(key, data[key]);
+        }
+      });
+
+      // Append selected treks
+      formData.append("past_treks", JSON.stringify(selectedTreks));
+
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/user/profile`,
+        formData,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success) {
+        // Handle success (e.g., show success message, redirect, etc.)
+        console.log("Profile updated successfully");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError("Failed to update profile. Please try again later.");
+    }
   };
 
   const socialInputs = [
@@ -57,6 +112,7 @@ const UserProfile = () => {
       placeholder: "https://www.twitter.com/yourusername",
     },
   ];
+
   const popularTreks = [
     "Everest Base Camp",
     "Annapurna Circuit",
@@ -66,7 +122,7 @@ const UserProfile = () => {
     "Mardi Himal",
     "Annapurna Base Camp",
   ];
-  const [selectedTreks, setSelectedTreks] = useState([]);
+
   const handleAddTrek = (trek) => {
     if (trek && !selectedTreks.includes(trek)) {
       setSelectedTreks([...selectedTreks, trek]);
@@ -80,89 +136,90 @@ const UserProfile = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
+        {/* Image Upload Section */}
+        <div className="text-center relative">
+          {previewUrl ? (
+            <img
+              src={previewUrl}
+              alt="Profile"
+              className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+            />
+          ) : (
+            <div className="w-32 h-32 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center">
+              <Camera className="w-8 h-8 text-gray-400" />
+            </div>
+          )}
+          <input
+            type="file"
+            id="image"
+            name="image"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+            {...register("image")}
+          />
+          <label
+            htmlFor="image"
+            className="cursor-pointer absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 bg-white p-2 rounded-full shadow-lg"
+          >
+            <Camera className="w-5 h-5 text-gray-600" />
+          </label>
+        </div>
+
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
           Additional Details
         </h2>
 
-        {/* Display error message if exists */}
+        {/* Error Display */}
         {error && (
           <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-6">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Name
-            </label>
+        {/* Form */}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Name Field */}
+          <div>
+            <Label htmlFor="fullname">Name</Label>
             <Input
               type="text"
               id="fullname"
-              name="fullname"
               readOnly
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              className="mt-1"
               placeholder={userData?.fullName || "Your full name"}
-              {...register("phone")}
+              {...register("fullname")}
             />
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Phone Number
-            </label>
+
+          {/* Phone Field */}
+          <div>
+            <Label htmlFor="phone">Phone Number</Label>
             <Input
               type="tel"
               id="phone"
-              name="phone"
               readOnly
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              {...register("phone")}
+              className="mt-1"
               placeholder="9862383881"
+              {...register("phone")}
             />
           </div>
 
-          <div className="mb-6">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Profile Image
-            </label>
-            <Input
-              type="file"
-              id="image"
-              name="image"
-              accept="image/*"
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              {...register("image")}
-            />
-          </div>
-
-          <div className="mb-6">
-            <label
-              htmlFor="age"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Age
-            </label>
+          {/* Age Field */}
+          <div>
+            <Label htmlFor="age">Age</Label>
             <Input
               type="number"
               id="age"
-              name="age"
               required
+              className="mt-1"
               placeholder="25"
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-              {...register("age")}
+              {...register("age", { required: true, min: 0 })}
             />
           </div>
 
-          <div className="space-y-6">
+          {/* Social Media Section */}
+          <div className="space-y-4">
             <Label className="text-lg font-semibold">
               Social Media Links (optional)
             </Label>
@@ -174,31 +231,29 @@ const UserProfile = () => {
                 <Input
                   type="url"
                   id={name}
-                  name={name}
                   placeholder={placeholder}
-                  className="pl-10 w-full"
+                  className="pl-10"
                   {...register(name)}
                 />
               </div>
             ))}
           </div>
-          <div className="mb-6">
-            <label
-              htmlFor="past_treks"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+
+          {/* Past Treks Section */}
+          <div>
+            <Label htmlFor="past_treks" className="text-md font-semibold">
               Past Treks (optional)
-            </label>
+            </Label>
             <Controller
               name="past_treks"
               control={control}
               render={({ field }) => (
-                <div className="relative">
+                <div className="relative mt-3">
                   <Input
                     {...field}
                     list="treks"
                     placeholder="Type or select past treks..."
-                    className="w-full pr-20"
+                    className="pr-20"
                     onChange={(e) => {
                       field.onChange(e);
                       if (popularTreks.includes(e.target.value)) {
@@ -246,11 +301,12 @@ const UserProfile = () => {
             </div>
           </div>
 
+          {/* Submit Button */}
           <Button
             type="submit"
-            className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full bg-indigo-600 text-white hover:bg-indigo-700"
           >
-            Submit
+            Save Changes
           </Button>
         </form>
       </div>
