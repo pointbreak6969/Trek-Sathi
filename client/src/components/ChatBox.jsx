@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const ChatBox = ({ history = [] }) => {
   const renderMessageContent = (message) => {
     return (
-      <div className="space-y-2">
+      <div className="space-y-2"> 
         {message.parts.map((part, index) => {
           if (part.inlineData) {
             const { data, mimeType } = part.inlineData;
