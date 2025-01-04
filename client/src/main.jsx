@@ -10,6 +10,7 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Social from "./Pages/Social";
 import Protected from "./components/Protected";
+import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
