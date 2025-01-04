@@ -18,7 +18,7 @@ import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
 import path from "path";
 import UserProfile from "./Pages/UserProfile";
-
+import MapComponent from "./components/MapComponent";
 // Import ThemeProvider for theme management
 import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
 
@@ -40,6 +40,12 @@ const publicRoutes = [
       </Protected>
     ),
   },
+   {
+    path: "/map",
+    element: (
+      <MapComponent />
+    )
+   }
 ];
 
 const authRoutes = [
