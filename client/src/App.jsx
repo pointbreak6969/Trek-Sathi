@@ -1,6 +1,6 @@
 import UserProfile from "./pages/UserProfile";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";  
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import SignupPage from "./Pages/Signup";
@@ -10,6 +10,7 @@ import authService from "./services/auth";
 import { login, logout } from "./store/authSlice";
 import "./App.css";
 import GroupFormation from "./Pages/GroupFormation";
+import Footer from "./components/Footer";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -55,7 +56,7 @@ function App() {
       <Outlet />
       {/* <SignupPage/> */}
       {/* <UserProfile/> */}
-
+      <Footer />
     </>
   );
 }

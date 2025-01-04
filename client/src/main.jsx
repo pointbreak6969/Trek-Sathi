@@ -17,11 +17,12 @@ import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
 import UserProfile from "./Pages/UserProfile";
 import JoinGroups from "./Pages/JoinGroups";
-import { ThemeProvider } from "./components/theme-provider"; 
+import { ThemeProvider } from "./components/theme-provider";
 import MapComponent from "./components/MapComponent";
-import GroupChat from "./Pages/GroupChat";
+
 import Home from "./Pages/Landing/Home";
 import GroupChat from "./Pages/GroupChat";
+
 const publicRoutes = [
   {
     path: "/",
@@ -31,9 +32,6 @@ const publicRoutes = [
       </Protected>
     ),
   },
-  
-  
-   
 ];
 
 const authRoutes = [
@@ -53,7 +51,6 @@ const authRoutes = [
       </Protected>
     ),
   },
-  
 ];
 
 const protectedRoutes = [
@@ -113,17 +110,19 @@ const protectedRoutes = [
       </Protected>
     ),
   },
-  {path: "/TrekDetails",
-    element:(
+  {
+    path: "/TrekDetails",
+    element: (
       <Protected authentication={true}>
-        <TrekDetails/>
+        <TrekDetails />
       </Protected>
     ),
   },
-  {path: "/DetailedItinerary",
-    element:(
+  {
+    path: "/DetailedItinerary",
+    element: (
       <Protected authentication={true}>
-        <DetailedItinerary/>
+        <DetailedItinerary />
       </Protected>
     ),
   },
@@ -146,19 +145,19 @@ const protectedRoutes = [
   {
     path: "/joingroups",
     element: (
-      <Protected authentication={true} >
+      <Protected authentication={true}>
         <JoinGroups />
       </Protected>
     ),
-  },  {
+  },
+  {
     path: "/GroupChat",
     element: (
-      <Protected authentication={true} >
+      <Protected authentication={true}>
         <GroupChat />
       </Protected>
     ),
   },
-  
 ];
 
 const router = createBrowserRouter([
