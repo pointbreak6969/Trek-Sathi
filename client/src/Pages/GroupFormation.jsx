@@ -36,7 +36,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 
-const GroupFormation= () => {
+const GroupFormation = () => {
   const [groupSize, setGroupSize] = useState(null);
   const methods = useForm({
     defaultValues: {
@@ -68,9 +68,9 @@ const GroupFormation= () => {
             className={cn(
               "w-8 h-8 rounded-full flex items-center justify-center transition-all",
               step === num
-                ? "bg-primary text-white"
+                ? "bg-[#6366f1] text-white"
                 : step > num
-                ? "bg-primary/20 text-primary"
+                ? "bg-[#6366f1]/20 text-[#6366f1]"
                 : "bg-gray-100 text-gray-400"
             )}
           >
@@ -80,7 +80,7 @@ const GroupFormation= () => {
             <div
               className={cn(
                 "w-12 h-0.5 mx-2",
-                step > num ? "bg-primary" : "bg-gray-100"
+                step > num ? "bg-[#6366f1]" : "bg-gray-100"
               )}
             />
           )}
@@ -95,7 +95,7 @@ const GroupFormation= () => {
         <Card className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl border-0">
           <CardContent className="p-6">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-[#6366f1] to-[#6366f1]/60 bg-clip-text text-transparent">
                 Create Your Trek Group
               </h1>
               <p className="text-gray-500 mt-2">
@@ -121,7 +121,7 @@ const GroupFormation= () => {
                             <Input
                               placeholder="e.g., Everest Base Camp"
                               {...field}
-                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-[#6366f1]/20"
                             />
                           </FormControl>
                         </FormItem>
@@ -230,7 +230,7 @@ const GroupFormation= () => {
                               type="number"
                               min="1"
                               placeholder="How many trekkers do you have?"
-                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-[#6366f1]/20"
                               onChange={(e) => {
                                 field.onChange(e);
                                 setGroupSize(parseInt(e.target.value, 10));
@@ -253,7 +253,7 @@ const GroupFormation= () => {
                             <Input
                               type="number"
                               placeholder="How many more people do you need?"
-                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-[#6366f1]/20"
                               {...field}
                             />
                           </FormControl>
@@ -301,7 +301,7 @@ const GroupFormation= () => {
                               <Input
                                 type="number"
                                 placeholder="Min age"
-                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-[#6366f1]/20"
                                 {...field}
                               />
                             </FormControl>
@@ -319,7 +319,7 @@ const GroupFormation= () => {
                               <Input
                                 type="number"
                                 placeholder="Max age"
-                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-[#6366f1]/20"
                                 {...field}
                               />
                             </FormControl>
@@ -336,7 +336,7 @@ const GroupFormation= () => {
                       type="button"
                       variant="outline"
                       onClick={() => setStep(step - 1)}
-                      className="rounded-xl"
+                      className="rounded-xl border-[#6366f1] text-[#6366f1] hover:bg-[#6366f1]/10"
                     >
                       Previous
                     </Button>
@@ -345,13 +345,13 @@ const GroupFormation= () => {
                     <Button
                       type="button"
                       onClick={() => setStep(step + 1)}
-                      className="ml-auto rounded-xl"
+                      className="ml-auto rounded-xl bg-[#6366f1] hover:bg-[#6366f1]/90 text-white"
                     >
                       Next
                       <ChevronRight className="w-4 h-4 ml-1" />
                     </Button>
                   ) : (
-                    <Button type="submit" className="ml-auto rounded-xl">
+                    <Button type="submit" className="ml-auto rounded-xl bg-[#6366f1] hover:bg-[#6366f1]/90 text-white">
                       Create Group
                     </Button>
                   )}
