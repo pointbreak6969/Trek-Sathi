@@ -15,6 +15,7 @@ import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
 import TrekDetails from "./Pages/TrekDetails";
+import UserProfile from "./Pages/UserProfile";
 const publicRoutes = [
   {
     path: "/",
@@ -56,6 +57,14 @@ const authRoutes = [
     element: (
       <Protected authentication={false} redirectPath="/usershomepage">
         <SignupPage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/userprofile",
+    element: (
+      <Protected authentication={true} redirectPath="/usershomepage">
+        <UserProfile />
       </Protected>
     ),
   },

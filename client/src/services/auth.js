@@ -22,8 +22,8 @@ export class AuthService {
   }
   async login({ email, password }) {
     try {
-     const response = await axios.post(
-      `${baseUrl}/user/login`,
+      const response = await axios.post(
+        `${baseUrl}/user/login`,
         { email, password },
         {
           withCredentials: true,
@@ -31,26 +31,31 @@ export class AuthService {
       );
       return response.data;
     } catch (error) {
+      console.log("error at auth", error);
       const errorMessage = error.response?.data?.message || "An error occurred";
       throw new Error(errorMessage);
     }
   }
-  async getCurrentUser(){
+  async getCurrentUser() {
     try {
-        return await axios.get( `${baseUrl}/user/me`, {
-          withCredentials: true,
-        });
+      return await axios.get(`${baseUrl}/user/me`, {
+        withCredentials: true,
+      });
     } catch (error) {
       const errorMessage = error.response?.data?.message || "An error occurred";
       throw new Error(errorMessage);
     }
     return null;
   }
-  async logout(){
+  async logout() {
     try {
-        return await axios.post(`${baseUrl}/user/logout`,{}, {
+      return await axios.post(
+        `${baseUrl}/user/logout`,
+        {},
+        {
           withCredentials: true,
-        });
+        }
+      );
     } catch (error) {
       const errorMessage = error.response?.data?.message || "An error occurred";
       throw new Error(errorMessage);
@@ -58,4 +63,4 @@ export class AuthService {
   }
 }
 const authService = new AuthService();
-export default authService; 
+export default authService;

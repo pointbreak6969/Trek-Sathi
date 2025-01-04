@@ -8,8 +8,8 @@ import {
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const completeProfile = asyncHandler(async (req, res) => {
-  const { phone, location } = req.body;
-  if (!(phone && location)) {
+  const { phone, location='pokhara' } = req.body;
+  if (!(phone )) {
     throw new ApiError(400, "All fields are required");
   }
   const Profilelocation = req.file.path;
