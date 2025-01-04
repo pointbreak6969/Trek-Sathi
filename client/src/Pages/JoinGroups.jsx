@@ -286,7 +286,7 @@ const JoinGroups = () => {
                       variant="success"
                       size="sm"
                       className="bg-[#6366f1] text-white hover:bg-[#6366f1]/90"
-                      onClick={() => alert(`Joined ${group.name}`)}
+                      onClick={() => navigate(`/groupchat`)}
                     >
                       Join Group
                     </Button>

@@ -65,7 +65,7 @@ const Navbar = () => {
       name: "Group Chat",
       slug: "/GroupFormation/mardi",
       icon: <MessageCircle className="h-5 w-5" />,
-      badge: 3, // Optional: Add badge for unread messages
+       // Optional: Add badge for unread messages
     },
   ];
 
@@ -101,7 +101,7 @@ const Navbar = () => {
                 <span>{item.name}</span>
                 {item.badge && (
                   <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
-                    {item.badge}
+                    {/* {item.badge} */}
                   </span>
                 )}
               </Link>
@@ -175,7 +175,7 @@ const Navbar = () => {
                       <span>{item.name}</span>
                       {item.badge && (
                         <span className="ml-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
-                          {item.badge}
+                          {/* {item.badge} */}
                         </span>
                       )}
                     </Link>
