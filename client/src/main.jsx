@@ -20,6 +20,7 @@ import JoinGroups from "./Pages/JoinGroups";
 import { ThemeProvider } from "./components/theme-provider"; 
 import MapComponent from "./components/MapComponent";
 import Home from "./Pages/Landing/Home";
+import GroupChat from "./Pages/GroupChat";
 const publicRoutes = [
   {
     path: "/",
