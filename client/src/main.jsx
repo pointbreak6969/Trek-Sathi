@@ -12,8 +12,7 @@ import Social from "./Pages/Social";
 import Protected from "./components/Protected";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
-import GroupFormation from "./Pages/GroupFormation";
-import path from "path";
+import ChatBot from "./components/ChatBot";
 const publicRoutes = [
   {
     path: "/",
@@ -82,6 +81,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <UsersHomePage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/chatbot",
+    element: (
+      <Protected authentication={true}>
+        <ChatBot />
       </Protected>
     ),
   },

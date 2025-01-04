@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Navbar from "@/components/navbar";
 import NewTrekPostForm from "@/components/TrekForm";
 import TrekPost from "@/components/TrekPost";
 import socialServices from "@/services/socialServices";
@@ -6,7 +7,7 @@ import { useSelector } from "react-redux";
 
 const Social = () => {
   const [trekPosts, setTrekPosts] = useState([]);
-
+  const currentUserId = useSelector((state) => state.auth.userData._id);
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -29,12 +30,16 @@ const Social = () => {
     }
   };
 
+  const handleDeletePost = (postId) => {
+    setTrekPosts(trekPosts.filter((post) => post._id !== postId));
+  };
+
   return (
     <>
-      {/* <Navbar /> */}
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-extrabold text-center text-[#6366F1] mb-10">Trek Social</h1>
 
+        {/* New Trek Post Form */}
         <div className="mb-12">
           <NewTrekPostForm onAddPost={handleAddPost} />
         </div>
@@ -45,12 +50,13 @@ const Social = () => {
             <div key={post._id} className="mb-8">
               <TrekPost
                 id={post._id}
-                author={post.user}
+                author={post.user.fullName }
                 location={post.location}
                 date={new Date(post.created_at).toLocaleDateString()}
                 description={post.text}
-                imageUrl={post.image?.url}
-                comments={post.comments || []}
+                imageUrl={post.userProfile?.profilePicture.url}
+                onDeletePost={handleDeletePost}
+                currentUserId={currentUserId}
               />
             </div>
           ))}
