@@ -10,10 +10,13 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Social from "./Pages/Social";
 import Protected from "./components/Protected";
+import DetailedItinerary from "./Pages/DetailedItinerary";
+import TrekDetails from "./Pages/TrekDetails";
 import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
+import path from "path";
 import TrekDetails from "./Pages/TrekDetails";
 import UserProfile from "./Pages/UserProfile";
 
@@ -100,6 +103,20 @@ const protectedRoutes = [
       </Protected>
     ),
   },
+  {path: "/TrekDetails",
+    element:(
+      <Protected authentication={true}>
+        <TrekDetails/>
+      </Protected>
+    ),
+  },
+  {path: "/DetailedItinerary",
+    element:(
+      <Protected authentication={true}>
+        <DetailedItinerary/>
+      </Protected>
+    ),
+  },
   {
     path: "/group",
     element: (
@@ -109,7 +126,7 @@ const protectedRoutes = [
     ),
   },
   {
-    path: "/trekd",
+    path: "/trekdetails:name",
     element: (
       <Protected authentication={true}>
         <TrekDetails />
