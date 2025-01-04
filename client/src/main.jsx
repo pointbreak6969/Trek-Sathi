@@ -19,6 +19,7 @@ import UserProfile from "./Pages/UserProfile";
 import JoinGroups from "./Pages/JoinGroups";
 import { ThemeProvider } from "./components/theme-provider"; 
 import MapComponent from "./components/MapComponent";
+import GroupChat from "./Pages/GroupChat";
 import Home from "./Pages/Landing/Home";
 import GroupChat from "./Pages/GroupChat";
 const publicRoutes = [

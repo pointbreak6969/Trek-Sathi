@@ -38,77 +38,94 @@ const Home = () => {
   ];
   const teamMembers = [
     {
-      name: "Team Member 1",
-      role: "Professional Hiker",
+      name: "Emily Carter",
+      role: "Lead Mountain Guide",
       imageUrl: "/team-1.jpg",
       socialLinks: {
-        facebook: "#",
-        twitter: "#",
-        instagram: "#",
+        facebook: "https://facebook.com/emilycarter",
+        twitter: "https://twitter.com/emilycarter",
+        instagram: "https://instagram.com/emilycarter",
       },
     },
     {
-      name: "Team Member 2",
-      role: "Professional Hiker",
+      name: "Liam Johnson",
+      role: "Expedition Planner",
       imageUrl: "/team-2.jpg",
       socialLinks: {
-        facebook: "#",
-        twitter: "#",
-        instagram: "#",
+        facebook: "https://facebook.com/liamjohnson",
+        twitter: "https://twitter.com/liamjohnson",
+        instagram: "https://instagram.com/liamjohnson",
       },
     },
     {
-      name: "Team Member 3",
-      role: "Professional Hiker",
-      imageUrl: "/team-3.jpg",
+      name: "Sophia Martinez",
+      role: "Wilderness Survival Expert",
+      imageUrl: "/team-3.webp",
       socialLinks: {
-        facebook: "#",
-        twitter: "#",
-        instagram: "#",
+        facebook: "https://facebook.com/sophiamartinez",
+        twitter: "https://twitter.com/sophiamartinez",
+        instagram: "https://instagram.com/sophiamartinez",
       },
     },
     {
-      name: "Team Member 4",
-      role: "Professional Hiker",
-      imageUrl: "/team-4.jpg",
+      name: "Ethan Walker",
+      role: " Climbing Specialist",
+      imageUrl: "/team-4.webp",
       socialLinks: {
-        facebook: "#",
-        twitter: "#",
-        instagram: "#",
+        facebook: "https://facebook.com/ethanwalker",
+        twitter: "https://twitter.com/ethanwalker",
+        instagram: "https://instagram.com/ethanwalker",
       },
     },
   ];
+  
   const trekLocations = [
     {
-      name: "Mountain Trek 1",
-      imageUrl: "/trek-1.jpg",
+      name: "Everest Base Camp",
+      imageUrl: "/trek-1.webp",
+      description: "A challenging trek to the base of the world's highest peak, offering stunning views of the Himalayas.",
+      difficulty: "Difficult",
+      duration: "14 days",
     },
     {
-      name: "Mountain Trek 2",
+      name: "Annapurna Circuit",
       imageUrl: "/trek-2.jpg",
+      description: "A classic Himalayan trek that takes you through diverse landscapes, from lush valleys to alpine peaks.",
+      difficulty: "Moderate",
+      duration: "16 days",
     },
     {
-      name: "Sandy Mountain",
+      name: "Sahara Desert Trek",
       imageUrl: "/trek-3.jpg",
+      description: "An unforgettable journey across the golden sands of the Sahara, exploring oases and desert culture.",
+      difficulty: "Moderate",
+      duration: "7 days",
     },
     {
-      name: "Mountain Trek 4",
+      name: "Inca Trail to Machu Picchu",
       imageUrl: "/trek-4.jpg",
+      description: "Follow ancient pathways through the Andes to the iconic ruins of Machu Picchu.",
+      difficulty: "Moderate",
+      duration: "4 days",
     },
     {
-      name: "Mountain Trek 5",
+      name: "Kilimanjaro Trek",
       imageUrl: "/trek-5.jpg",
+      description: "Climb Africa's highest peak, experiencing diverse ecosystems on your way to the summit.",
+      difficulty: "Difficult",
+      duration: "7-9 days",
     },
   ];
+  
 
   return (
-    <>
+    <div className="bg-[#6366f1]">
       <Hero />
       <Services services={services} />
       <Story />
       <Team members={teamMembers} />
       <Treks locations={trekLocations} />
-    </>
+    </div>
   );
 };
 export default Home;
