@@ -2,18 +2,18 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { 
-  Home, 
-  Book, 
-  LogIn, 
-  LogOut, 
-  Menu, 
-  Sun, 
-  Moon, 
-  X, 
-  Users, 
+import {
+  Home,
+  Book,
+  LogIn,
+  LogOut,
+  Menu,
+  Sun,
+  Moon,
+  X,
+  Users,
   MessageCircle,
-  UserPlus
+  UserPlus,
 } from "lucide-react";
 import {
   Sheet,
@@ -67,7 +67,6 @@ const Navbar = () => {
       icon: <MessageCircle className="h-5 w-5" />,
       badge: 3, // Optional: Add badge for unread messages
     },
-
   ];
 
   const handleNavigation = (path) => {
@@ -86,28 +85,29 @@ const Navbar = () => {
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold">TrekSathi</span>
         </Link>
-
-        <div className="hidden md:flex md:items-center md:space-x-6">
-          {navItems.map((item) => (
-            <Link
-              key={item.slug}
-              to={item.slug}
-              className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary relative ${
-                location.pathname === item.slug
-                  ? "text-primary"
-                  : "text-muted-foreground"
-              }`}
-            >
-              {item.icon}
-              <span>{item.name}</span>
-              {item.badge && (
-                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
-                  {item.badge}
-                </span>
-              )}
-            </Link>
-          ))}
-        </div>
+        {authStatus && (
+          <div className="hidden md:flex md:items-center md:space-x-6">
+            {navItems.map((item) => (
+              <Link
+                key={item.slug}
+                to={item.slug}
+                className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary relative ${
+                  location.pathname === item.slug
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                }`}
+              >
+                {item.icon}
+                <span>{item.name}</span>
+                {item.badge && (
+                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center space-x-4">
           <Button
