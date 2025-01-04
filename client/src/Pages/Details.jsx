@@ -20,6 +20,7 @@ import {
   Heart,
   Footprints,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const getDestinationDetails = (id) => {
   const trekDetails = {
@@ -93,6 +94,7 @@ export default function Details() {
   const details = getDestinationDetails(id);
   const [isScrolled, setIsScrolled] = useState(false);
   const [canScrollPosts, setCanScrollPosts] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -242,7 +244,10 @@ export default function Details() {
                 </div>
               </div>
 
-              <button className="flex ml-1  items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm">
+              <button
+                onClick={() => navigate(`/groupformation/${id}`)}
+                className="flex ml-1  items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
+              >
                 <Footprints className="h-5 w-5" />
                 Take This Trek
               </button>
@@ -294,7 +299,10 @@ export default function Details() {
                     <span>{details.location}</span>
                   </div>
                 </div>
-                <button className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium">
+                <button
+                  onClick={() => navigate(`/groupformation/${id}`)}
+                  className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
+                >
                   <Footprints className="h-4 w-4 sm:h-5 sm:w-5" />
                   Take This Trek
                 </button>

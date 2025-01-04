@@ -10,6 +10,8 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Protected from "./components/Protected";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import GroupFormation from "./Pages/GroupFormation";
+import path from "path";
 const publicRoutes = [
   {
     path: "/",
@@ -25,6 +27,14 @@ const publicRoutes = [
     element: (
       <Protected authentication={false}>
         <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupformation/:id",
+    element: (
+      <Protected authentication={false}>
+        <GroupFormation />
       </Protected>
     ),
   },
