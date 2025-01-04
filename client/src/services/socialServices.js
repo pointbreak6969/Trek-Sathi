@@ -57,6 +57,7 @@ class SocialServices {
 
   async addComment({ post_id, text }) {
     try {
+      console.log("post_id at addComment", post_id);
       if (!post_id || !text) {
         throw new Error("All fields are required");
       }
@@ -75,7 +76,7 @@ class SocialServices {
     }
   }
 
-  async getAllComments(postId) {
+  async getAllComments({postId}) {
     try {
       const response = await axios.get(`${baseUrl}/comment/getcomment/${postId}`, {
         withCredentials: true,

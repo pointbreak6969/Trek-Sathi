@@ -15,38 +15,45 @@ const AddComment = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, savedComment, "Comment added successfully"));
 });
 
-
 const getAllComment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const comments = await Comment.aggregate([
-        { $match: { post_id: new mongoose.Types.ObjectId(id) } },
-        { $sort: { created_at: -1 } },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'user_id',
-            foreignField: '_id',
-            as: 'user'
-          }
-        },
-        { $unwind: '$user' },
-        {
-          $lookup: {
-            from: 'userprofiles',  
-            localField: 'user._id',
-            foreignField: 'user', 
-            as: 'userProfile'  
-          }
-        },
-        { $unwind: { path: '$userProfile', preserveNullAndEmptyArrays: true } }
-      ]);
-      
-      console.log(`Comments fetched: ${JSON.stringify(comments)}`);
-      res.status(200).json(new ApiResponse(200, comments, "Comments loaded successfully"));
-      
-
-    console.log(`Comments fetched: ${JSON.stringify(comments)}`);
-
+  const { id } = req.params;
+  const comments = await Comment.aggregate([
+      { $match: { post_id: new mongoose.Types.ObjectId(id) } },
+      { $sort: { created_at: -1 } },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: '$user' },
+      {
+        $lookup: {
+          from: 'userprofiles',  
+          localField: 'user._id',
+          foreignField: 'user', 
+          as: 'userProfile'  
+        }
+      },
+      { $unwind: { path: '$userProfile', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          _id: 1,
+          user_id: 1,
+          post_id: 1,
+          text: 1,
+          upvotes: 1,
+          downvotes: 1,
+          created_at: 1,
+          'user._id': 1,
+          'user.name': 1,
+          'userProfile.profilePicture.url': 1
+        }
+      }
+    ]);
+    
     res.status(200).json(new ApiResponse(200, comments, "Comments loaded successfully"));
 });
 

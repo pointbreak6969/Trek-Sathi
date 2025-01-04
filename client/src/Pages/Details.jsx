@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import {Card, CardContent} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import socialServices from "../services/socialServices";
+import CommentsModal from "../components/CommentsModal";
 import mardi from "../assets/mardi.jpg";
 import {
   ArrowLeft,
+  ArrowDown,
+  ArrowUp,
   Share2,
   Bookmark,
   MapPin,
@@ -22,8 +25,15 @@ import {
   Trash2,
   Send,
 } from "lucide-react";
-
 const getDestinationDetails = (id) => {
+  const [comment, setComment] = useState([]);
+
+  const getAllComments = async (postId) => {
+    const commentForPost = await socialServices.getAllComments(postId);
+    setComment(commentForPost);
+    console.log("comment for post", commentForPost);
+  };
+
   const trekDetails = {
     mardi: {
       name: "Mardi Base Camp",
@@ -91,6 +101,17 @@ const getDestinationDetails = (id) => {
 };
 
 export default function Details() {
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [count, setCount] = useState(0);
+
+  const handleOpenComments = (post) => {
+    setSelectedPost(post);
+    console.log("post", post);
+  };
+
+  const handleCloseComments = () => {
+    setSelectedPost(null);
+  };
   const { name } = useParams();
   const details = getDestinationDetails(name);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -119,7 +140,6 @@ export default function Details() {
 
   useEffect(() => {
     fetchPosts();
-    console.log(newComment);
   }, []);
 
   const fetchPosts = async () => {
@@ -354,135 +374,140 @@ export default function Details() {
 
           {/* Display Posts */}
           {posts.length === 0 ? (
-        <Card className="p-12">
-          <div className="text-center space-y-4">
-            <div className="text-4xl">🏔️</div>
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">No Stories Yet</h3>
-            <p className="text-gray-600 dark:text-gray-400">Share your trekking adventure and inspire others!</p>
-          </div>
-        </Card>
-      ) : (
-        <div className="space-y-6 pb-20">
-          {posts.map((post) => (
-            <Card key={post._id} className="overflow-hidden transition-all duration-300 hover:shadow-lg">
-              <CardContent className="p-0">
-                {/* Post Header */}
-                <div className="p-4 flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <Avatar className="h-10 w-10">
-                      <AvatarImage src={post?.userProfile?.profilePicture?.url} alt={post.user.fullName} />
-                      <AvatarFallback>{post.user.fullName[0]}</AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium text-sm">{post.user.fullName}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {new Date(post.created_at).toLocaleDateString(undefined, { 
-                          month: 'short', 
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <Button variant="ghost" size="icon">
-                    <MoreHorizontal className="h-5 w-5" />
-                  </Button>
-                </div>
-
-                {/* Post Content */}
-                <div className="px-4 py-2">
-                  <p className="text-sm leading-relaxed">{post.text}</p>
-                </div>
-
-                {/* Post Image */}
-                {post.image?.url && (
-                  <div className="mt-2 relative aspect-video">
-                    <img
-                      src={post.image.url}
-                      alt="post"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-
-                {/* Post Actions */}
-                <div className="px-4 py-2 flex items-center justify-between">
-                  <div className="flex items-center space-x-4">
-                    <Button variant="ghost" size="sm" className="text-red-500 hover:text-red-600">
-                      <Heart className="h-5 w-5 mr-1" />
-                      <span className="text-xs">24</span>
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <MessageCircle className="h-5 w-5 mr-1" />
-                      <span className="text-xs">{post.comments?.length || 0}</span>
-                    </Button>
-                    <Button variant="ghost" size="sm">
-                      <Share2 className="h-5 w-5" />
-                    </Button>
-                  </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => handleDeletePost(post._id)}
-                    className="text-red-500 hover:text-red-600"
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </Button>
-                </div>
-
-                <Separator />
-
-                {/* Comments Section */}
-                <div className="px-4 py-2">
-                  {post.comments?.length > 0 && (
-                    <div className="space-y-2 mb-3">
-                      {post.comments.map((comment) => (
-                        <div key={comment._id} className="flex items-start space-x-2">
-                          <Avatar className="h-6 w-6">
-                            <AvatarFallback>{comment.user[0]}</AvatarFallback>
-                          </Avatar>
-                          <div className="flex-1 bg-gray-100 dark:bg-gray-800 rounded-2xl px-3 py-2">
-                            <p className="text-xs font-medium">{comment.user}</p>
-                            <p className="text-sm">{comment.text}</p>
-                          </div>
+            <Card className="p-12">
+              <div className="text-center space-y-4">
+                <div className="text-4xl">🏔️</div>
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+                  No Stories Yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Share your trekking adventure and inspire others!
+                </p>
+              </div>
+            </Card>
+          ) : (
+            <div className="space-y-6 pb-20">
+              {posts.map((post) => (
+                <Card
+                  key={post._id}
+                  className="overflow-hidden transition-all duration-300 hover:shadow-lg"
+                >
+                  <CardContent className="p-0">
+                    {/* Post Header */}
+                    <div className="p-4 flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Avatar className="h-10 w-10">
+                          <img
+                            src={post?.userProfile?.profilePicture?.url}
+                            alt={post.user.fullName}
+                          />
+                        </Avatar>
+                        <div>
+                          <p className="font-medium text-sm">
+                            {post.user.fullName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {new Date(post.created_at).toLocaleDateString(
+                              undefined,
+                              {
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </p>
                         </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Comment Input */}
-                  <div className="flex items-center space-x-2">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback>Y</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 relative">
-                      <input
-                        type="text"
-                        placeholder="Add a comment..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                      />
-                      <Button 
-                        size="icon" 
-                        variant="ghost" 
-                        className="absolute right-1 top-1/2 -translate-y-1/2"
-                        onClick={() => {
-                          handleAddComment(post._id, newComment);
-                          setNewComment('');
-                        }}
-                      >
-                        <Send className="h-4 w-4" />
+                      </div>
+                      <Button variant="ghost" size="icon">
+                        <MoreHorizontal className="h-5 w-5" />
                       </Button>
                     </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+
+                    {/* Post Content */}
+                    <div className="px-4 py-2">
+                      <p className="text-sm leading-relaxed">{post.text}</p>
+                    </div>
+
+                    {/* Post Image */}
+                    {post.image?.url && (
+                      <div className="mt-2 relative aspect-video">
+                        <img
+                          src={post.image.url}
+                          alt="post"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+
+                    {/* Post Actions */}
+                    {/* Post Actions */}
+                    <div className="px-4 py-2 flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        {/* Upvote Button */}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-green-500 hover:text-green-600"
+                          onClick={() =>
+                            setCount((prevCount) => Math.max(prevCount + 1, 0))
+                          }
+                        >
+                          <ArrowUp className="h-5 w-5 mr-1" />
+                        </Button>
+
+                        {/* Downvote Button */}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-500 hover:text-red-600"
+                          onClick={() =>
+                            setCount((prevCount) => Math.max(prevCount - 1, 0))
+                          }
+                        >
+                          <ArrowDown className="h-5 w-5 mr-1" />
+                        </Button>
+
+                        {/* Vote Count */}
+                        <span className="text-xs font-medium">{count}</span>
+
+                        {/* Comments Button */}
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleOpenComments(post)}
+                        >
+                          <MessageCircle className="h-5 w-5 mr-1" />
+                          <span className="text-xs">
+                           5
+                          </span>
+                        </Button>
+                      </div>
+
+                      {/* Trash/Delete Button */}
+                      {/* <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 hover:text-red-600"
+                      >
+                        <Trash2 className="h-5 w-5" />
+                      </Button> */}
+                    </div>
+
+                    <Separator />
+                  </CardContent>
+                </Card>
+              ))}
+
+              {/* Comments Modal */}
+              {selectedPost && (
+                <CommentsModal
+                  post={selectedPost}
+                  onClose={handleCloseComments}
+                />
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
