@@ -9,10 +9,12 @@ import abcImage from "@/assets/abc.jpg";
 import everestImage from "@/assets/everest.jpg";
 import langtangImage from "@/assets/langtang.jpg";
 import manasluImage from "@/assets/manaslu.jpg";
+import { useSelector } from 'react-redux';
 
 export default function UserHomePage() {
   const navigate = useNavigate();
-  const username = "Sanket"; 
+
+  const username = useSelector((state) => state.auth.userData.fullName);
 
   const pastTreks = [
     {
@@ -180,7 +182,6 @@ const activities = [
     ),
   },
 
-  // Add remaining activities here
 ];
 
 const destinations = [

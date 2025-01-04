@@ -20,8 +20,7 @@ import path from "path";
 import UserProfile from "./Pages/UserProfile";
 import MapComponent from "./components/MapComponent";
 import JoinGroups from "./Pages/JoinGroups";
-// Import ThemeProvider for theme management
-import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
+import { ThemeProvider } from "./components/theme-provider"; 
 import GroupChat from "./Pages/GroupChat";
 const publicRoutes = [
   {
@@ -82,7 +81,7 @@ const protectedRoutes = [
   {
     path: "/details/:name",
     element: (
-      <Protected authentication={false}>
+      <Protected authentication={true}>
         <Details />
       </Protected>
     ),
@@ -144,7 +143,7 @@ const protectedRoutes = [
   {
     path: "/joingroups",
     element: (
-      <Protected authentication={false} redirectPath="/joingroups">
+      <Protected authentication={true} >
         <JoinGroups />
       </Protected>
     ),
