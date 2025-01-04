@@ -17,7 +17,6 @@ import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
 import path from "path";
-import TrekDetails from "./Pages/TrekDetails";
 import UserProfile from "./Pages/UserProfile";
 
 // Import ThemeProvider for theme management
