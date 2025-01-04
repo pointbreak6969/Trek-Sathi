@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { X, Instagram, Facebook, Twitter  } from "lucide-react";
+import { X, Instagram, Facebook, Twitter } from "lucide-react";
 import authService from "@/services/auth";
 
 const UserProfile = () => {
@@ -30,10 +30,22 @@ const UserProfile = () => {
   //     return <div>Loading...</div>;
   //   }
   const socialInputs = [
-    { name: 'instagram', icon: Instagram, placeholder: 'https://www.instagram.com/yourusername' },
-    { name: 'facebook', icon: Facebook, placeholder: 'https://www.facebook.com/yourusername' },
-    { name: 'twitter', icon: Twitter, placeholder: 'https://www.twitter.com/yourusername' },
-  ]
+    {
+      name: "instagram",
+      icon: Instagram,
+      placeholder: "https://www.instagram.com/yourusername",
+    },
+    {
+      name: "facebook",
+      icon: Facebook,
+      placeholder: "https://www.facebook.com/yourusername",
+    },
+    {
+      name: "twitter",
+      icon: Twitter,
+      placeholder: "https://www.twitter.com/yourusername",
+    },
+  ];
   const popularTreks = [
     "Everest Base Camp",
     "Annapurna Circuit",
@@ -131,23 +143,25 @@ const UserProfile = () => {
           </div>
 
           <div className="space-y-6">
-      <Label className="text-lg font-semibold">Social Media Links (optional)</Label>
-      {socialInputs.map(({ name, icon: Icon, placeholder }) => (
-        <div key={name} className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Icon className="h-5 w-5 text-gray-400" />
+            <Label className="text-lg font-semibold">
+              Social Media Links (optional)
+            </Label>
+            {socialInputs.map(({ name, icon: Icon, placeholder }) => (
+              <div key={name} className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <Icon className="h-5 w-5 text-gray-400" />
+                </div>
+                <Input
+                  type="url"
+                  id={name}
+                  name={name}
+                  placeholder={placeholder}
+                  className="pl-10 w-full"
+                  {...register(name)}
+                />
+              </div>
+            ))}
           </div>
-          <Input
-            type="url"
-            id={name}
-            name={name}
-            placeholder={placeholder}
-            className="pl-10 w-full"
-            {...register(name)}
-          />
-        </div>
-      ))}
-    </div>
           <div className="mb-6">
             <label
               htmlFor="past_treks"
