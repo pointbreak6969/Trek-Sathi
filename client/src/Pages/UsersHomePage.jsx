@@ -1,122 +1,171 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Bell, Menu, MapPin, Bookmark, Sun, Moon } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger } from "../components/tabs";
-import { useState } from "react";
-import { Button } from "@/components/button";
-import { useTheme } from "../components/theme-provider"; // You'll need to create this
-import { useSelector } from "react-redux";
-import mardiImage from "../assets/mardi.jpg";
-import abcImage from "../assets/abc.jpg";
-import everestImage from "../assets/everest.jpg";
-import langtangImage from "../assets/langtang.jpg";
-import manasluImage from "../assets/manaslu.jpg";
-import Navbar from "../components/Navbar";
+import { MapPin, Bookmark, Mountain, Calendar, Book, Clock, ArrowRight } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import mardiImage from "@/assets/mardi.jpg";
+import abcImage from "@/assets/abc.jpg";
+import everestImage from "@/assets/everest.jpg";
+import langtangImage from "@/assets/langtang.jpg";
+import manasluImage from "@/assets/manaslu.jpg";
 
 export default function UserHomePage() {
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme();
-  const travelQuotes = [
-    "The world is a book, and those who do not travel read only one page.",
-    "Not all those who wander are lost.",
-    "Life is short and the world is wide.",
-    "Travel is the only thing you buy that makes you richer.",
-    "To travel is to live.",
-    "The journey not the arrival matters.",
-    "Adventure awaits.",
-    "Take only pictures, leave only footprints.",
+  const username = "Sanket"; 
+
+  const pastTreks = [
+    {
+      name: "Annapurna Base Camp",
+      date: "December 2023",
+      duration: "12 days",
+      image: abcImage,
+    },
+    {
+      name: "Langtang Valley",
+      date: "October 2023",
+      duration: "8 days",
+      image: langtangImage,
+    }
   ];
 
-  // Function to get a random quote from the array
-  const getRandomQuote = () => {
-    const randomIndex = Math.floor(Math.random() * travelQuotes.length);
-    return travelQuotes[randomIndex];
-  };
-
-  const [quote, setQuote] = useState(getRandomQuote());
-
-  // Function to change the quote when the button is clicked
-  const handleGenerateQuote = () => {
-    setQuote(getRandomQuote());
-  };
-  const toggleTheme = () => {
-    if (theme === "light") {
-      setTheme("dark");
-    } else {
-      setTheme("light");
+  const journalEntries = [
+    {
+      title: "Sunrise at Poon Hill",
+      trek: "Annapurna Base Camp",
+      date: "December 15, 2023",
+      excerpt: "Watching the sun rise over the Annapurna range was breathtaking...",
+    },
+    {
+      title: "Village Life in Langtang",
+      trek: "Langtang Valley",
+      date: "October 10, 2023",
+      excerpt: "The warm hospitality of the local Tamang community...",
     }
-  };
+  ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <main className="container mx-auto px-4 py-6">
-        <h1 className="text-4xl font-bold mb-12 text-center lg:text-left">
-          Book your private adventure
-        </h1>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-8">
+        {/* Welcome Section */}
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
+            Welcome back, {username}
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
+            Ready for your next mountain adventure?
+          </p>
+        </div>
 
-        {/* Activities */}
-        <section className="mb-12">
-        <div className="flex items-center justify-center h-screen bg-blue-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center w-80">
-        <p className="text-lg text-gray-700">{quote}</p>
-      </div>
-    </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 lg:justify-center lg:overflow-visible lg:flex-wrap">
-            {activities.map((activity) => (
-              <button
-                key={activity.name}
-                className={`flex flex-col items-center px-8 py-4 rounded-full border ${
-                  activity.name === "Hiking"
-                    ? "bg-[#6366f1] text-white"
-                    : "bg-white hover:bg-gray-50"
-                }`}
-                onClick={() => navigate(`/details/${activity.id}`)}
-              >
-                <div className="w-12 h-12 flex items-center justify-center mb-2">
-                  {activity.icon}
-                </div>
-                <span className="whitespace-nowrap">{activity.name}</span>
-              </button>
+        {/* Past Treks Section */}
+        <div className="mb-12">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Your Past Treks
+            </h2>
+            <Button variant="ghost" className="text-blue-600">
+              View All <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {pastTreks.map((trek) => (
+              <Card key={trek.name} className="overflow-hidden">
+                <CardContent className="p-0">
+                  <div className="relative aspect-[16/9] overflow-hidden">
+                    <img
+                      src={trek.image}
+                      alt={trek.name}
+                      className="object-cover w-full h-full"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                      <h3 className="text-xl font-bold mb-1">{trek.name}</h3>
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          {trek.date}
+                        </div>
+                        <div className="flex items-center">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {trek.duration}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
-        </section>
-
-        {/* Tabs */}
-        <Tabs defaultValue="recommended" className="mb-8">
-          <TabsList className="grid w-full grid-cols-2 lg:w-auto lg:grid-cols-3 mx-auto lg:mx-0">
-            <TabsTrigger value="recommended">Recommended</TabsTrigger>
-            <TabsTrigger value="popular">Popular</TabsTrigger>
-          </TabsList>
-        </Tabs>
-
-        {/* Destinations */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {destinations.map((destination) => (
-            <div
-              key={destination.name}
-              className="relative rounded-3xl overflow-hidden aspect-[4/3]"
-              onClick={() => navigate(`/details/${destination.id}`)}
-            >
-              <img
-                src={destination.image}
-                alt={destination.name}
-                className="object-cover w-full h-full"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 className="text-2xl font-bold mb-2">{destination.name}</h3>
-                <div className="flex items-center gap-1">
-                  <MapPin className="h-4 w-4" />
-                  <span className="text-sm">{destination.location}</span>
-                </div>
-              </div>
-              <button className="absolute top-4 right-4 p-2 rounded-full bg-white/20 backdrop-blur-sm">
-                <Bookmark className="h-5 w-5 text-white" />
-              </button>
-            </div>
-          ))}
         </div>
-      </main>
+
+        {/* Trek Journal Section */}
+        <div className="mb-12">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Your Trek Journal
+            </h2>
+            <Button variant="ghost" className="text-blue-600">
+              View All <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {journalEntries.map((entry) => (
+              <Card key={entry.title} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2">{entry.title}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                        {entry.trek} • {entry.date}
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-300 line-clamp-2">
+                        {entry.excerpt}
+                      </p>
+                    </div>
+                    <Book className="w-6 h-6 text-blue-600 flex-shrink-0" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        {/* Upcoming Treks Section */}
+        <div>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
+              Recommended Treks
+            </h2>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {destinations.map((destination) => (
+              <Card
+                key={destination.name}
+                className="group overflow-hidden rounded-xl transition-all duration-300 hover:shadow-xl cursor-pointer"
+                onClick={() => navigate(`/details/${destination.id}`)}
+              >
+                <CardContent className="p-0 relative">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <img
+                      src={destination.image}
+                      alt={destination.name}
+                      className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <h3 className="text-2xl font-bold mb-2">{destination.name}</h3>
+                    <div className="flex items-center gap-2 opacity-90">
+                      <MapPin className="h-4 w-4" />
+                      <span>{destination.location}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
