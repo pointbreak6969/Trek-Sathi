@@ -6,7 +6,7 @@ const router = express.Router();
 router.route('/addcomment').post(verifyJwt,AddComment);
 router.route('/getcomment/:id').get(getAllComment);
 router.route('/deletecomment/:id').post(deleteComment);
-router.route('/upvote/:commentId').post(upvoteComment);
-router.route('/downvote/:commentId').post(downvoteComment);
+router.route('/upvote/:id').post(upvoteComment);
+router.route('/downvote/:id').post(downvoteComment);
 
 export default router;
