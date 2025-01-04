@@ -16,6 +16,10 @@ import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
 import TrekDetails from "./Pages/TrekDetails";
 import UserProfile from "./Pages/UserProfile";
+
+// Import ThemeProvider for theme management
+import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
+
 const publicRoutes = [
   {
     path: "/",
@@ -107,7 +111,7 @@ const protectedRoutes = [
     path: "/group",
     element: (
       <Protected authentication={true}>
-        <GroupFormation  />
+        <GroupFormation />
       </Protected>
     ),
   },
@@ -115,7 +119,7 @@ const protectedRoutes = [
     path: "/trekd",
     element: (
       <Protected authentication={true}>
-        <TrekDetails  />
+        <TrekDetails />
       </Protected>
     ),
   },
@@ -132,7 +136,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 );

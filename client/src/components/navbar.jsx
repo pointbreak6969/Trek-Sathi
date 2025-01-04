@@ -16,7 +16,7 @@ import { logout } from "@/store/authSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const { theme, setTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const authStatus = useSelector((state) => state.auth.status);
@@ -52,7 +52,7 @@ const Navbar = () => {
   };
 
   const handleThemeToggle = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    toggleTheme();
     setIsOpen(false);
   };
 
