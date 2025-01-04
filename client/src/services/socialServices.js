@@ -55,20 +55,19 @@ class SocialServices {
     }
   }
 
-  async addComment({  post_id, text }) {
+  async addComment({ post_id, text }) {
     try {
-      if (!user_id || !post_id || !text) {
+      if (!post_id || !text) {
         throw new Error("All fields are required");
       }
 
       const response = await axios.post(
         `${baseUrl}/comment/addcomment`,
-        {  post_id, text },
+        { post_id, text },
         {
           withCredentials: true,
         }
       );
-
       return response.data.data;
     } catch (error) {
       const errorMessage = error.response?.data?.message || "An error occurred";
@@ -78,7 +77,7 @@ class SocialServices {
 
   async getAllComments(postId) {
     try {
-      const response = await axios.get(`${baseUrl}/comment/getallcomment/${postId}`, {
+      const response = await axios.get(`${baseUrl}/comment/getcomment/${postId}`, {
         withCredentials: true,
       });
       return response.data.data;
@@ -126,4 +125,4 @@ class SocialServices {
 }
 
 const socialServices = new SocialServices();
-export default socialServices;
+export default socialServices;  

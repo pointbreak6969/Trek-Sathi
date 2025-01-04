@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
+import Navbar from "@/components/navbar";
 import NewTrekPostForm from "@/components/TrekForm";
 import TrekPost from "@/components/TrekPost";
 import socialServices from "@/services/socialServices";
-import { useSelector } from "react-redux";
 
 const Social = () => {
   const [trekPosts, setTrekPosts] = useState([]);
@@ -31,10 +31,10 @@ const Social = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-extrabold text-center text-[#6366F1] mb-10">Trek Social</h1>
 
+        {/* New Trek Post Form */}
         <div className="mb-12">
           <NewTrekPostForm onAddPost={handleAddPost} />
         </div>

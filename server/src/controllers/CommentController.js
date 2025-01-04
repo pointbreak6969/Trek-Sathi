@@ -2,9 +2,11 @@ import Comment from '../models/Comment.js';
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
+import mongoose from 'mongoose';
 
 const AddComment = asyncHandler(async (req, res) => {
     const {  post_id, text } = req.body;
+    console.log(req.body);
     if (!( post_id && text)) {
         throw new ApiError(400, "All fields are required");
     }
@@ -13,9 +15,40 @@ const AddComment = asyncHandler(async (req, res) => {
     res.status(200).json(new ApiResponse(200, savedComment, "Comment added successfully"));
 });
 
+
 const getAllComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const comments = await Comment.find({ post_id: id }).sort({ created_at: -1 });
+    console.log(`Fetching comments for post_id: ${id}`);
+
+    const comments = await Comment.aggregate([
+        { $match: { post_id: new mongoose.Types.ObjectId(id) } },
+        { $sort: { created_at: -1 } },
+        {
+          $lookup: {
+            from: 'users',
+            localField: 'user_id',
+            foreignField: '_id',
+            as: 'user'
+          }
+        },
+        { $unwind: '$user' },
+        {
+          $lookup: {
+            from: 'userprofiles',  
+            localField: 'user._id',
+            foreignField: 'user', 
+            as: 'userProfile'  
+          }
+        },
+        { $unwind: { path: '$userProfile', preserveNullAndEmptyArrays: true } }
+      ]);
+      
+      console.log(`Comments fetched: ${JSON.stringify(comments)}`);
+      res.status(200).json(new ApiResponse(200, comments, "Comments loaded successfully"));
+      
+
+    console.log(`Comments fetched: ${JSON.stringify(comments)}`);
+
     res.status(200).json(new ApiResponse(200, comments, "Comments loaded successfully"));
 });
 
@@ -29,8 +62,8 @@ const deleteComment = asyncHandler(async (req, res) => {
 });
 
 const upvoteComment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const comment = await Comment.findById(id);
+    const { commentId } = req.params;
+    const comment = await Comment.findById(commentId);
     if (!comment) {
         throw new ApiError(404, "Comment not found");
     }
@@ -40,8 +73,8 @@ const upvoteComment = asyncHandler(async (req, res) => {
 });
 
 const downvoteComment = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const comment = await Comment.findById(id);
+    const { commentId } = req.params;
+    const comment = await Comment.findById(commentId);
     if (!comment) {
         throw new ApiError(404, "Comment not found");
     }
