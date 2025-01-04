@@ -2,6 +2,7 @@ import Comment from '../models/Comment.js';
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
+import mongoose from 'mongoose';
 
 const AddComment = asyncHandler(async (req, res) => {
     const {  post_id, text } = req.body;
@@ -46,7 +47,7 @@ const getAllComment = asyncHandler(async (req, res) => {
           downvotes: 1,
           created_at: 1,
           'user._id': 1,
-          'user.name': 1,
+          'user.fullName': 1,
           'userProfile.profilePicture.url': 1
         }
       }
