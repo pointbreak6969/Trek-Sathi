@@ -1,11 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import mardi from "../assets/mardi.jpg";
-import abc from "../assets/abc.jpg";
-import everest from "../assets/everest.jpg";
-import langtang from "../assets/langtang.jpg";
-import manaslu from "../assets/manaslu.jpg";
+import { useNavigate } from "react-router-dom";
+import socialServices from "../services/socialServices";
 import {
   ArrowLeft,
   Share2,
@@ -14,86 +10,76 @@ import {
   Clock,
   Mountain,
   Ruler,
-  ChevronDown,
-  Image,
-  MessageCircle,
-  Heart,
   Footprints,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 const getDestinationDetails = (id) => {
   const trekDetails = {
     mardi: {
       name: "Mardi Base Camp",
       location: "Mardi Himal Trek",
-      image: mardi,
+      image: "/assets/mardi.jpg",  // Change to actual image path
       distance: "14.7 km",
       duration: "5 Days",
       elevation: "4,500 m",
-      description:
-        "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
+      description: "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
     },
     abc: {
       name: "Annapurna Base Camp",
       location: "Annapurna Sanctuary Trek",
-      image: abc,
+      image: "/assets/abc.jpg",  // Change to actual image path
       distance: "37 km",
       duration: "7 Days",
       elevation: "4,130 m",
-      description:
-        "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
+      description: "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
     },
     everest: {
       name: "Everest Base Camp",
       location: "Everest Region Trek",
-      image: everest,
+      image: "/assets/everest.jpg",  // Change to actual image path
       distance: "65 km",
       duration: "12 Days",
       elevation: "5,364 m",
-      description:
-        "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
+      description: "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
     },
     langtang: {
       name: "Langtang Valley",
       location: "Langtang Trek",
-      image: langtang,
+      image: "/assets/langtang.jpg",  // Change to actual image path
       distance: "19 km",
       duration: "7 Days",
       elevation: "3,870 m",
-      description:
-        "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
+      description: "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
     },
     manaslu: {
       name: "Manaslu Circuit",
       location: "Manaslu Trek",
-      image: manaslu,
+      image: "/assets/manaslu.jpg",  // Change to actual image path
       distance: "177 km",
       duration: "14 Days",
       elevation: "5,106 m",
-      description:
-        "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
+      description: "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
     },
   };
 
-  return (
-    trekDetails[id] || {
-      name: "Unknown Destination",
-      location: `${id || "Unknown"} Trek`,
-      image: "../assets/default.jpg",
-      distance: "N/A",
-      duration: "N/A",
-      elevation: "N/A",
-      description: "Information not available for this destination.",
-    }
-  );
+  return trekDetails[id] || {
+    name: "Unknown Destination",
+    location: `${id || "Unknown"} Trek`,
+    image: "/assets/default.jpg",
+    distance: "N/A",
+    duration: "N/A",
+    elevation: "N/A",
+    description: "Information not available for this destination.",
+  };
 };
 
 export default function Details() {
-  const { id } = useParams();
-  const details = getDestinationDetails(id);
+  const { name } = useParams();
+  const details = getDestinationDetails(name);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [canScrollPosts, setCanScrollPosts] = useState(false);
+  const [posts, setPosts] = useState([]);
+  const [newPost, setNewPost] = useState({ text: "", profilePicture: null ,location: "" });
+  const [newComment, setNewComment] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,84 +90,56 @@ export default function Details() {
       const detailsBottom = detailsSection?.getBoundingClientRect().bottom;
 
       setIsScrolled(scrollPosition > viewportHeight);
-      setCanScrollPosts(detailsBottom < window.innerHeight);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const posts = [
-    {
-      id: 1,
-      author: "Trek Guide Nepal",
-      authorRole: "Certified Guide",
-      content: `Currently at ${details.name}! The weather is perfect for trekking with clear skies and moderate temperatures. Today's temperature: 15°C at base camp.`,
-      likes: 145,
-      images: [details.image],
-      timeAgo: "2 hours ago",
-      comments: 23,
-      photos: 4,
-      verified: true,
-    },
-    {
-      id: 2,
-      author: "Mountain Explorer",
-      authorRole: "Adventure Photographer",
-      content: `Dawn patrol at ${details.name} was absolutely worth it! The sunrise view of the mountains is beyond description. Pro tip: Start early to avoid afternoon clouds.`,
-      likes: 232,
-      images: [details.image],
-      timeAgo: "5 hours ago",
-      comments: 45,
-      photos: 12,
-      verified: true,
-    },
-    {
-      id: 3,
-      author: "Nepal Trekking Updates",
-      authorRole: "Official Channel",
-      content: `Trail Conditions Update for ${details.name}: All paths are clear and well-maintained. Recent weather has been favorable for trekking. Remember to check in at all registration points.`,
-      likes: 89,
-      timeAgo: "1 day ago",
-      comments: 15,
-      photos: 0,
-      verified: true,
-    },
-    {
-      id: 4,
-      author: "Himalayan Weather",
-      authorRole: "Weather Service",
-      content: `Weekly forecast for ${details.name}: Clear skies expected with light afternoon clouds. Temperature range: 5°C to 18°C. Perfect trekking conditions!`,
-      likes: 167,
-      timeAgo: "2 days ago",
-      comments: 28,
-      photos: 2,
-      verified: true,
-    },
-    {
-      id: 5,
-      author: "Local Tea House",
-      authorRole: "Business Owner",
-      content:
-        "Welcome trekkers! We've just restocked our supplies and updated our menu with seasonal specialties. Hot ginger tea and dal bhat waiting for you!",
-      likes: 93,
-      images: [details.image],
-      timeAgo: "3 days ago",
-      comments: 31,
-      photos: 6,
-    },
-    {
-      id: 6,
-      author: "Mountain Rescue Nepal",
-      authorRole: "Safety Service",
-      content: `Safety Update: All emergency shelters along ${details.name} route have been restocked with supplies. Remember to carry your safety beacon and register your trek.`,
-      likes: 284,
-      timeAgo: "4 days ago",
-      comments: 42,
-      photos: 4,
-      verified: true,
-    },
-  ];
+  useEffect(() => {
+    fetchPosts();
+    console.log(newComment);
+  }, []);
+
+  const fetchPosts = async () => {
+    try {
+      const postsData = await socialServices.getAllPosts();
+      setPosts(postsData);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  const handleAddPost = async () => {
+    try {
+      if (!newPost.text.trim() || !newPost.profilePicture) {
+        alert("Please provide both text and an image");
+        return;
+      }
+
+      await socialServices.addPost({
+        profilePicture: [newPost.profilePicture],
+        text: newPost.text,
+        location: details.name,
+      });
+      
+      setNewPost({ text: "", profilePicture: null });
+      fetchPosts();
+    } catch (error) {
+      console.error("Error adding post:", error);
+      alert(error.message);
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    try {
+      await socialServices.deletePost(postId);
+      fetchPosts();
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      alert(error.message);
+    }
+  };
 
   return (
     <div className="relative min-h-screen bg-gray-100">
@@ -195,7 +153,7 @@ export default function Details() {
       >
         <div className="bg-white/80 backdrop-blur-lg shadow-lg">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between p-4  py-3">
+            <div className="flex items-center justify-between p-4 py-3">
               {/* Left Section */}
               <Link
                 to="/"
@@ -205,8 +163,8 @@ export default function Details() {
               </Link>
 
               {/* Right Section */}
-              <div className="flex items-center gap-4 sm:gap-8 ">
-                <div className="hidden sm:block  flex-col-reverse sm:flex-col items-center">
+              <div className="flex items-center gap-4 sm:gap-8">
+                <div className="flex flex-col-reverse sm:flex-col items-center">
                   <div className="flex items-center gap-1.5 text-blue-600">
                     <Ruler className="h-5 w-5 m-1 sm:h-6 sm:w-6" />
                   </div>
@@ -245,8 +203,8 @@ export default function Details() {
               </div>
 
               <button
-                onClick={() => navigate(`/groupformation/${id}`)}
-                className="flex ml-1  items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
+                onClick={() => navigate(`/groupformation/${name}`)}
+                className="flex ml-1 items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
               >
                 <Footprints className="h-5 w-5" />
                 Take This Trek
@@ -256,167 +214,174 @@ export default function Details() {
         </div>
       </div>
 
-      {/* Initial View Section */}
-      <div className="initial-view">
-        {/* Hero Image Section */}
-        <div className="relative h-[70vh] w-full">
-          <img
-            src={details.image}
-            alt={details.name}
-            className="object-cover w-full h-full"
-          />
-          <div className="absolute top-4 left-0 right-0 flex justify-between items-center px-4">
-            <Link
-              to="/"
-              className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors"
-            >
-              <ArrowLeft className="h-6 w-6 text-white" />
-            </Link>
-            <div className="flex gap-3">
-              <button className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors">
-                <Share2 className="h-6 w-6 text-white" />
-              </button>
-              <button className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors">
-                <Bookmark className="h-6 w-6 text-white" />
-              </button>
-            </div>
+      {/* Hero Image Section */}
+      <div className="relative h-[70vh] w-full">
+        <img
+          src={details.image}
+          alt={details.name}
+          className="object-cover w-full h-full"
+        />
+        <div className="absolute top-4 left-0 right-0 flex justify-between items-center px-4">
+          <Link
+            to="/"
+            className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors"
+          >
+            <ArrowLeft className="h-6 w-6 text-white" />
+          </Link>
+          <div className="flex gap-3">
+            <button className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors">
+              <Share2 className="h-6 w-6 text-white" />
+            </button>
+            <button className="p-3 rounded-full bg-white/20 backdrop-blur-md hover:bg-white/30 transition-colors">
+              <Bookmark className="h-6 w-6 text-white" />
+            </button>
           </div>
-
-          {/* Gradient Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/50 to-transparent" />
         </div>
 
-        {/* Trek Details Section */}
-        <div className="bg-white rounded-t-[2.5rem] -mt-10 relative max-w-4xl mx-auto">
-          <div id="trek-details" className="px-6 pt-6">
-            <div className="space-y-6">
-              {/* Title and Location */}
-              <div className="flex justify-between items-start">
-                <div>
-                  <h1 className="text-3xl font-bold">{details.name}</h1>
-                  <div className="flex items-center gap-2 text-gray-600 mt-2">
-                    <MapPin className="h-5 w-5" />
-                    <span>{details.location}</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => navigate(`/groupformation/${id}`)}
-                  className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
-                >
-                  <Footprints className="h-4 w-4 sm:h-5 sm:w-5" />
-                  Take This Trek
-                </button>
-              </div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/50 to-transparent" />
+      </div>
 
-              {/* Trek Stats */}
-              <div className="flex justify-between items-center py-6 border-y border-gray-100">
-                <div className="text-center px-4">
-                  <Ruler className="h-6 w-6 mx-auto text-blue-600 mb-2" />
-                  <p className="text-sm text-gray-600 mb-1">Distance</p>
-                  <p className="font-semibold text-lg">{details.distance}</p>
-                </div>
-                <div className="text-center px-4 border-x border-gray-100">
-                  <Clock className="h-6 w-6 mx-auto text-green-600 mb-2" />
-                  <p className="text-sm text-gray-600 mb-1">Duration</p>
-                  <p className="font-semibold text-lg">{details.duration}</p>
-                </div>
-                <div className="text-center px-4">
-                  <Mountain className="h-6 w-6 mx-auto text-red-600 mb-2" />
-                  <p className="text-sm text-gray-600 mb-1">Elevation</p>
-                  <p className="font-semibold text-lg">{details.elevation}</p>
+      {/* Trek Details */}
+      <div className="bg-white rounded-t-[2.5rem] -mt-10 relative max-w-4xl mx-auto">
+        <div id="trek-details" className="px-6 pt-6">
+          <div className="space-y-6">
+            {/* Title and Location */}
+            <div className="flex justify-between items-start">
+              <div>
+                <h1 className="text-3xl font-bold">{details.name}</h1>
+                <div className="flex items-center gap-2 text-gray-600 mt-2">
+                  <MapPin className="h-5 w-5" />
+                  <span>{details.location}</span>
                 </div>
               </div>
+              <button
+                onClick={() => navigate(`/groupformation/${name}`)}
+                className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
+              >
+                <Footprints className="h-4 w-4 sm:h-5 sm:w-5" />
+                Take This Trek
+              </button>
+            </div>
 
-              {/* Overview Section */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Overview</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  Experience the majestic beauty of {details.name}, one of
-                  Nepal's most stunning treks. This trek offers breathtaking
-                  mountain views, diverse landscapes, and authentic cultural
-                  experiences.
-                </p>
+            {/* Trek Stats */}
+            <div className="flex justify-between items-center py-6 border-y border-gray-100">
+              <div className="text-center px-4">
+                <Ruler className="h-6 w-6 mx-auto text-blue-600 mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Distance</p>
+                <p className="font-semibold text-lg">{details.distance}</p>
+              </div>
+              <div className="text-center px-4 border-x border-gray-100">
+                <Clock className="h-6 w-6 mx-auto text-green-600 mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Duration</p>
+                <p className="font-semibold text-lg">{details.duration}</p>
+              </div>
+              <div className="text-center px-4">
+                <Mountain className="h-6 w-6 mx-auto text-red-600 mb-2" />
+                <p className="text-sm text-gray-600 mb-1">Elevation</p>
+                <p className="font-semibold text-lg">{details.elevation}</p>
               </div>
             </div>
+
+            {/* Overview Section */}
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Overview</h2>
+              <p className="text-gray-600 leading-relaxed">
+                Experience the majestic beauty of {details.name}, one of Nepal's most stunning treks. This trek offers breathtaking mountain views, diverse landscapes, and authentic cultural experiences.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Posts Section */}
+        <div className="mt-8 px-6">
+          <h3 className="text-xl font-semibold">Recent Updates</h3>
+
+          {/* Post Input */}
+          <div className="my-6">
+            <textarea
+              className="w-full p-3 border rounded-md"
+              placeholder="What's on your mind?"
+              value={newPost.text}
+              onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
+            />
+            <input
+              type="text"
+              className="mt-3"
+              onChange={(e) => setNewPost({ ...newPost, location: e.target.value })}
+            />
+            <input
+              type="file"
+              className="mt-3"
+              onChange={(e) => setNewPost({ ...newPost, profilePicture: e.target.files[0] })}
+            />
+            <button
+              className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-full"
+              onClick={handleAddPost}
+            >
+              Post
+            </button>
           </div>
 
-          {/* Scrollable Posts Section */}
-          <div
-            className={`mt-8 transition-all duration-300 ${
-              isScrolled ? "overflow-y-auto" : "overflow-hidden"
-            }`}
-            style={{
-              maxHeight: isScrolled ? "calc(200vh - 80px)" : "auto",
-            }}
-          >
-            <div className="px-6">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-semibold">Recent Updates</h3>
-                {!isScrolled && (
-                  <div className="flex items-center gap-2 text-gray-500 animate-bounce">
-                    <span className="text-sm">Scroll for more</span>
-                    <ChevronDown className="h-4 w-4" />
+          {/* Display Posts */}
+          {posts.length === 0 ? (
+            <div>No posts available. Be the first to share!</div>
+          ) : (
+            <div className="space-y-6 pb-20">
+              {posts.map((post) => (
+                <div key={post._id} className="bg-white p-4 rounded-lg shadow-md">
+                  <div className="flex items-center">
+                    <img
+                      src={post.userProfile.profilePicture.url}
+                      alt="profile"
+                      className="h-10 w-10 rounded-full"
+                    />
+                    <div className="ml-4">
+                      <span className="font-medium">{post.user.fullName}</span>
+                      <span className="text-xs text-gray-500 ml-2">
+                        {new Date(post.created_at).toLocaleString()}
+                      </span>
+                    </div>
                   </div>
-                )}
-              </div>
-
-              <div className="space-y-6 pb-20">
-                {posts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="bg-white rounded-xl p-5 hover:shadow-md transition-shadow duration-300"
+                  <p className="mt-2 text-gray-700">{post.text}</p>
+                  <div>
+                    <img
+                      src={post.image?.url}
+                      alt="post"
+                      className="mt-4 w-full h-48 object-cover rounded-md"
+                    />
+                  </div>
+                  {post.comments?.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      {post.comments.map((comment) => (
+                        <div key={comment._id} className="flex items-center gap-2">
+                          <span className="font-semibold">{comment.user}</span>
+                          <span className="text-sm text-gray-500">{comment.text}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <textarea
+                    placeholder="Add a comment"
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    className="mt-2 w-full p-2 border rounded-md"
+                  />
+                  <button
+                    className="mt-2 text-blue-600"
+                    onClick={() => handleAddComment(post._id, newComment)}
                   >
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-semibold">
-                        {post.author.charAt(0)}
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900">
-                          {post.author}
-                        </h4>
-                        <p className="text-sm text-gray-500">{post.timeAgo}</p>
-                      </div>
-                    </div>
-
-                    <p className="text-gray-700 leading-relaxed mb-4">
-                      {post.content}
-                    </p>
-
-                    {post.images && (
-                      <div className="rounded-xl overflow-hidden mb-4 shadow-md">
-                        <img
-                          src={post.images[0]}
-                          alt="Trek view"
-                          className="w-full h-56 object-cover hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-
-                    <div className="flex items-center gap-6 text-gray-600">
-                      <button className="flex items-center gap-2 hover:text-blue-600 transition-colors">
-                        <MessageCircle className="h-5 w-5" />
-                        <span className="text-sm font-medium">
-                          {post.comments}
-                        </span>
-                      </button>
-                      <button className="flex items-center gap-2 hover:text-blue-600 transition-colors">
-                        <Image className="h-5 w-5" />
-                        <span className="text-sm font-medium">
-                          {post.photos}
-                        </span>
-                      </button>
-                      <button className="flex items-center gap-2 hover:text-red-600 transition-colors ml-auto">
-                        <Heart className="h-5 w-5" />
-                        <span className="text-sm font-medium">
-                          {post.likes}
-                        </span>
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    Add Comment
+                  </button>
+                  <button
+                    className="mt-3 text-red-600"
+                    onClick={() => handleDeletePost(post._id)}
+                  >
+                    Delete Post
+                  </button>
+                </div>
+              ))}
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
