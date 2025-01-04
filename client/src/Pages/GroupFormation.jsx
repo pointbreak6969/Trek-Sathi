@@ -1,8 +1,8 @@
 // src/components/GroupFormation.js
-import React, { useState } from 'react';
-import { useForm, FormProvider, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import React, { useState } from "react";
+import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,33 +10,33 @@ import {
   FormItem,
   FormLabel,
   FormDescription,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
-import { format } from 'date-fns';
-import { 
-  CalendarIcon, 
-  UsersIcon, 
-  MapPinIcon, 
-  Mountain, 
+} from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import {
+  CalendarIcon,
+  UsersIcon,
+  MapPinIcon,
+  Mountain,
   Users,
   Clock,
-  ChevronRight
-} from 'lucide-react';
+  ChevronRight,
+} from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { Card, CardContent } from '@/components/ui/card';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
 
 const GroupFormation = () => {
   const [groupSize, setGroupSize] = useState(null);
@@ -60,28 +60,29 @@ const GroupFormation = () => {
     const newGroup = {
       id: Date.now().toString(),
       name: data.trekRoute, // Using trek route as the group name
-      createdBy: localStorage.getItem('messaging-app-username'), // Get current user
+      createdBy: localStorage.getItem("messaging-app-username"), // Get current user
       createdAt: new Date().toISOString(),
       trekDetails: {
         ...data,
         groupSize,
         startDate: data.startDate ? format(data.startDate, "yyyy-MM-dd") : null,
         endDate: data.endDate ? format(data.endDate, "yyyy-MM-dd") : null,
-      }
+      },
     };
 
     let existingGroups = [];
     try {
-      existingGroups = JSON.parse(localStorage.getItem('messaging-app-groups')) || [];
+      existingGroups =
+        JSON.parse(localStorage.getItem("messaging-app-groups")) || [];
     } catch (error) {
-      console.error('Error parsing existing groups:', error);
+      console.error("Error parsing existing groups:", error);
     }
 
     const updatedGroups = [...existingGroups, newGroup];
-    localStorage.setItem('messaging-app-groups', JSON.stringify(updatedGroups));
+    localStorage.setItem("messaging-app-groups", JSON.stringify(updatedGroups));
 
     // Navigate to the chat component with the new group
-    navigate('/groupchat');
+    navigate("/groupchat");
   };
 
   const renderStepIndicator = () => (
@@ -130,7 +131,10 @@ const GroupFormation = () => {
             {renderStepIndicator()}
 
             <FormProvider {...methods}>
-              <form onSubmit={handleSubmit(handleCreateGroup)} className="space-y-8">
+              <form
+                onSubmit={handleSubmit(handleCreateGroup)}
+                className="space-y-8"
+              >
                 {step === 1 && (
                   <div className="space-y-6">
                     <FormField
@@ -181,7 +185,10 @@ const GroupFormation = () => {
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
@@ -222,7 +229,10 @@ const GroupFormation = () => {
                                   </Button>
                                 </FormControl>
                               </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0" align="start">
+                              <PopoverContent
+                                className="w-auto p-0"
+                                align="start"
+                              >
                                 <Calendar
                                   mode="single"
                                   selected={field.value}
@@ -365,7 +375,7 @@ const GroupFormation = () => {
                       Previous
                     </Button>
                   )}
-                  {step < 3 ? (
+                  {step < 3 && (
                     <Button
                       type="button"
                       onClick={() => setStep(step + 1)}
@@ -374,10 +384,16 @@ const GroupFormation = () => {
                       Next
                       <ChevronRight className="w-4 h-4 ml-1" />
                     </Button>
-                  ) : (
-                    <Button type="submit" className="ml-auto rounded-xl bg-[#6366f1] hover:bg-[#6366f1]/90 text-white">
-                      Create Group
-                    </Button>
+                  )}
+                  {step === 3 && (
+                    <>
+                      <Button
+                        type="submit"
+                        className="ml-auto rounded-xl bg-[#6366f1] hover:bg-[#6366f1]/90 text-white"
+                      >
+                        Create Group
+                      </Button>
+                    </>
                   )}
                 </div>
               </form>
@@ -387,6 +403,6 @@ const GroupFormation = () => {
       </div>
     </div>
   );
-}
+};
 
 export default GroupFormation;
