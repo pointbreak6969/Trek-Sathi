@@ -32,21 +32,7 @@ const publicRoutes = [
     ),
   },
   
-  {
-    path: "/groupformation/:id",
-    // path:"/groupformtaion",
-    element: (
-      <Protected authentication={false}>
-        <GroupFormation />
-      </Protected>
-    ),
-  },
-   {
-    path: "/map",
-    element: (
-      <MapComponent />
-    )
-   },
+  
    
 ];
 
@@ -67,14 +53,7 @@ const authRoutes = [
       </Protected>
     ),
   },
-  {
-    path: "/userprofile",
-    element: (
-      <Protected authentication={true} redirectPath="/usershomepage">
-        <UserProfile />
-      </Protected>
-    ),
-  },
+  
 ];
 
 const protectedRoutes = [
@@ -83,6 +62,22 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/userprofile",
+    element: (
+      <Protected authentication={true}>
+        <UserProfile />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupformation/:id",
+    element: (
+      <Protected authentication={true}>
+        <GroupFormation />
       </Protected>
     ),
   },
