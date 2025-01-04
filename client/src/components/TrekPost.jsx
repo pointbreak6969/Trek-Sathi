@@ -10,10 +10,10 @@ import { ArrowBigUp, ArrowBigDown, MessageSquare, MapPin, Calendar, Trash2 } fro
 import socialServices from "@/services/socialServices";
 import { useForm } from "react-hook-form";
 
-const TrekPost = ({ id, author, location, date, description, imageUrl, onDeletePost }) => {
+const TrekPost = ({ id, author, location, date, description, imageUrl, onDeletePost, currentUserId }) => {
   const [comments, setComments] = useState([]);
   const { register, handleSubmit, reset } = useForm();
-
+console.log(imageUrl);
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -89,8 +89,8 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, onDeleteP
       <CardHeader className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white pb-4">
         <div className="flex items-center space-x-4">
           <Avatar className="border-2 border-white">
-            <AvatarImage src={`/placeholder.svg?height=40&width=40`} alt={author} />
-            <AvatarFallback>{author ? author[0] : "U"}</AvatarFallback>
+            <AvatarImage src={imageUrl} alt={author} />
+            <AvatarFallback>{author ? author : "U"}</AvatarFallback>
           </Avatar>
           <div>
             <h3 className="text-xl font-semibold">{author}</h3>
@@ -102,9 +102,11 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, onDeleteP
               <span>{date}</span>
             </div>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleDeletePost} className="text-red-600 hover:text-red-800 p-0 ml-auto">
-            <Trash2 className="w-5 h-5" />
-          </Button>
+          {currentUserId === author._id && (
+            <Button variant="ghost" size="sm" onClick={handleDeletePost} className="text-red-600 hover:text-red-800 p-0 ml-auto">
+              <Trash2 className="w-5 h-5" />
+            </Button>
+          )}
         </div>
       </CardHeader>
       <CardContent className="pt-4">
@@ -127,7 +129,7 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, onDeleteP
               <AvatarFallback>{comment.user.fullName ? comment.user.fullName[0] : "U"}</AvatarFallback>
             </Avatar>
             <div className="flex-grow bg-white p-3 rounded-lg shadow">
-              <p className="text-sm font-semibold text-gray-700">{comment.user.fullName}</p>
+              <p className="text-sm font-semibold text-gray-700">{comment.user?.fullName}</p>
               <p className="text-sm text-gray-600 mt-1">{comment.text}</p>
               <div className="flex items-center space-x-2 mt-2">
                 <Button
@@ -148,14 +150,16 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, onDeleteP
                   <ArrowBigDown className="w-4 h-4" />
                 </Button>
                 <span className="text-sm font-semibold">{comment.downvotes}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleDeleteComment(comment._id)}
-                  className="text-red-600 hover:text-red-800 p-0 ml-auto"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                {currentUserId === comment.user._id && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDeleteComment(comment._id)}
+                    className="text-red-600 hover:text-red-800 p-0 ml-auto"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                )}
               </div>
             </div>
           </div>

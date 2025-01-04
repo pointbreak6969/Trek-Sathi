@@ -18,8 +18,6 @@ const AddComment = asyncHandler(async (req, res) => {
 
 const getAllComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    console.log(`Fetching comments for post_id: ${id}`);
-
     const comments = await Comment.aggregate([
         { $match: { post_id: new mongoose.Types.ObjectId(id) } },
         { $sort: { created_at: -1 } },
