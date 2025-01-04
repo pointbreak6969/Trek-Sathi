@@ -244,7 +244,7 @@ export default function Details() {
               </div>
 
               <button
-                onClick={() => navigate(`/groupformation/${name}`)}
+                onClick={() => navigate(`/trekdetails/${name}`)}
                 className="flex ml-1 items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
               >
                 <Footprints className="h-5 w-5" />
@@ -296,7 +296,7 @@ export default function Details() {
                 </div>
               </div>
               <button
-                onClick={() => navigate(`/groupformation/${name}`)}
+                onClick={() => navigate(`/trekdetails/${name}`)}
                 className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
               >
                 <Footprints className="h-4 w-4 sm:h-5 sm:w-5" />
