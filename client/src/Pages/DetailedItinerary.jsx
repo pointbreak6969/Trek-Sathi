@@ -17,7 +17,7 @@ import {
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 const DetailedItinerary = () => {
   const exampleHotels = [
@@ -210,33 +210,44 @@ const DetailedItinerary = () => {
     {
       day: 8,
       title: "Departure from Pokhara",
-      description: "Relax in Pokhara before your departure.",
+      description: "After breakfast at your hotel, enjoy some free time for last-minute shopping or relaxation by the Phewa Lake. Depart from Pokhara according to your onward travel schedule.",
       elevation: "827m",
-      distance: "N/A",
-      accommodation: "N/A",
+      distance: "City distances",
+      accommodation: "Not included - departure day",
       meals: "Breakfast",
-      image: "/images/departure.jpg",
-      mealLocations: [{ type: "Breakfast", location: "Hotel Restaurant" }],
-      hotels: [],
-      reviews: ["Sad to leave!", "Great memories."],
+      image: "https://www.acethehimalaya.com/wp-content/uploads/2024/02/things-to-do-in-pokhara.jpg.webp",
+      mealLocations: [
+        { type: "Breakfast", location: "Hotel Restaurant" }
+      ],
+      hotels: exampleHotels, // Assuming exampleHotels contains the hotel options in Pokhara
+      reviews: [
+        "Sad to leave!", 
+        "Great memories.",
+        "Perfect end to the trek"
+      ],
       comments: [
         {
           avatar: "https://via.placeholder.com/40",
-          text: "Can't wait to come back!",
+          text: "Can't wait to come back!"
         },
+        {
+          avatar: "https://via.placeholder.com/40",
+          text: "Beautiful last morning in Pokhara"
+        }
       ],
-      transport: "N/A",
-    },
+      transport: "Taxi 9800000001, Tourist Bus 9800000002" // Added specific transport options
+    }
   ];
   const [currentPage, setCurrentPage] = useState(1);
-
+  const navigate = useNavigate();
   const handleNextPage = () => {
     if (currentPage < detailedItinerary.length) {
       setCurrentPage(currentPage + 1);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      Navigate("/trekdetails");
     }
   };
-
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -372,9 +383,9 @@ const DetailedItinerary = () => {
           Previous
         </button>
         <button
-          className="bg-blue-600 text-white py-2 px-4 rounded shadow"
+          className="bg-blue-600 text-white py-2 px-4 rounded shadow "
           onClick={handleNextPage}
-          disabled={currentPage === detailedItinerary.length}
+          // disabled={currentPage === detailedItinerary.length}
         >
           Next
         </button>

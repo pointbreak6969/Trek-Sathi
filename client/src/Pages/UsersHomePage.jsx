@@ -1,6 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { MapPin, Bookmark, Mountain, Calendar, Book, Clock, ArrowRight } from "lucide-react";
+import {
+  MapPin,
+  Bookmark,
+  Mountain,
+  Calendar,
+  Book,
+  Clock,
+  ArrowRight,
+  Shield,
+  Truck,
+  RefreshCcw,
+  ShoppingBag,
+
+} from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,8 +22,8 @@ import abcImage from "@/assets/abc.jpg";
 import everestImage from "@/assets/everest.jpg";
 import langtangImage from "@/assets/langtang.jpg";
 import manasluImage from "@/assets/manaslu.jpg";
-import { useSelector } from 'react-redux';
-import ChatBotIcon from '@/components/ChatBotIcon';
+import { useSelector } from "react-redux";
+import ChatBotIcon from "@/components/ChatBotIcon";
 
 export default function UserHomePage() {
   const navigate = useNavigate();
@@ -29,7 +42,7 @@ export default function UserHomePage() {
       date: "October 2023",
       duration: "8 days",
       image: langtangImage,
-    }
+    },
   ];
 
   const journalEntries = [
@@ -37,19 +50,20 @@ export default function UserHomePage() {
       title: "Sunrise at Poon Hill",
       trek: "Annapurna Base Camp",
       date: "December 15, 2023",
-      excerpt: "Watching the sun rise over the Annapurna range was breathtaking...",
+      excerpt:
+        "Watching the sun rise over the Annapurna range was breathtaking...",
     },
     {
       title: "Village Life in Langtang",
       trek: "Langtang Valley",
       date: "October 10, 2023",
       excerpt: "The warm hospitality of the local Tamang community...",
-    }
+    },
   ];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
-   <div className='fixed bottom-6 right-6 z-50'>
+      <div className="fixed bottom-6 right-6 z-50">
         <ChatBotIcon />
       </div>
       <div className="container mx-auto px-4 py-8">
@@ -63,6 +77,58 @@ export default function UserHomePage() {
           </p>
         </div>
 
+        {/* Gear Advertisement Section */}
+        <section className="mb-12">
+          <div className="bg-blue-50 dark:bg-gray-800 p-6 rounded-xl shadow-md">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center flex-1">
+                <img
+                  src="/trekkinggear.jpg"
+                  alt="Trekking Gear"
+                  className="w-32 h-32 rounded-lg object-cover mr-6"
+                />
+                <div>
+                  <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                    Get Premium Trekking Gear from{" "}
+                    <span className="text-blue-600 dark:text-blue-400">
+                      Mountain Equipment Nepal
+                    </span>
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                    Exclusive 20% discount for registered trekkers. Premium
+                    quality gear for your Himalayan adventures!
+                    Gears Save Life!
+                  </p>
+                  <div className="flex items-center gap-4 mt-3">
+                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                      <Shield className="w-4 h-4 mr-1" />
+                      Quality Guaranteed
+                    </div>
+                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                      <Truck className="w-4 h-4 mr-1" />
+                      Free Delivery
+                    </div>
+                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                      <RefreshCcw className="w-4 h-4 mr-1" />
+                      Easy Returns
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 px-6">
+                  Shop Now <ShoppingBag className="w-4 h-4 ml-2" />
+                </Button>
+                <Button
+                  variant="outline"
+                  className="text-blue-600 border-blue-600"
+                >
+                  View Catalog
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* Past Treks Section */}
         <div className="mb-12">
           <div className="flex justify-between items-center mb-6">
@@ -116,11 +182,16 @@ export default function UserHomePage() {
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {journalEntries.map((entry) => (
-              <Card key={entry.title} className="hover:shadow-lg transition-shadow">
+              <Card
+                key={entry.title}
+                className="hover:shadow-lg transition-shadow"
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div>
-                      <h3 className="text-xl font-semibold mb-2">{entry.title}</h3>
+                      <h3 className="text-xl font-semibold mb-2">
+                        {entry.title}
+                      </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                         {entry.trek} • {entry.date}
                       </p>
@@ -160,7 +231,9 @@ export default function UserHomePage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-2xl font-bold mb-2">{destination.name}</h3>
+                    <h3 className="text-2xl font-bold mb-2">
+                      {destination.name}
+                    </h3>
                     <div className="flex items-center gap-2 opacity-90">
                       <MapPin className="h-4 w-4" />
                       <span>{destination.location}</span>
@@ -185,7 +258,6 @@ const activities = [
       </svg>
     ),
   },
-
 ];
 
 const destinations = [
