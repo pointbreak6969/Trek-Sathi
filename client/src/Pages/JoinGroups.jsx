@@ -129,7 +129,7 @@ const JoinGroups = () => {
         <div className="my-6 flex justify-center">
           <Button
             variant="outline"
-            className="flex items-center gap-2 text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white"
+            className="flex items-center gap-2 text-[#6366f1] border-[#6366f1] hover:bg-[#6366f1] hover:text-white"
             onClick={() => navigate("/groupformation/mardi")}
           >
             <PlusCircle className="h-5 w-5" />
@@ -139,7 +139,7 @@ const JoinGroups = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
           <Input
-            className="pl-10 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+            className="pl-10 border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]"
             placeholder="Search treks, guides, or groups..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -151,7 +151,7 @@ const JoinGroups = () => {
               setFilters((prev) => ({ ...prev, difficulty: value }))
             }
           >
-            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]">
               <SelectValue placeholder="Difficulty" />
             </SelectTrigger>
             <SelectContent className="border border-gray-300 rounded-lg">
@@ -165,7 +165,7 @@ const JoinGroups = () => {
               setFilters((prev) => ({ ...prev, duration: value }))
             }
           >
-            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]">
               <SelectValue placeholder="Duration" />
             </SelectTrigger>
             <SelectContent className="border border-gray-300 rounded-lg">
@@ -179,7 +179,7 @@ const JoinGroups = () => {
               setFilters((prev) => ({ ...prev, groupType: value }))
             }
           >
-            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]">
               <SelectValue placeholder="Group Type" />
             </SelectTrigger>
             <SelectContent className="border border-gray-300 rounded-lg">
@@ -193,7 +193,7 @@ const JoinGroups = () => {
               setFilters((prev) => ({ ...prev, age: value }))
             }
           >
-            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]">
               <SelectValue placeholder="Age" />
             </SelectTrigger>
             <SelectContent className="border border-gray-300 rounded-lg">
@@ -208,7 +208,7 @@ const JoinGroups = () => {
               setFilters((prev) => ({ ...prev, gender: value }))
             }
           >
-            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-blue-500">
+            <SelectTrigger className="w-[140px] border border-gray-300 rounded-lg focus:border-[#6366f1] focus:ring-[#6366f1]">
               <SelectValue placeholder="Gender" />
             </SelectTrigger>
             <SelectContent className="border border-gray-300 rounded-lg">
@@ -229,7 +229,7 @@ const JoinGroups = () => {
           </h2>
           <Button
             variant="ghost"
-            className="text-sm text-gray-500 hover:text-blue-500"
+            className="text-sm text-gray-500 hover:text-[#6366f1]"
             onClick={() => navigate("/groups")}
           >
             View all <ChevronRight className="h-5 w-5 ml-1" />
@@ -285,8 +285,8 @@ const JoinGroups = () => {
                     <Button
                       variant="success"
                       size="sm"
-                      className="bg-blue-500 text-white hover:bg-blue-700"
-                      onClick={() => alert(`Joined ${group.name}`)}
+                      className="bg-[#6366f1] text-white hover:bg-[#6366f1]/90"
+                      onClick={() => navigate(`/groupchat`)}
                     >
                       Join Group
                     </Button>

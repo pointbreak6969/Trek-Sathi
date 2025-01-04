@@ -148,7 +148,15 @@ const protectedRoutes = [
         <JoinGroups />
       </Protected>
     ),
+  },  {
+    path: "/GroupChat",
+    element: (
+      <Protected authentication={true} >
+        <GroupChat />
+      </Protected>
+    ),
   },
+  
 ];
 
 const router = createBrowserRouter([

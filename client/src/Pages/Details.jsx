@@ -244,7 +244,7 @@ export default function Details() {
               </div>
 
               <button
-                onClick={() => navigate(`/groupformation/${name}`)}
+                onClick={() => navigate(`/trekdetails/${name}`)}
                 className="flex ml-1 items-center gap-1 px-3 py-3.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors sm:font-medium text-sm"
               >
                 <Footprints className="h-5 w-5" />
@@ -296,7 +296,7 @@ export default function Details() {
                 </div>
               </div>
               <button
-                onClick={() => navigate(`/groupformation/${name}`)}
+                onClick={() => navigate(`/trekdetails/${name}`)}
                 className="flex items-center gap-1 px-6 py-2.5 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors font-medium"
               >
                 <Footprints className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -396,15 +396,21 @@ export default function Details() {
                     {/* Post Header */}
                     <div className="p-4 flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <Avatar className="h-10 w-10">
-                          <img
-                            src={post?.userProfile?.profilePicture?.url}
-                            alt={post.user.fullName}
-                          />
+                      <Avatar className="h-10 w-10">
+                          {post?.userProfile?.profilePicture?.url ? (
+                            <AvatarImage
+                              src={post.userProfile.profilePicture.url}
+                              alt={post.userFullName}
+                            />
+                          ) : (
+                            <AvatarFallback>
+                              {post.userFullName.charAt(0)}
+                            </AvatarFallback>
+                          )}
                         </Avatar>
                         <div>
                           <p className="font-medium text-sm">
-                            {post.user.fullName}
+                            {post.userFullName}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {new Date(post.created_at).toLocaleDateString(
@@ -440,7 +446,6 @@ export default function Details() {
                       </div>
                     )}
 
-                    {/* Post Actions */}
                     {/* Post Actions */}
                     <div className="px-4 py-2 flex items-center justify-between">
                       <div className="flex items-center space-x-4">
@@ -479,7 +484,7 @@ export default function Details() {
                         >
                           <MessageCircle className="h-5 w-5 mr-1" />
                           <span className="text-xs">
-                           5
+                           {post.commentCount}
                           </span>
                         </Button>
                       </div>
@@ -504,6 +509,7 @@ export default function Details() {
                 <CommentsModal
                   post={selectedPost}
                   onClose={handleCloseComments}
+                  
                 />
               )}
             </div>

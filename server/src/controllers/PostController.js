@@ -46,8 +46,43 @@ const DeletePost = asyncHandler(async (req, res) => {
 });
 
 const getAllpost = asyncHandler(async (req, res) => {
-    const posts = await Post.find().sort({ created_at: -1 });
+    const posts = await Post.aggregate([
+        {
+            $lookup: {
+                from: 'comments',
+                localField: '_id',
+                foreignField: 'post_id',
+                as: 'comments'
+            }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        {
+            $addFields: {
+                commentCount: { $size: '$comments' },
+                userFullName: { $arrayElemAt: ['$userDetails.fullName', 0] }
+            }
+        },
+        {
+            $sort: { created_at: -1 }
+        },
+        {
+            $project: {
+                comments: 0,
+                userDetails: 0
+            }
+        }
+    ]);
+
     res.status(200).json(new ApiResponse(200, posts, "Posts fetched successfully"));
 });
+
+
 
 export { AddPost, getAllpost, DeletePost };
