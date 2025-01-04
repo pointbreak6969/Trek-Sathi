@@ -14,6 +14,7 @@ import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
+import TrekDetails from "./Pages/TrekDetails";
 const publicRoutes = [
   {
     path: "/",
@@ -90,6 +91,22 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <ChatBot />
+      </Protected>
+    ),
+  },
+  {
+    path: "/group",
+    element: (
+      <Protected authentication={true}>
+        <GroupFormation  />
+      </Protected>
+    ),
+  },
+  {
+    path: "/trekd",
+    element: (
+      <Protected authentication={true}>
+        <TrekDetails  />
       </Protected>
     ),
   },
