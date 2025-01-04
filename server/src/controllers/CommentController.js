@@ -2,11 +2,9 @@ import Comment from '../models/Comment.js';
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
-import mongoose from 'mongoose';
 
 const AddComment = asyncHandler(async (req, res) => {
     const {  post_id, text } = req.body;
-    console.log(req.body);
     if (!( post_id && text)) {
         throw new ApiError(400, "All fields are required");
     }
@@ -67,8 +65,8 @@ const deleteComment = asyncHandler(async (req, res) => {
 });
 
 const upvoteComment = asyncHandler(async (req, res) => {
-    const { commentId } = req.params;
-    const comment = await Comment.findById(commentId);
+    const { id } = req.params;
+    const comment = await Comment.findById(id);
     if (!comment) {
         throw new ApiError(404, "Comment not found");
     }
@@ -78,8 +76,8 @@ const upvoteComment = asyncHandler(async (req, res) => {
 });
 
 const downvoteComment = asyncHandler(async (req, res) => {
-    const { commentId } = req.params;
-    const comment = await Comment.findById(commentId);
+    const { id } = req.params;
+    const comment = await Comment.findById(id);
     if (!comment) {
         throw new ApiError(404, "Comment not found");
     }

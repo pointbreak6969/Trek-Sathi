@@ -2,7 +2,19 @@ import React from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "@/components/ui/button";
-import { Home, Book, LogIn, LogOut, Menu, Sun, Moon, X } from "lucide-react";
+import { 
+  Home, 
+  Book, 
+  LogIn, 
+  LogOut, 
+  Menu, 
+  Sun, 
+  Moon, 
+  X, 
+  Users, 
+  MessageCircle,
+  UserPlus
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -44,6 +56,18 @@ const Navbar = () => {
       slug: "/journal",
       icon: <Book className="h-5 w-5" />,
     },
+    {
+      name: "Join Group",
+      slug: "/joingroups",
+      icon: <UserPlus className="h-5 w-5" />,
+    },
+    {
+      name: "Group Chat",
+      slug: "/GroupFormation/mardi",
+      icon: <MessageCircle className="h-5 w-5" />,
+      badge: 3, // Optional: Add badge for unread messages
+    },
+
   ];
 
   const handleNavigation = (path) => {
@@ -68,7 +92,7 @@ const Navbar = () => {
             <Link
               key={item.slug}
               to={item.slug}
-              className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary ${
+              className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary relative ${
                 location.pathname === item.slug
                   ? "text-primary"
                   : "text-muted-foreground"
@@ -76,6 +100,11 @@ const Navbar = () => {
             >
               {item.icon}
               <span>{item.name}</span>
+              {item.badge && (
+                <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
+                  {item.badge}
+                </span>
+              )}
             </Link>
           ))}
         </div>
@@ -136,7 +165,7 @@ const Navbar = () => {
                       key={item.slug}
                       to={item.slug}
                       onClick={() => setIsOpen(false)}
-                      className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary ${
+                      className={`flex items-center space-x-2 text-sm font-medium transition-colors hover:text-primary relative ${
                         location.pathname === item.slug
                           ? "text-primary"
                           : "text-muted-foreground"
@@ -144,6 +173,11 @@ const Navbar = () => {
                     >
                       {item.icon}
                       <span>{item.name}</span>
+                      {item.badge && (
+                        <span className="ml-2 bg-red-500 text-white text-xs px-1.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
                     </Link>
                   ))}
                 </div>

@@ -10,13 +10,16 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Social from "./Pages/Social";
 import Protected from "./components/Protected";
+import DetailedItinerary from "./Pages/DetailedItinerary";
+import TrekDetails from "./Pages/TrekDetails";
 import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
-import TrekDetails from "./Pages/TrekDetails";
+import path from "path";
 import UserProfile from "./Pages/UserProfile";
-
+import MapComponent from "./components/MapComponent";
+import JoinGroups from "./Pages/JoinGroups";
 // Import ThemeProvider for theme management
 import { ThemeProvider } from "./components/theme-provider"; // Adjust this import according to your theme-provider location
 
@@ -32,12 +35,19 @@ const publicRoutes = [
   
   {
     path: "/groupformation/:id",
+    // path:"/groupformtaion",
     element: (
       <Protected authentication={false}>
         <GroupFormation />
       </Protected>
     ),
   },
+   {
+    path: "/map",
+    element: (
+      <MapComponent />
+    )
+   }
 ];
 
 const authRoutes = [
@@ -71,7 +81,7 @@ const protectedRoutes = [
   {
     path: "/details/:name",
     element: (
-      <Protected authentication={true}>
+      <Protected authentication={false}>
         <Details />
       </Protected>
     ),
@@ -100,6 +110,20 @@ const protectedRoutes = [
       </Protected>
     ),
   },
+  {path: "/TrekDetails",
+    element:(
+      <Protected authentication={true}>
+        <TrekDetails/>
+      </Protected>
+    ),
+  },
+  {path: "/DetailedItinerary",
+    element:(
+      <Protected authentication={true}>
+        <DetailedItinerary/>
+      </Protected>
+    ),
+  },
   {
     path: "/group",
     element: (
@@ -109,10 +133,18 @@ const protectedRoutes = [
     ),
   },
   {
-    path: "/trekd",
+    path: "/trekdetails:name",
     element: (
       <Protected authentication={true}>
         <TrekDetails />
+      </Protected>
+    ),
+  },
+  {
+    path: "/joingroups",
+    element: (
+      <Protected authentication={false} redirectPath="/joingroups">
+        <JoinGroups />
       </Protected>
     ),
   },

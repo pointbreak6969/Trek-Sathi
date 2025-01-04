@@ -3,7 +3,6 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
-import mongoose from 'mongoose';
 
 const AddPost = asyncHandler(async (req, res) => {
     const { text, location } = req.body;
@@ -47,37 +46,7 @@ const DeletePost = asyncHandler(async (req, res) => {
 });
 
 const getAllpost = asyncHandler(async (req, res) => {
-    const posts = await Post.aggregate([
-        { $sort: { created_at: -1 } },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'user'
-          }
-        },
-        { $unwind: '$user' },
-        {
-          $lookup: {
-            from: 'userprofiles',
-            localField: 'user._id',
-            foreignField: 'user',
-            as: 'userProfile'
-          }
-        },
-        { $unwind: { path: '$userProfile', preserveNullAndEmptyArrays: true } },
-        {
-          $project: {
-            text: 1,
-            location: 1,
-            image: 1,
-            created_at: 1,
-            'user.fullName': 1,
-            'userProfile.profilePicture.url': 1
-          }
-        }
-      ]);
+    const posts = await Post.find().sort({ created_at: -1 });
     res.status(200).json(new ApiResponse(200, posts, "Posts fetched successfully"));
 });
 
