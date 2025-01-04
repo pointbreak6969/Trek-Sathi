@@ -12,12 +12,30 @@ import Social from "./Pages/Social";
 import Protected from "./components/Protected";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
+import GroupFormation from "./Pages/GroupFormation";
+import path from "path";
 const publicRoutes = [
   {
     path: "/",
     element: (
       <Protected authentication={false} redirectPath="/usershomepage">
         <Home />
+      </Protected>
+    ),
+  },
+  {
+    path: "/details/:id",
+    element: (
+      <Protected authentication={false} redirectPath="/details">
+        <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupformation/:id",
+    element: (
+      <Protected authentication={false}>
+        <GroupFormation />
       </Protected>
     ),
   },
