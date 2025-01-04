@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import { store } from "./store/store";
-import Home from "./Pages/LandingPage";
 import Details from "./Pages/Details";
 import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
@@ -16,12 +15,11 @@ import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
 import ChatBot from "./components/ChatBot";
-import path from "path";
 import UserProfile from "./Pages/UserProfile";
-import MapComponent from "./components/MapComponent";
 import JoinGroups from "./Pages/JoinGroups";
 import { ThemeProvider } from "./components/theme-provider"; 
-import GroupChat from "./Pages/GroupChat";
+import MapComponent from "./components/MapComponent";
+import Home from "./Pages/Landing/Home";
 const publicRoutes = [
   {
     path: "/",
@@ -70,6 +68,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <UserProfile />
+      </Protected>
+    ),
+  },
+  {
+    path: "/journal",
+    element: (
+      <Protected authentication={true}>
+        <MapComponent />
       </Protected>
     ),
   },
