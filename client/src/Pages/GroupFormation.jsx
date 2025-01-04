@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+// src/components/GroupFormation.js
+import React, { useState } from 'react';
+import { useForm, FormProvider, Controller } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -8,17 +10,17 @@ import {
   FormItem,
   FormLabel,
   FormDescription,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
+} from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { format } from 'date-fns';
 import { 
   CalendarIcon, 
   UsersIcon, 
@@ -27,17 +29,18 @@ import {
   Users,
   Clock,
   ChevronRight
-} from "lucide-react";
+} from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { Card, CardContent } from '@/components/ui/card';
 
 const GroupFormation = () => {
   const [groupSize, setGroupSize] = useState(null);
+  const navigate = useNavigate();
   const methods = useForm({
     defaultValues: {
       trekRoute: "",
@@ -54,10 +57,31 @@ const GroupFormation = () => {
   const [step, setStep] = useState(1);
 
   const handleCreateGroup = (data) => {
-    console.log("Group created with the following details:", {
-      ...data,
-      groupSize,
-    });
+    const newGroup = {
+      id: Date.now().toString(),
+      name: data.trekRoute, // Using trek route as the group name
+      createdBy: localStorage.getItem('messaging-app-username'), // Get current user
+      createdAt: new Date().toISOString(),
+      trekDetails: {
+        ...data,
+        groupSize,
+        startDate: data.startDate ? format(data.startDate, "yyyy-MM-dd") : null,
+        endDate: data.endDate ? format(data.endDate, "yyyy-MM-dd") : null,
+      }
+    };
+
+    let existingGroups = [];
+    try {
+      existingGroups = JSON.parse(localStorage.getItem('messaging-app-groups')) || [];
+    } catch (error) {
+      console.error('Error parsing existing groups:', error);
+    }
+
+    const updatedGroups = [...existingGroups, newGroup];
+    localStorage.setItem('messaging-app-groups', JSON.stringify(updatedGroups));
+
+    // Navigate to the chat component with the new group
+    navigate('/groupchat');
   };
 
   const renderStepIndicator = () => (
