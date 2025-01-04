@@ -52,11 +52,11 @@ function App() {
     <>
       <Toaster position="top-center" richColors closeButton theme="light" />
       <Navbar />
-      {/* <Outlet /> */}
+      <Outlet />
       {/* <SignupPage/>
       <UserProfile/> */}
       {/* <GroupFormation/> */}
-      <TrekDetails/>
+      {/* <TrekDetails/> */}
     </>
   );
 }
