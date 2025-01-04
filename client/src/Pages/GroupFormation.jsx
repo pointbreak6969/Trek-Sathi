@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from "react";
 import { useForm, FormProvider, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -9,6 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,18 +19,25 @@ import {
 } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { 
+  CalendarIcon, 
+  UsersIcon, 
+  MapPinIcon, 
+  Mountain, 
+  Users,
+  Clock,
+  ChevronRight
+} from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
 
-export default function GroupFormation() {
-  const [step, setStep] = useState(1);
+const GroupFormation= () => {
   const [groupSize, setGroupSize] = useState(null);
-  const [wantMoreMembers, setWantMoreMembers] = useState(null);
   const methods = useForm({
     defaultValues: {
       trekRoute: "",
@@ -44,307 +50,319 @@ export default function GroupFormation() {
       groupSize: "",
     },
   });
-  const { control, handleSubmit, setValue } = methods;
+  const { control, handleSubmit, setValue, watch } = methods;
+  const [step, setStep] = useState(1);
 
   const handleCreateGroup = (data) => {
     console.log("Group created with the following details:", {
       ...data,
       groupSize,
-      wantMoreMembers,
     });
   };
 
-  return (
-    <div className="container mx-auto p-6 max-w-lg bg-white shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-        Create a Trekking Group
-      </h1>
-
-      {step === 1 && (
-        <FormProvider {...methods}>
-          <form className="space-y-4">
-            <h2 className="text-lg font-semibold text-gray-700 text-center">
-              How many trekkers are in your group?
-            </h2>
-            <FormField
-              name="groupSize"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      type="number"
-                      min="1"
-                      placeholder="Enter number of trekkers"
-                      className="w-full text-center border-gray-300"
-                      onChange={(e) => {
-                        field.onChange(e);
-                        setGroupSize(parseInt(e.target.value, 10));
-                      }}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <div className="flex justify-center mt-4">
-              <Button
-                onClick={() => {
-                  if (groupSize) setStep(2);
-                }}
-                className="px-6"
-              >
-                Next
-              </Button>
-            </div>
-          </form>
-        </FormProvider>
-      )}
-
-      {step === 2 && (
-        <div className="space-y-4 text-center">
-          <h2 className="text-lg font-semibold text-gray-700">
-            Would you like to add more members to your group?
-          </h2>
-          <div className="flex justify-center space-x-4">
-            <Button
-              onClick={() => {
-                setWantMoreMembers(true);
-                setStep(3);
-              }}
-              className="px-6"
-            >
-              Yes
-            </Button>
-            <Button
-              onClick={() => {
-                setWantMoreMembers(false);
-                handleSubmit(handleCreateGroup)();
-              }}
-              className="px-6"
-            >
-              No
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <FormProvider {...methods}>
-          <form
-            onSubmit={handleSubmit(handleCreateGroup)}
-            className="space-y-6"
+  const renderStepIndicator = () => (
+    <div className="flex justify-center mb-8">
+      {[1, 2, 3].map((num) => (
+        <div key={num} className="flex items-center">
+          <div
+            className={cn(
+              "w-8 h-8 rounded-full flex items-center justify-center transition-all",
+              step === num
+                ? "bg-primary text-white"
+                : step > num
+                ? "bg-primary/20 text-primary"
+                : "bg-gray-100 text-gray-400"
+            )}
           >
-            <div className="space-y-2">
-              <p className="text-gray-700 text-center">
-                Current members: <strong>{groupSize}</strong>
+            {num}
+          </div>
+          {num < 3 && (
+            <div
+              className={cn(
+                "w-12 h-0.5 mx-2",
+                step > num ? "bg-primary" : "bg-gray-100"
+              )}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12">
+      <div className="container max-w-2xl mx-auto px-4">
+        <Card className="bg-white/80 backdrop-blur-lg shadow-xl rounded-2xl border-0">
+          <CardContent className="p-6">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                Create Your Trek Group
+              </h1>
+              <p className="text-gray-500 mt-2">
+                Find the perfect companions for your adventure
               </p>
-              <p className="text-gray-700 text-center">
-                Looking for: 
-              </p>
             </div>
 
-            <FormField
-              name="additionalMembers"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-center">
-                    looking for
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="e.g., 3"
-                      min={0}
-                      max={100 - groupSize}
-                      {...field}
-                      onChange={(e) => {
-                        const value = Math.min(
-                          Math.max(0, parseInt(e.target.value, 10)),
-                          100 - groupSize
-                        );
-                        field.onChange(value);
-                      }}
-                      className="text-center border-gray-300"
+            {renderStepIndicator()}
+
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(handleCreateGroup)} className="space-y-8">
+                {step === 1 && (
+                  <div className="space-y-6">
+                    <FormField
+                      name="trekRoute"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium flex items-center gap-2">
+                            <Mountain className="w-4 h-4" />
+                            Trek Route
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g., Everest Base Camp"
+                              {...field}
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
 
-            <FormField
-              name="trekRoute"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Trek Route</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter trek route"
-                      {...field}
-                      className="border-gray-300"
+                    <div className="grid grid-cols-2 gap-4">
+                      <Controller
+                        name="startDate"
+                        control={control}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium flex items-center gap-2">
+                              <Clock className="w-4 h-4" />
+                              Start Date
+                            </FormLabel>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    className={cn(
+                                      "h-12 w-full rounded-xl border-gray-200",
+                                      !field.value && "text-gray-400"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "MMM d, yyyy")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  className="rounded-lg border"
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </FormItem>
+                        )}
+                      />
+
+                      <Controller
+                        name="endDate"
+                        control={control}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium flex items-center gap-2">
+                              <Clock className="w-4 h-4" />
+                              End Date
+                            </FormLabel>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <FormControl>
+                                  <Button
+                                    variant="outline"
+                                    className={cn(
+                                      "h-12 w-full rounded-xl border-gray-200",
+                                      !field.value && "text-gray-400"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "MMM d, yyyy")
+                                    ) : (
+                                      <span>Pick a date</span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </FormControl>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0" align="start">
+                                <Calendar
+                                  mode="single"
+                                  selected={field.value}
+                                  onSelect={field.onChange}
+                                  className="rounded-lg border"
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {step === 2 && (
+                  <div className="space-y-6">
+                    <FormField
+                      name="groupSize"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium flex items-center gap-2">
+                            <Users className="w-4 h-4" />
+                            Current Group Size
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              {...field}
+                              type="number"
+                              min="1"
+                              placeholder="How many trekkers do you have?"
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                              onChange={(e) => {
+                                field.onChange(e);
+                                setGroupSize(parseInt(e.target.value, 10));
+                              }}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
                     />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
 
-            <div className="grid grid-cols-2 gap-4">
-              <Controller
-                name="startDate"
-                control={control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Start Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full pl-3 text-left font-normal border-gray-300",
-                              !field.value && "text-gray-400"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={(date) => {
-                            field.onChange(date);
-                            setValue("startDate", date, { shouldValidate: true });
-                          }}
-                          disabled={(date) =>
-                            date < new Date() ||
-                            (methods.watch("endDate")
-                              ? date > methods.watch("endDate")
-                              : false)
-                          }
-                          onClickDay={() => setValue("startDate", field.value, { shouldValidate: true })}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </FormItem>
+                    <FormField
+                      name="additionalMembers"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium flex items-center gap-2">
+                            <UsersIcon className="w-4 h-4" />
+                            Additional Members Needed
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="number"
+                              placeholder="How many more people do you need?"
+                              className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                              {...field}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 )}
-              />
 
-              <Controller
-                name="endDate"
-                control={control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>End Date</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn(
-                              "w-full pl-3 text-left font-normal border-gray-300",
-                              !field.value && "text-gray-400"
-                            )}
-                          >
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={(date) => {
-                            field.onChange(date);
-                            setValue("endDate", date, { shouldValidate: true });
-                          }}
-                          disabled={(date) =>
-                            date < new Date() ||
-                            (methods.watch("startDate")
-                              ? date < methods.watch("startDate")
-                              : false)
-                          }
-                          onClickDay={() => setValue("endDate", field.value, { shouldValidate: true })}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </FormItem>
-                )}
-              />
-            </div>
+                {step === 3 && (
+                  <div className="space-y-6">
+                    <FormField
+                      name="genderPreference"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">
+                            Gender Preference
+                          </FormLabel>
+                          <Select onValueChange={field.onChange} {...field}>
+                            <FormControl>
+                              <SelectTrigger className="h-12 rounded-xl border-gray-200">
+                                <SelectValue placeholder="Select preference" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="any">Any</SelectItem>
+                              <SelectItem value="male">Male</SelectItem>
+                              <SelectItem value="female">Female</SelectItem>
+                              <SelectItem value="others">Others</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
 
-            <FormField
-              name="genderPreference"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Gender Preference</FormLabel>
-                  <FormControl>
-                    <Select onValueChange={field.onChange}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select an option" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="any">Any</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="others">Others</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                name="ageFrom"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Age From</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g., 18"
-                        type="number"
-                        {...field}
-                        className="border-gray-300"
+                    <div className="grid grid-cols-2 gap-4">
+                      <FormField
+                        name="ageFrom"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium">
+                              Age Range (From)
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Min age"
+                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="ageTo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>To</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="e.g., 50"
-                        type="number"
-                        {...field}
-                        className="border-gray-300"
+                      <FormField
+                        name="ageTo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium">
+                              To
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="number"
+                                placeholder="Max age"
+                                className="h-12 rounded-xl border-gray-200 focus:ring-2 focus:ring-primary/20"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
                       />
-                    </FormControl>
-                  </FormItem>
+                    </div>
+                  </div>
                 )}
-              />
-            </div>
 
-            <Button type="submit" className="w-full">
-              Create Group
-            </Button>
-          </form>
-        </FormProvider>
-      )}
+                <div className="flex justify-between pt-6">
+                  {step > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => setStep(step - 1)}
+                      className="rounded-xl"
+                    >
+                      Previous
+                    </Button>
+                  )}
+                  {step < 3 ? (
+                    <Button
+                      type="button"
+                      onClick={() => setStep(step + 1)}
+                      className="ml-auto rounded-xl"
+                    >
+                      Next
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </Button>
+                  ) : (
+                    <Button type="submit" className="ml-auto rounded-xl">
+                      Create Group
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </FormProvider>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }
+
+export default GroupFormation;
