@@ -16,7 +16,6 @@ import Navbar from "../components/Navbar";
 export default function Home() {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
-
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");

@@ -69,7 +69,6 @@ const getProfile = asyncHandler(async (req, res) => {
 
 const updateProfile = asyncHandler(async (req, res) => {
   const userId = req.user?._id;
-
   // Find the user's profile
   const user = await UserProfile.findOne({ user: userId });
   if (!user) {

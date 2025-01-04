@@ -1,75 +1,53 @@
 import Comment from '../models/Comment.js';
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
 
-const AddComment = async (req, res) => {
-    const { user_id, post_id, text } = req.body;
-    try {
-        const newComment = new Comment({ user_id, post_id, text });
-        const savedComment = await newComment.save();
-        return res.status(200).json({ "message": "Comment Added", "Comment": savedComment });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error adding comment" });
+const AddComment = asyncHandler(async (req, res) => {
+    const {  post_id, text } = req.body;
+    if (!( post_id && text)) {
+        throw new ApiError(400, "All fields are required");
     }
-}
+    const newComment = new Comment({ user_id:req.user._id, post_id, text });
+    const savedComment = await newComment.save();
+    res.status(200).json(new ApiResponse(200, savedComment, "Comment added successfully"));
+});
 
-const getAllComment = async (req, res) => {
+const getAllComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const comments = await Comment.find({ post_id: id }).sort({ created_at: -1 });
-        return res.status(200).json({ "message": "comments loaded", "comments": comments });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error loading comments" });
-    }
-}
+    const comments = await Comment.find({ post_id: id }).sort({ created_at: -1 });
+    res.status(200).json(new ApiResponse(200, comments, "Comments loaded successfully"));
+});
 
-const deleteComment = async (req, res) => {
+const deleteComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const result = await Comment.findByIdAndDelete(id);
-        if (result) {
-            return res.status(200).json({ "message": "Comment deleted successfully" });
-        } else {
-            return res.status(404).json({ "message": "Comment not found" });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error deleting comment" });
+    const result = await Comment.findByIdAndDelete(id);
+    if (!result) {
+        throw new ApiError(404, "Comment not found");
     }
-}
+    res.status(200).json(new ApiResponse(200, null, "Comment deleted successfully"));
+});
 
-const upvoteComment = async (req, res) => {
+const upvoteComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const comment = await Comment.findById(id);
-        if (comment) {
-            comment.upvotes += 1;
-            await comment.save();
-            return res.status(200).json({ "message": "Comment upvoted successfully", "Comment": comment });
-        } else {
-            return res.status(404).json({ "message": "Comment not found" });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error upvoting comment" });
+    const comment = await Comment.findById(id);
+    if (!comment) {
+        throw new ApiError(404, "Comment not found");
     }
-}
+    comment.upvotes += 1;
+    await comment.save();
+    res.status(200).json(new ApiResponse(200, comment, "Comment upvoted successfully"));
+});
 
-const downvoteComment = async (req, res) => {
+const downvoteComment = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    try {
-        const comment = await Comment.findById(id);
-        if (comment) {
-            comment.downvotes += 1;
-            await comment.save();
-            return res.status(200).json({ "message": "Comment downvoted successfully", "Comment": comment });
-        } else {
-            return res.status(404).json({ "message": "Comment not found" });
-        }
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ "message": "Error downvoting comment" });
+    const comment = await Comment.findById(id);
+    if (!comment) {
+        throw new ApiError(404, "Comment not found");
     }
-}
+    comment.downvotes += 1;
+    await comment.save();
+    res.status(200).json(new ApiResponse(200, comment, "Comment downvoted successfully"));
+});
 
 export { AddComment, getAllComment, deleteComment, upvoteComment, downvoteComment };

@@ -1,49 +1,33 @@
-import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
 import { Provider } from "react-redux";
-import { store } from "./store/store.js";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import App from "./App";
+import { store } from "./store/store";
 import Home from "./Pages/LandingPage";
 import Details from "./Pages/Details";
 import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
+import Social from "./Pages/Social";
 import Protected from "./components/Protected";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import GroupFormation from "./Pages/GroupFormation";
-import path from "path";
+import "./index.css";
+import UsersHomePage from "./Pages/UsersHomePage";
 const publicRoutes = [
   {
     path: "/",
     element: (
-      <Protected authentication={false}>
-        {" "}
+      <Protected authentication={false} redirectPath="/usershomepage">
         <Home />
       </Protected>
     ),
   },
-  {
-    path: "/details/:id",
-    element: (
-      <Protected authentication={false}>
-        <Details />
-      </Protected>
-    ),
-  },
-  {
-    path: "/groupformation/:id",
-    element: (
-      <Protected authentication={false}>
-        <GroupFormation />
-      </Protected>
-    ),
-  },
 ];
+
 const authRoutes = [
   {
     path: "/login",
     element: (
-      <Protected authentication={false} redirectPath="/">
+      <Protected authentication={false} redirectPath="/usershomepage">
         <Login />
       </Protected>
     ),
@@ -51,18 +35,35 @@ const authRoutes = [
   {
     path: "/signup",
     element: (
-      <Protected authentication={false} redirectPath="/">
+      <Protected authentication={false} redirectPath="/usershomepage">
         <SignupPage />
       </Protected>
     ),
   },
 ];
+
 const protectedRoutes = [
   {
     path: "/details/:name",
     element: (
       <Protected authentication={true}>
         <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/social",
+    element: (
+      <Protected authentication={true}>
+        <Social />
+      </Protected>
+    ),
+  },
+  {
+    path: "/usershomepage",
+    element: (
+      <Protected authentication={true}>
+        <UsersHomePage />
       </Protected>
     ),
   },
@@ -77,9 +78,9 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <React.StrictMode>
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
-  </StrictMode>
+  </React.StrictMode>
 );

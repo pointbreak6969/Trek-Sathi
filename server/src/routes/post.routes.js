@@ -1,9 +1,12 @@
-import express from 'express'
-const router = express.Router();
-import {AddPost,DeletePost,getAllpost} from '../controllers/PostController.js';
+import express from 'express';
+import { AddPost, DeletePost, getAllpost } from '../controllers/PostController.js';
+import { upload } from '../middlewares/multer.middleware.js';
+import { verifyJwt } from '../middlewares/auth.middleware.js';
 
-router.route("/addpost").post(AddPost)
-router.route("/getallpost").get(getAllpost)
-router.route("/deletepost/:id").post(DeletePost)
+const router = express.Router();    
 
-export default router
+router.route("/addpost").post(upload.single('image'),verifyJwt, AddPost);
+router.route("/getallpost").get(getAllpost);
+router.route("/deletepost/:id").post(DeletePost);
+
+export default router;          
