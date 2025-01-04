@@ -10,8 +10,11 @@ import SignupPage from "./Pages/Signup";
 import Login from "./Pages/Login";
 import Social from "./Pages/Social";
 import Protected from "./components/Protected";
+import GroupFormation from "./Pages/GroupFormation";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
+import ChatBot from "./components/ChatBot";
+import TrekDetails from "./Pages/TrekDetails";
 import UserProfile from "./Pages/UserProfile";
 const publicRoutes = [
   {
@@ -19,6 +22,22 @@ const publicRoutes = [
     element: (
       <Protected authentication={false} redirectPath="/usershomepage">
         <Home />
+      </Protected>
+    ),
+  },
+  {
+    path: "/details/:id",
+    element: (
+      <Protected authentication={false} redirectPath="/details">
+        <Details />
+      </Protected>
+    ),
+  },
+  {
+    path: "/groupformation/:id",
+    element: (
+      <Protected authentication={false}>
+        <GroupFormation />
       </Protected>
     ),
   },
@@ -77,10 +96,26 @@ const protectedRoutes = [
     ),
   },
   {
-    path: "/userprofile",
+    path: "/chatbot",
     element: (
       <Protected authentication={true}>
-        <UserProfile />
+        <ChatBot />
+      </Protected>
+    ),
+  },
+  {
+    path: "/group",
+    element: (
+      <Protected authentication={true}>
+        <GroupFormation  />
+      </Protected>
+    ),
+  },
+  {
+    path: "/trekd",
+    element: (
+      <Protected authentication={true}>
+        <TrekDetails  />
       </Protected>
     ),
   },

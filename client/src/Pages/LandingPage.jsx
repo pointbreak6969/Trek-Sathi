@@ -7,6 +7,10 @@ import { useTheme } from "../components/theme-provider"; // You'll need to creat
 import { useSelector } from "react-redux";
 import mardiImage from "../assets/mardi.jpg";
 import abcImage from "../assets/abc.jpg";
+import everestImage from "../assets/everest.jpg";
+import langtangImage from "../assets/langtang.jpg";
+import manasluImage from "../assets/manaslu.jpg";
+import Navbar from "../components/Navbar";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -42,7 +46,7 @@ export default function Home() {
                     ? "bg-[#6366f1] text-white"
                     : "bg-white hover:bg-gray-50"
                 }`}
-                onClick={() => navigate(`/details/${activity.name}`)}
+                onClick={() => navigate(`/details/${activity.id}`)}
               >
                 <div className="w-12 h-12 flex items-center justify-center mb-2">
                   {activity.icon}
@@ -66,8 +70,8 @@ export default function Home() {
           {destinations.map((destination) => (
             <div
               key={destination.name}
-              className="relative rounded-3xl overflow-hidden aspect-[4/3] cursor-pointer"
-              onClick={() => navigate(`/details/${destination.name}`)}
+              className="relative rounded-3xl overflow-hidden aspect-[4/3]"
+              onClick={() => navigate(`/details/${destination.id}`)}
             >
               <img
                 src={destination.image}
@@ -131,12 +135,32 @@ const activities = [
 const destinations = [
   {
     name: "Mardi Base Camp",
+    id: "mardi",
     location: "Nepal",
     image: mardiImage,
   },
   {
     name: "Annapurna Base Camp",
+    id: "abc",
     location: "Nepal",
     image: abcImage,
+  },
+  {
+    name: "Everest Base Camp",
+    id: "everest",
+    location: "Nepal",
+    image: everestImage,
+  },
+  {
+    name: "Langtang Valley",
+    id: "langtang",
+    location: "Nepal",
+    image: langtangImage,
+  },
+  {
+    name: "Manaslu Circuit",
+    id: "manaslu",
+    location: "Nepal",
+    image: manasluImage,
   },
 ];
