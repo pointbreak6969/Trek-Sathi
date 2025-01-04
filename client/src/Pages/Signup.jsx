@@ -37,7 +37,7 @@ const SignupPage = () => {
       console.log(userData);
       if (createdUser) {
         dispatch(login(userData));
-
+        
         navigate("/");
       }
     } catch (error) {

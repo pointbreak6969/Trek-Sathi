@@ -12,6 +12,7 @@ import Social from "./Pages/Social";
 import Protected from "./components/Protected";
 import "./index.css";
 import UsersHomePage from "./Pages/UsersHomePage";
+import UserProfile from "./Pages/UserProfile";
 const publicRoutes = [
   {
     path: "/",
@@ -64,6 +65,14 @@ const protectedRoutes = [
     element: (
       <Protected authentication={true}>
         <UsersHomePage />
+      </Protected>
+    ),
+  },
+  {
+    path: "/userprofile",
+    element: (
+      <Protected authentication={true}>
+        <UserProfile />
       </Protected>
     ),
   },

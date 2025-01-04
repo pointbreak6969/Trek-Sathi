@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"
+import { Label } from "@/components/ui/label";
 import { useForm, Controller } from "react-hook-form";
-import { X, Instagram, Facebook, Twitter  } from "lucide-react";
+import { X, Instagram, Facebook, Twitter } from "lucide-react";
 import authService from "@/services/auth";
+import axios from "axios";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
+  const [error, setError] = useState(null); // State to store error
   const { register, handleSubmit, control } = useForm();
+
+  useEffect(() => {
+    console.log("userdata", userData);
+  }, [userData]);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await authService.getUserData();
-        setUserData(response.data);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/user/me`,
+          {
+            withCredentials: true,
+          }
+        );
+        setUserData(response.data.data);
+        console.log(response.data);
+        setError(null); // Clear any previous errors
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setError("Failed to load user data. Please try again later."); // Set error message
       }
     };
 
@@ -26,14 +40,23 @@ const UserProfile = () => {
     console.log(data);
   };
 
-  //   if (!userData) {
-  //     return <div>Loading...</div>;
-  //   }
   const socialInputs = [
-    { name: 'instagram', icon: Instagram, placeholder: 'https://www.instagram.com/yourusername' },
-    { name: 'facebook', icon: Facebook, placeholder: 'https://www.facebook.com/yourusername' },
-    { name: 'twitter', icon: Twitter, placeholder: 'https://www.twitter.com/yourusername' },
-  ]
+    {
+      name: "instagram",
+      icon: Instagram,
+      placeholder: "https://www.instagram.com/yourusername",
+    },
+    {
+      name: "facebook",
+      icon: Facebook,
+      placeholder: "https://www.facebook.com/yourusername",
+    },
+    {
+      name: "twitter",
+      icon: Twitter,
+      placeholder: "https://www.twitter.com/yourusername",
+    },
+  ];
   const popularTreks = [
     "Everest Base Camp",
     "Annapurna Circuit",
@@ -60,6 +83,14 @@ const UserProfile = () => {
         <h2 className="text-3xl font-bold mb-8 text-center text-gray-900">
           Additional Details
         </h2>
+
+        {/* Display error message if exists */}
+        {error && (
+          <div className="mb-6 p-4 bg-red-100 text-red-700 border border-red-300 rounded-md">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-6">
             <label
@@ -72,9 +103,9 @@ const UserProfile = () => {
               type="text"
               id="fullname"
               name="fullname"
-              //   defaultValue={userData.phone}
               readOnly
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+              placeholder={userData?.fullName || "Your full name"}
               {...register("phone")}
             />
           </div>
@@ -89,10 +120,10 @@ const UserProfile = () => {
               type="tel"
               id="phone"
               name="phone"
-              //   defaultValue={userData.phone}
               readOnly
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               {...register("phone")}
+              placeholder="9862383881"
             />
           </div>
 
@@ -125,29 +156,32 @@ const UserProfile = () => {
               id="age"
               name="age"
               required
+              placeholder="25"
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               {...register("age")}
             />
           </div>
 
           <div className="space-y-6">
-      <Label className="text-lg font-semibold">Social Media Links (optional)</Label>
-      {socialInputs.map(({ name, icon: Icon, placeholder }) => (
-        <div key={name} className="relative">
-          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <Icon className="h-5 w-5 text-gray-400" />
+            <Label className="text-lg font-semibold">
+              Social Media Links (optional)
+            </Label>
+            {socialInputs.map(({ name, icon: Icon, placeholder }) => (
+              <div key={name} className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <Icon className="h-5 w-5 text-gray-400" />
+                </div>
+                <Input
+                  type="url"
+                  id={name}
+                  name={name}
+                  placeholder={placeholder}
+                  className="pl-10 w-full"
+                  {...register(name)}
+                />
+              </div>
+            ))}
           </div>
-          <Input
-            type="url"
-            id={name}
-            name={name}
-            placeholder={placeholder}
-            className="pl-10 w-full"
-            {...register(name)}
-          />
-        </div>
-      ))}
-    </div>
           <div className="mb-6">
             <label
               htmlFor="past_treks"
