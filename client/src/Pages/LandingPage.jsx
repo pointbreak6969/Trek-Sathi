@@ -34,26 +34,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" size="icon" onClick={toggleTheme}>
-                {theme === "light" ? (
-                  <Moon className="h-5 w-5" />
-                ) : (
-                  <Sun className="h-5 w-5" />
-                )}
-              </Button>
-              <Button variant="ghost" size="icon">
-                <Bell className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 space-y-8">
         <section>
@@ -72,7 +53,7 @@ export default function Home() {
               <div
                 key={destination.id}
                 className="group relative rounded-xl overflow-hidden aspect-[4/3] cursor-pointer"
-                onClick={() => navigate(`/trek/${destination.id}`)}
+                onClick={() => navigate(`/Details/${destination.id}`)}
               >
                 <img
                   src={destination.image}

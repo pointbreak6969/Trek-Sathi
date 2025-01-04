@@ -81,7 +81,7 @@ const protectedRoutes = [
   {
     path: "/details/:name",
     element: (
-      <Protected authentication={true}>
+      <Protected authentication={false}>
         <Details />
       </Protected>
     ),
