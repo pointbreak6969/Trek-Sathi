@@ -12,9 +12,7 @@ import socialServices from "@/services/socialServices";
 const TrekPost = ({ id, author, location, date, description, imageUrl, comments: initialComments = [] }) => {
   const [comments, setComments] = useState(initialComments);
   const [newComment, setNewComment] = useState("");
-
-  console.log(id, author, location, date, description, imageUrl, comments);
-
+console.log(author)
   const handleVote = async (commentId, voteType) => {
     try {
       if (voteType === "up") {
@@ -25,10 +23,7 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, comments:
       setComments(
         comments.map((comment) =>
           comment.id === commentId
-            ? {
-                ...comment,
-                votes: comment.votes + (voteType === "up" ? 1 : -1),
-              }
+            ? { ...comment, votes: comment.votes + (voteType === "up" ? 1 : -1) }
             : comment
         )
       );
@@ -86,37 +81,41 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, comments:
       <Separator />
       <CardFooter className="flex flex-col items-start bg-gray-50 pt-4">
         <h4 className="font-semibold mb-4 text-indigo-600 text-lg">Comments</h4>
-        {comments.map((comment) => (
-          <div key={comment.id} className="flex items-start space-x-3 mb-4 w-full">
-            <Avatar>
-              <AvatarImage src={`/placeholder.svg?height=32&width=32`} alt={comment.author} />
-              <AvatarFallback>{comment.author ? comment.author[0] : "U"}</AvatarFallback>
-            </Avatar>
-            <div className="flex-grow bg-white p-3 rounded-lg shadow">
-              <p className="text-sm font-semibold text-gray-700">{comment.author}</p>
-              <p className="text-sm text-gray-600 mt-1">{comment.content}</p>
-              <div className="flex items-center space-x-2 mt-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleVote(comment.id, "up")}
-                  className="text-indigo-600 hover:text-indigo-800 p-0"
-                >
-                  <ArrowBigUp className="w-4 h-4" />
-                </Button>
-                <span className="text-sm font-semibold">{comment.votes}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => handleVote(comment.id, "down")}
-                  className="text-gray-600 hover:text-gray-800 p-0"
-                >
-                  <ArrowBigDown className="w-4 h-4" />
-                </Button>
+        {comments.length > 0 ? (
+          comments.map((comment) => (
+            <div key={comment.id} className="flex items-start space-x-3 mb-4 w-full">
+              <Avatar>
+                <AvatarImage src={`/placeholder.svg?height=32&width=32`} alt={comment.author} />
+                <AvatarFallback>{comment.author ? comment.author[0] : "U"}</AvatarFallback>
+              </Avatar>
+              <div className="flex-grow bg-white p-3 rounded-lg shadow">
+                <p className="text-sm font-semibold text-gray-700">{comment.author}</p>
+                <p className="text-sm text-gray-600 mt-1">{comment.content}</p>
+                <div className="flex items-center space-x-2 mt-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleVote(comment.id, "up")}
+                    className="text-indigo-600 hover:text-indigo-800 p-0"
+                  >
+                    <ArrowBigUp className="w-4 h-4" />
+                  </Button>
+                  <span className="text-sm font-semibold">{comment.votes}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleVote(comment.id, "down")}
+                    className="text-gray-600 hover:text-gray-800 p-0"
+                  >
+                    <ArrowBigDown className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-gray-500">No comments yet. Be the first to comment!</p>
+        )}
         <form onSubmit={handleAddComment} className="flex items-center space-x-2 w-full mt-4">
           <Input
             placeholder="Add a comment..."
@@ -133,5 +132,6 @@ const TrekPost = ({ id, author, location, date, description, imageUrl, comments:
     </Card>
   );
 };
+
 
 export default TrekPost;

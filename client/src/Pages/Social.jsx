@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 const Social = () => {
   const [trekPosts, setTrekPosts] = useState([]);
   const currentUserId = useSelector((state) => state.auth.userData._id);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -35,34 +36,32 @@ const Social = () => {
   };
 
   return (
-    <>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-extrabold text-center text-[#6366F1] mb-10">Trek Social</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-extrabold text-center text-[#6366F1] mb-10">Trek Social</h1>
 
-        {/* New Trek Post Form */}
-        <div className="mb-12">
-          <NewTrekPostForm onAddPost={handleAddPost} />
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-semibold text-[#6366F1] mb-8">Recent Treks</h2>
-          {trekPosts.map((post) => (
-            <div key={post._id} className="mb-8">
-              <TrekPost
-                id={post._id}
-                author={post.user.fullName }
-                location={post.location}
-                date={new Date(post.created_at).toLocaleDateString()}
-                description={post.text}
-                imageUrl={post.userProfile?.profilePicture.url}
-                onDeletePost={handleDeletePost}
-                currentUserId={currentUserId}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="mb-12">
+        <NewTrekPostForm onAddPost={handleAddPost} />
       </div>
-    </>
+
+      <div>
+        <h2 className="text-3xl font-semibold text-[#6366F1] mb-8">Recent Treks</h2>
+        {trekPosts.map((post) => (
+          <div key={post._id} className="mb-8">
+            <TrekPost
+              id={post._id}
+              author={post.user.fullName}
+              location={post.location}
+              date={new Date(post.created_at).toLocaleDateString()}
+              description={post.text}
+              imageUrl={post.userProfile?.profilePicture.url}
+              comments={post.comments} // Ensure this field is passed correctly
+              onDeletePost={handleDeletePost}
+              currentUserId={currentUserId}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

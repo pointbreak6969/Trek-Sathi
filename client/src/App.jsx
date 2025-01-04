@@ -1,6 +1,6 @@
 import UserProfile from "./pages/UserProfile";
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";  
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import { Toaster } from "sonner";
 import SignupPage from "./Pages/Signup";
@@ -51,9 +51,6 @@ function App() {
       <Toaster position="top-center" richColors closeButton theme="light" />
       <Navbar />
       <Outlet />
-      <SignupPage/>
-      <UserProfile/>
-
     </>
   );
 }
