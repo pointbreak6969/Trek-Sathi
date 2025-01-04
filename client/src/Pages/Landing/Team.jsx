@@ -9,7 +9,7 @@ export function Team({ members }) {
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-4xl font-bold mb-4">
-            Meet Our <span className="text-sky-500">Hiking Team</span>
+            Meet Our <span className="text-sky-500">Guides</span>
           </h2>
           <p className="text-gray-600">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -25,7 +25,7 @@ export function Team({ members }) {
                   src={member.imageUrl}
                   alt={member.name}
                   fill
-                  className="object-cover"
+                  className="object-cover h-full"
                 />
               </div>
               <div className="p-6 text-center">
