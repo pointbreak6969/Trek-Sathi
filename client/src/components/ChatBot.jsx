@@ -1,0 +1,160 @@
+import ChatBox from "./ChatBox";
+import { useState, useEffect, useRef } from "react";
+import { gemini } from "@/lib/constant";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Send, Image, X } from "lucide-react";
+
+const ChatBot = () => {
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chat, setChat] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  
+  const genAI = new GoogleGenerativeAI(gemini);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  useEffect(() => {
+    const initialChat = model.startChat();
+    setChat(initialChat);
+  }, []);
+
+  const handleFileClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    fileInputRef.current.value = "";
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if ((!message.trim() && !selectedFile) || !chat) return;
+
+    try {
+      setIsLoading(true);
+      
+      if (message.trim()) {
+        const userMessage = { role: "user", parts: [{ text: message }] };
+        setMessages((prev) => [...prev, userMessage]);
+      } else if (selectedFile) {
+        const userFileMessage = { role: "user", parts: [{ text: "(File sent)" }] };
+        setMessages((prev) => [...prev, userFileMessage]);
+      }
+
+ 
+if (selectedFile) {
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const base64Data = reader.result.split(",")[1];
+    // Add the image message to the chat history
+    const userImageMessage = {
+      role: "user",
+      parts: [{
+        inlineData: {
+          data: base64Data,
+          mimeType: selectedFile.type
+        }
+      }]
+    };
+    setMessages(prev => [...prev, userImageMessage]);
+
+    // Process the image with the AI
+    const result = await model.generateContent([
+      {
+        inlineData: {
+          data: base64Data,
+          mimeType: selectedFile.type,
+        },
+      },
+      message || "Describe this file.",
+    ]);
+    const response = result.response;
+    setMessages((prev) => [
+      ...prev,
+      { role: "model", parts: [{ text: response.text() }] },
+    ]);
+    setSelectedFile(null);
+    setMessage("");
+  };
+  reader.readAsDataURL(selectedFile);
+}
+    } catch (error) {
+      console.error("Error:", error);
+      setMessages((prev) => [
+        ...prev,
+        { role: "model", parts: [{ text: "Sorry, an error occurred." }] },
+      ]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="w-full max-w-md mx-auto space-y-4">
+      <ChatBox history={messages} />
+      <Card>
+        <CardContent className="border-t p-4">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className="flex gap-2">
+              <Input
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="Type your message..."
+                className="flex-1"
+                disabled={isLoading}
+              />
+              <Button 
+                type="button"
+                size="icon" 
+                variant="ghost"
+                onClick={handleFileClick}
+                disabled={isLoading}
+              >
+                <Image className="h-4 w-4" />
+              </Button>
+              <Button type="submit" size="icon" disabled={isLoading}>
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            {selectedFile && (
+              <div className="flex items-center gap-2 text-sm text-gray-600 mt-2">
+                <span>{selectedFile.name}</span>
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="ghost"
+                  className="h-4 w-4 p-0"
+                  onClick={handleRemoveFile}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              </div>
+            )}
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default ChatBot;
