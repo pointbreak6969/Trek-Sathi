@@ -67,7 +67,6 @@ export default function Home() {
 
         {/* Destinations */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {destinations.map((destination) => (
             <div
               key={destination.name}
@@ -75,7 +74,6 @@ export default function Home() {
               onClick={() => navigate(`/details/${destination.id}`)}
             >
               <img
-                src={destination.image}
                 src={destination.image}
                 alt={destination.name}
                 className="object-cover w-full h-full"
@@ -108,8 +106,30 @@ const activities = [
       </svg>
     ),
   },
-  
-  // Add remaining activities here
+  {
+    name: "Hiking",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm4 5.28c-1.23-.37-2.22-1.17-2.8-2.18l-1-1.6c-.41-.65-1.11-1-1.84-1-.78 0-1.59.5-1.78 1.44S7 23 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3c1 1.15 2.41 2.01 4 2.34V23h2V9h-2v1.78z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Camping",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12 16c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0-14c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm6 14c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm-12 0c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm6-5c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z" />
+      </svg>
+    ),
+  },
+  {
+    name: "Snorkeling",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z" />
+      </svg>
+    ),
+  },
 ];
 
 const destinations = [
