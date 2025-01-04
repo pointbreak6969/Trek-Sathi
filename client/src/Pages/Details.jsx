@@ -396,15 +396,21 @@ export default function Details() {
                     {/* Post Header */}
                     <div className="p-4 flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <Avatar className="h-10 w-10">
-                          <img
-                            src={post?.userProfile?.profilePicture?.url}
-                            alt={post.user.fullName}
-                          />
+                      <Avatar className="h-10 w-10">
+                          {post?.userProfile?.profilePicture?.url ? (
+                            <AvatarImage
+                              src={post.userProfile.profilePicture.url}
+                              alt={post.userFullName}
+                            />
+                          ) : (
+                            <AvatarFallback>
+                              {post.userFullName.charAt(0)}
+                            </AvatarFallback>
+                          )}
                         </Avatar>
                         <div>
                           <p className="font-medium text-sm">
-                            {post.user.fullName}
+                            {post.userFullName}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {new Date(post.created_at).toLocaleDateString(

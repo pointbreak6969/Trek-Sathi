@@ -56,8 +56,17 @@ const getAllpost = asyncHandler(async (req, res) => {
             }
         },
         {
+            $lookup: {
+                from: 'users',
+                localField: 'user',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        {
             $addFields: {
-                commentCount: { $size: '$comments' }
+                commentCount: { $size: '$comments' },
+                userFullName: { $arrayElemAt: ['$userDetails.fullName', 0] }
             }
         },
         {
@@ -65,13 +74,15 @@ const getAllpost = asyncHandler(async (req, res) => {
         },
         {
             $project: {
-                comments: 0
+                comments: 0,
+                userDetails: 0
             }
         }
     ]);
 
     res.status(200).json(new ApiResponse(200, posts, "Posts fetched successfully"));
 });
+
 
 
 export { AddPost, getAllpost, DeletePost };
