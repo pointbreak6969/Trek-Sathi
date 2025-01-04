@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import socialServices from "../services/socialServices";
+import mardi from "../assets/mardi.jpg";
 import {
   ArrowLeft,
   Share2,
@@ -18,59 +19,66 @@ const getDestinationDetails = (id) => {
     mardi: {
       name: "Mardi Base Camp",
       location: "Mardi Himal Trek",
-      image: "/assets/mardi.jpg",  // Change to actual image path
+      image: mardi, // Change to actual image path
       distance: "14.7 km",
       duration: "5 Days",
       elevation: "4,500 m",
-      description: "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
+      description:
+        "Experience the hidden gem of the Annapurna region with breathtaking views of the Machapuchare (Fishtail) mountain.",
     },
     abc: {
       name: "Annapurna Base Camp",
       location: "Annapurna Sanctuary Trek",
-      image: "/assets/abc.jpg",  // Change to actual image path
+      image: "/assets/abc.jpg", // Change to actual image path
       distance: "37 km",
       duration: "7 Days",
       elevation: "4,130 m",
-      description: "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
+      description:
+        "Journey through diverse landscapes to reach the amphitheater of mountains in the Annapurna Sanctuary.",
     },
     everest: {
       name: "Everest Base Camp",
       location: "Everest Region Trek",
-      image: "/assets/everest.jpg",  // Change to actual image path
+      image: "/assets/everest.jpg", // Change to actual image path
       distance: "65 km",
       duration: "12 Days",
       elevation: "5,364 m",
-      description: "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
+      description:
+        "Trek to the base of the world's highest peak through Sherpa villages and stunning mountain vistas.",
     },
     langtang: {
       name: "Langtang Valley",
       location: "Langtang Trek",
-      image: "/assets/langtang.jpg",  // Change to actual image path
+      image: "/assets/langtang.jpg", // Change to actual image path
       distance: "19 km",
       duration: "7 Days",
       elevation: "3,870 m",
-      description: "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
+      description:
+        "Discover the beautiful Langtang Valley, rich in Tibetan culture and diverse flora and fauna.",
     },
     manaslu: {
       name: "Manaslu Circuit",
       location: "Manaslu Trek",
-      image: "/assets/manaslu.jpg",  // Change to actual image path
+      image: "/assets/manaslu.jpg", // Change to actual image path
       distance: "177 km",
       duration: "14 Days",
       elevation: "5,106 m",
-      description: "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
+      description:
+        "Circle the eighth highest mountain in the world through remote villages and dramatic landscapes.",
     },
   };
 
-  return trekDetails[id] || {
-    name: "Unknown Destination",
-    location: `${id || "Unknown"} Trek`,
-    image: "/assets/default.jpg",
-    distance: "N/A",
-    duration: "N/A",
-    elevation: "N/A",
-    description: "Information not available for this destination.",
-  };
+  return (
+    trekDetails[id] || {
+      name: "Unknown Destination",
+      location: `${id || "Unknown"} Trek`,
+      image: "/assets/default.jpg",
+      distance: "N/A",
+      duration: "N/A",
+      elevation: "N/A",
+      description: "Information not available for this destination.",
+    }
+  );
 };
 
 export default function Details() {
@@ -78,7 +86,11 @@ export default function Details() {
   const details = getDestinationDetails(name);
   const [isScrolled, setIsScrolled] = useState(false);
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ text: "", profilePicture: null ,location: "" });
+  const [newPost, setNewPost] = useState({
+    text: "",
+    profilePicture: null,
+    location: "",
+  });
   const [newComment, setNewComment] = useState("");
   const navigate = useNavigate();
 
@@ -122,7 +134,7 @@ export default function Details() {
         text: newPost.text,
         location: details.name,
       });
-      
+
       setNewPost({ text: "", profilePicture: null });
       fetchPosts();
     } catch (error) {
@@ -286,36 +298,45 @@ export default function Details() {
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Overview</h2>
               <p className="text-gray-600 leading-relaxed">
-                Experience the majestic beauty of {details.name}, one of Nepal's most stunning treks. This trek offers breathtaking mountain views, diverse landscapes, and authentic cultural experiences.
+                Experience the majestic beauty of {details.name}, one of Nepal's
+                most stunning treks. This trek offers breathtaking mountain
+                views, diverse landscapes, and authentic cultural experiences.
               </p>
             </div>
           </div>
         </div>
 
         {/* Posts Section */}
-        <div className="mt-8 px-6">
-          <h3 className="text-xl font-semibold">Recent Updates</h3>
+        <div className="mt-8 px-6 max-w-3xl mx-auto">
+          <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+            Recent Updates
+          </h3>
 
           {/* Post Input */}
-          <div className="my-6">
+          <div className="my-6 p-6 bg-white shadow-lg rounded-xl">
             <textarea
-              className="w-full p-3 border rounded-md"
+              className="w-full p-4 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="What's on your mind?"
               value={newPost.text}
               onChange={(e) => setNewPost({ ...newPost, text: e.target.value })}
             />
             <input
               type="text"
-              className="mt-3"
-              onChange={(e) => setNewPost({ ...newPost, location: e.target.value })}
+              className="mt-4 w-full p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              placeholder="Location"
+              onChange={(e) =>
+                setNewPost({ ...newPost, location: e.target.value })
+              }
             />
             <input
               type="file"
-              className="mt-3"
-              onChange={(e) => setNewPost({ ...newPost, profilePicture: e.target.files[0] })}
+              className="mt-4 w-full p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              onChange={(e) =>
+                setNewPost({ ...newPost, profilePicture: e.target.files[0] })
+              }
             />
             <button
-              className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-full"
+              className="mt-4 w-full py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition duration-200"
               onClick={handleAddPost}
             >
               Post
@@ -324,38 +345,54 @@ export default function Details() {
 
           {/* Display Posts */}
           {posts.length === 0 ? (
-            <div>No posts available. Be the first to share!</div>
+            <div className="text-center text-gray-500">
+              No posts available. Be the first to share!
+            </div>
           ) : (
             <div className="space-y-6 pb-20">
               {posts.map((post) => (
-                <div key={post._id} className="bg-white p-4 rounded-lg shadow-md">
+                <div
+                  key={post._id}
+                  className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition duration-300"
+                >
                   <div className="flex items-center">
                     <img
-                      src={post.userProfile.profilePicture.url}
+                      src={post?.userProfile?.profilePicture?.url}
                       alt="profile"
-                      className="h-10 w-10 rounded-full"
+                      className="h-12 w-12 rounded-full object-cover"
                     />
                     <div className="ml-4">
-                      <span className="font-medium">{post.user.fullName}</span>
+                      <span className="font-semibold text-gray-900">
+                        {post.user.fullName}
+                      </span>
                       <span className="text-xs text-gray-500 ml-2">
                         {new Date(post.created_at).toLocaleString()}
                       </span>
                     </div>
                   </div>
-                  <p className="mt-2 text-gray-700">{post.text}</p>
-                  <div>
-                    <img
-                      src={post.image?.url}
-                      alt="post"
-                      className="mt-4 w-full h-48 object-cover rounded-md"
-                    />
-                  </div>
+                  <p className="mt-4 text-lg text-gray-800">{post.text}</p>
+                  {post.image?.url && (
+                    <div className="mt-4">
+                      <img
+                        src={post.image?.url}
+                        alt="post"
+                        className="w-full h-64 object-cover rounded-xl"
+                      />
+                    </div>
+                  )}
                   {post.comments?.length > 0 && (
                     <div className="mt-4 space-y-2">
                       {post.comments.map((comment) => (
-                        <div key={comment._id} className="flex items-center gap-2">
-                          <span className="font-semibold">{comment.user}</span>
-                          <span className="text-sm text-gray-500">{comment.text}</span>
+                        <div
+                          key={comment._id}
+                          className="flex items-center gap-2"
+                        >
+                          <span className="font-semibold text-gray-900">
+                            {comment.user}
+                          </span>
+                          <span className="text-sm text-gray-500">
+                            {comment.text}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -364,20 +401,22 @@ export default function Details() {
                     placeholder="Add a comment"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
-                    className="mt-2 w-full p-2 border rounded-md"
+                    className="mt-4 w-full p-3 border border-gray-300 rounded-md text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600"
                   />
-                  <button
-                    className="mt-2 text-blue-600"
-                    onClick={() => handleAddComment(post._id, newComment)}
-                  >
-                    Add Comment
-                  </button>
-                  <button
-                    className="mt-3 text-red-600"
-                    onClick={() => handleDeletePost(post._id)}
-                  >
-                    Delete Post
-                  </button>
+                  <div className="flex space-x-4 mt-4">
+                    <button
+                      className="text-blue-600 hover:text-blue-800 transition duration-200"
+                      onClick={() => handleAddComment(post._id, newComment)}
+                    >
+                      Add Comment
+                    </button>
+                    <button
+                      className="text-red-600 hover:text-red-800 transition duration-200"
+                      onClick={() => handleDeletePost(post._id)}
+                    >
+                      Delete Post
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
