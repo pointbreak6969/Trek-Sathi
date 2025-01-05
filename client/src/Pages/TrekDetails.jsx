@@ -167,27 +167,27 @@ const TrekDetails = () => {
       </section>
 
       {/* Advertisement Section */}
-      <section className="mb-8">
-        <div className="bg-yellow-100 p-6 rounded-lg shadow-md flex items-center justify-between">
-          <div className="flex items-center">
+      <section className="mb-6 sm:mb-8">
+        <div className="bg-yellow-100 p-4 sm:p-6 rounded-lg shadow-md flex flex-col sm:flex-row items-center gap-4 sm:gap-0 sm:justify-between">
+          <div className="flex flex-col sm:flex-row items-center text-center sm:text-left">
             <img
               src="https://www.state.gov/wp-content/uploads/2023/07/shutterstock_655126330v2.jpg"
               alt="Adventure Travel"
-              className="w-24 h-24 rounded-full mr-4"
+              className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mb-4 sm:mb-0 sm:mr-4"
             />
             <div>
-              <h3 className="text-2xl font-semibold text-gray-800">
+              <h3 className="text-xl sm:text-2xl font-semibold text-gray-800">
                 Travel with{" "}
                 <span className="text-yellow-600">Adventure Travel Co.</span>
               </h3>
-              <p className="text-gray-600 mt-2">
+              <p className="text-sm sm:text-base text-gray-600 mt-2">
                 Best trekking experiences and exclusive packages. Book your
                 adventure now!
               </p>
             </div>
           </div>
-          <div>
-            <button className="bg-yellow-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-yellow-600">
+          <div className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto bg-yellow-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-yellow-600">
               Learn More
             </button>
           </div>
@@ -201,27 +201,27 @@ const TrekDetails = () => {
 
       {/* Trekking Agencies */}
       <section className="mb-6">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-700 mb-2">
           Trekking Agencies
         </h2>
         <div className="space-y-4">
           {trekkingAgencies.map((agency, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-lg shadow-md flex items-center justify-between"
+              className="bg-white p-3 sm:p-4 rounded-lg shadow-md flex flex-col sm:flex-row items-center gap-4 sm:gap-0 sm:justify-between"
             >
               <div className="flex items-center">
                 <img
                   src={agency.image}
                   alt={agency.name}
-                  className="w-12 h-12 rounded-full mr-4"
+                  className="w-10 h-10 sm:w-12 sm:h-12 rounded-full mr-3 sm:mr-4"
                 />
-                <div className="text-lg font-semibold text-gray-700">
+                <div className="text-base sm:text-lg font-semibold text-gray-700">
                   {agency.name}
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <div className="text-gray-600 flex items-center">
+              <div className="flex flex-col sm:flex-row items-center gap-2 sm:space-x-4">
+                <div className="text-sm sm:text-base text-gray-600 flex items-center">
                   <FaPhone className="mr-2" />
                   {agency.contact}
                 </div>
@@ -229,9 +229,9 @@ const TrekDetails = () => {
                   {[...Array(5)].map((_, i) => (
                     <FaStar
                       key={i}
-                      className={
+                      className={`text-sm sm:text-base ${
                         i < agency.rating ? "text-yellow-500" : "text-gray-300"
-                      }
+                      }`}
                     />
                   ))}
                 </div>
@@ -240,6 +240,7 @@ const TrekDetails = () => {
           ))}
         </div>
       </section>
+
 
       {/* Link to Detailed Itinerary */}
       <div className="text-center mb-6">
