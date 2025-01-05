@@ -90,7 +90,7 @@ export default function UserHomePage() {
                 <div>
                   <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
                     Get Premium Trekking Gear from{" "}
-                    <span className="text-blue-600 dark:text-blue-400">
+                    <span className="text-[#6366f1] dark:text-blue-400">
                       Mountain Equipment Nepal
                     </span>
                   </h3>
@@ -116,12 +116,12 @@ export default function UserHomePage() {
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <Button className="bg-blue-600 text-white hover:bg-blue-700 px-6">
+                <Button className="bg-[#6366f1] text-white hover:bg-blue-700 px-6">
                   Shop Now <ShoppingBag className="w-4 h-4 ml-2" />
                 </Button>
                 <Button
                   variant="outline"
-                  className="text-blue-600 border-blue-600"
+                  className="text-[#6366f1] border-blue-600"
                 >
                   View Catalog
                 </Button>
@@ -135,7 +135,7 @@ export default function UserHomePage() {
             <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
               Your Past Treks
             </h2>
-            <Button variant="ghost" className="text-blue-600">
+            <Button variant="ghost" className="text-[#6366f1]">
               View All <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>

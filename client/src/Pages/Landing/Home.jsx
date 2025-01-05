@@ -3,6 +3,7 @@ import Services from "./Services";
 import { Story } from "./Story";
 import { Team } from "./Team";
 import { Treks } from "./Treks";
+
 const Home = () => {
   const services = [
     {
@@ -36,6 +37,7 @@ const Home = () => {
       imageUrl: "/bikepacking.jpg",
     },
   ];
+
   const teamMembers = [
     {
       name: "Pasang Sherpa",
@@ -125,13 +127,16 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-[#6366f1]">
+    <div className="bg-white">
       <Hero />
-      <Services services={services} />
+      <div className=" py-12">
+        <Services services={services} />
+      </div>
       <Story />
       <Team members={teamMembers} />
       <Treks locations={trekLocations} />
     </div>
   );
 };
+
 export default Home;

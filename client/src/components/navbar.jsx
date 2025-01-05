@@ -132,7 +132,7 @@ const Navbar = () => {
                 >
                   Login
                 </Button>
-                <Button onClick={() => handleNavigation("/signup")}>
+                <Button onClick={() => handleNavigation("/signup")} className="bg-[#6366f1] hover:bg-blue-600">
                   Sign up
                 </Button>
               </>

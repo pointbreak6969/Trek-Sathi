@@ -22,7 +22,7 @@ const Footer = () => {
           className="absolute bottom-0"
         >
           <path
-            fill="#0099ff"
+            fill="#6366f1"
             fillOpacity="1"
             d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           ></path>
@@ -31,9 +31,9 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-sky-300 flex items-center">
+            <h3 className="text-xl font-semibold text-[#6366f1] flex items-center">
               <Mountain className="mr-2" />
-              Trek Adventures
+              Trek Sathi
             </h3>
             <p className="text-sm text-gray-300">
               Explore the world, one peak at a time. Join us for unforgettable
@@ -42,38 +42,38 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="text-lg font-medium mb-4 flex items-center">
-              <Compass className="mr-2 text-sky-300" />
+              <Compass className="mr-2 text-[#6366f1]" />
               Quick Links
             </h4>
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="/"
-                  className="text-sm hover:text-sky-300 transition-colors"
+                  to="/"
+                  className="text-sm hover:text-[#6366f1] transition-colors"
                 >
                   Home
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/treks"
-                  className="text-sm hover:text-sky-300 transition-colors"
+                  to="/treks"
+                  className="text-sm hover:text-[#6366f1] transition-colors"
                 >
                   Our Treks
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/about"
-                  className="text-sm hover:text-sky-300 transition-colors"
+                  to="/about"
+                  className="text-sm hover:text-[#6366f1] transition-colors"
                 >
                   About Us
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/contact"
-                  className="text-sm hover:text-sky-300 transition-colors"
+                  to="/contact"
+                  className="text-sm hover:text-[#6366f1] transition-colors"
                 >
                   Contact
                 </Link>
@@ -82,23 +82,23 @@ const Footer = () => {
           </div>
           <div>
             <h4 className="text-lg font-medium mb-4 flex items-center">
-              <Tent className="mr-2 text-sky-300" />
+              <Tent className="mr-2 text-[#6366f1]" />
               Follow Our Journey
             </h4>
             <div className="flex space-x-4">
-              <Link href="#" className="hover:text-sky-300 transition-colors">
+              <Link to="#" className="hover:text-[#6366f1] transition-colors">
                 <Facebook size={20} />
                 <span className="sr-only">Facebook</span>
               </Link>
-              <Link href="#" className="hover:text-sky-300 transition-colors">
+              <Link to="#" className="hover:text-[#6366f1] transition-colors">
                 <Twitter size={20} />
                 <span className="sr-only">Twitter</span>
               </Link>
-              <Link href="#" className="hover:text-sky-300 transition-colors">
+              <Link to="#" className="hover:text-[#6366f1] transition-colors">
                 <Instagram size={20} />
                 <span className="sr-only">Instagram</span>
               </Link>
-              <Link href="#" className="hover:text-sky-300 transition-colors">
+              <Link to="#" className="hover:text-[#6366f1] transition-colors">
                 <Youtube size={20} />
                 <span className="sr-only">YouTube</span>
               </Link>
@@ -115,7 +115,7 @@ const Footer = () => {
                 placeholder="Enter your email"
                 className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
               />
-              <Button className="bg-sky-600 hover:bg-sky-700 text-white">
+              <Button className="bg-[#6366f1] hover:bg-[#6366f1]/90 text-white">
                 Subscribe
                 <Mail className="ml-2 h-4 w-4" />
               </Button>
