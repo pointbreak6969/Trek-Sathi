@@ -1,4 +1,4 @@
-// src/components/DetailedItinerary.js
+
 import React, { useState } from "react";
 import {
   FaMountain,
@@ -18,6 +18,7 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import ChatBotIcon from "@/components/ChatBotIcon";
 
 const DetailedItinerary = () => {
   const exampleHotels = [
@@ -219,7 +220,7 @@ const DetailedItinerary = () => {
       mealLocations: [
         { type: "Breakfast", location: "Hotel Restaurant" }
       ],
-      hotels: exampleHotels, // Assuming exampleHotels contains the hotel options in Pokhara
+      hotels: exampleHotels,
       reviews: [
         "Sad to leave!", 
         "Great memories.",
@@ -235,7 +236,7 @@ const DetailedItinerary = () => {
           text: "Beautiful last morning in Pokhara"
         }
       ],
-      transport: "Taxi 9800000001, Tourist Bus 9800000002" // Added specific transport options
+      transport: "Taxi 9800000001, Tourist Bus 9800000002" 
     }
   ];
   const [currentPage, setCurrentPage] = useState(1);
@@ -260,6 +261,9 @@ const DetailedItinerary = () => {
   return (
     <div className="container mx-auto p-6 max-w-2xl bg-white shadow-lg rounded-lg">
       {/* back Section */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <ChatBotIcon />
+      </div>
       <Link
         to="/trekdetails"
         className="p-2 hover:bg-white/50 rounded-full transition-colors"
