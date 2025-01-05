@@ -21,12 +21,13 @@ export function Story() {
             </h2>
             <div className="space-y-4 text-gray-600">
               <p>
-                We are passionate about exploring the outdoors and sharing our love of nature with others. 
-                Our journey began with a small group of friends who shared a common passion for adventure.
+                Here’s the story behind Trek-Sathi 🌄. When we planned our first trek, we were super excited, but the preparation turned out to be a real challenge 😅. We didn’t know what clothes to pack 🧥, which routes were best 🗺️, or where to find good places to stay 🏨 along the way.
               </p>
               <p>
-                Over the years, we have grown into a thriving community of outdoor enthusiasts, providing 
-                high-quality gear, expert guidance, and unforgettable experiences for adventurers of all levels. 
+                Our research took us through outdated websites and scattered advice in Facebook groups, and it felt like we were spending more time planning than actually enjoying the experience 🙄. That’s when we realized there had to be a better way 💡.
+              </p>
+              <p>
+                So, we created Trek-Sathi 📱 — an app designed to simplify trekking for everyone. It provides everything from packing lists ✅, route guides 🛤️, hotel recommendations 🛏️, and the best time to trek ⏱️. With Trek-Sathi, we wanted to take the hassle out of planning so that trekking could be all about enjoying the journey 🌟.
               </p>
             </div>
             <Button size="lg" className="bg-[#6366f1] hover:bg-[#6366f1]/90">

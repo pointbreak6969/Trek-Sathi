@@ -20,7 +20,7 @@ export function Hero() {
           </div>
 
           <Link
-            to="/join"
+            to="/login"
             className="inline-block bg-[#6366f1] text-white px-8 py-3 rounded-full text-lg font-medium hover:bg-[#6366f1]/90 transition-colors"
           >
             Join Us Now

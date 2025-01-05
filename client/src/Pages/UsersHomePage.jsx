@@ -107,56 +107,53 @@ export default function UserHomePage() {
         </div>
 
         {/* Gear Advertisement Section */}
-        <section className="mb-12">
-          <div className="bg-blue-50 dark:bg-gray-800 p-6 rounded-xl shadow-md">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center flex-1">
+        <section className="mb-8 sm:mb-12">
+          <div className="bg-blue-50 dark:bg-gray-800 p-4 sm:p-6 lg:p-8 rounded-xl shadow-md">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center gap-6">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center flex-1 gap-4 sm:gap-6">
                 <img
                   src="/trekkinggear.jpg"
                   alt="Trekking Gear"
-                  className="w-32 h-32 rounded-lg object-cover mr-6"
+                  className="w-full sm:w-32 h-48 sm:h-32 rounded-lg object-cover"
                 />
-                <div>
-                  <h3 className="text-2xl font-semibold text-gray-800 dark:text-white">
+                <div className="flex-1">
+                  <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-white">
                     Get Premium Trekking Gear from{" "}
-                    <span className="text-[#6366f1] dark:text-blue-400">
+                    <span className="text-[#6366f1] dark:text-blue-400 block sm:inline">
                       Mountain Equipment Nepal
                     </span>
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mt-2">
-                    Exclusive 20% discount for registered trekkers. Premium
-                    quality gear for your Himalayan adventures! Gears Save Life!
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2">
+                    Exclusive 20% discount for registered trekkers. Premium quality gear for your Himalayan adventures!
                   </p>
-                  <div className="flex items-center gap-4 mt-3">
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3">
+                    <div className="flex items-center text-gray-600 dark:text-gray-300 text-sm">
                       <Shield className="w-4 h-4 mr-1" />
                       Quality Guaranteed
                     </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center text-gray-600 dark:text-gray-300 text-sm">
                       <Truck className="w-4 h-4 mr-1" />
                       Free Delivery
                     </div>
-                    <div className="flex items-center text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center text-gray-600 dark:text-gray-300 text-sm">
                       <RefreshCcw className="w-4 h-4 mr-1" />
                       Easy Returns
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col gap-3">
-                <Button className="bg-[#6366f1] text-white hover:bg-blue-700 px-6">
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-3 w-full sm:w-auto">
+                <Button className="bg-[#6366f1] text-white hover:bg-blue-700 px-4 sm:px-6 py-2">
                   Shop Now <ShoppingBag className="w-4 h-4 ml-2" />
                 </Button>
-                <Button
-                  variant="outline"
-                  className="text-[#6366f1] border-blue-600"
-                >
+                <Button variant="outline" className="text-[#6366f1] border-blue-600">
                   View Catalog
                 </Button>
               </div>
             </div>
           </div>
         </section>
+
 
         {/* Past Treks Section */}
         <div className="mb-12">
