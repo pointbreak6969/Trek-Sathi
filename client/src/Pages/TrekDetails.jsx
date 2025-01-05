@@ -5,7 +5,9 @@ import { FaComments, FaBus, FaHotel, FaStar, FaPhone } from "react-icons/fa";
 import mardi from "../assets/mardi.jpg";
 import RestaurantCard from "@/components/RestaurantCard";
 import ChatBotIcon from "@/components/ChatBotIcon";
-
+import { pdfDownload } from "@/lib/pdfDownload";
+import { Button } from "@/components/ui/button";
+import { Download, Phone } from 'lucide-react';
 const TrekDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
@@ -165,6 +167,19 @@ const TrekDetails = () => {
           ))}
         </div>
       </section>
+      <section className="flex justify-center py-6">
+      <button
+        onClick={pdfDownload}
+        className="group relative flex items-center gap-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0"
+      >
+        <div className="relative flex items-center gap-2">
+          <Phone className="w-5 h-5 animate-pulse" />
+          <span className="font-medium">Download Emergency Contacts</span>
+          <Download className="w-5 h-5 transition-transform group-hover:translate-y-0.5" />
+        </div>
+        <div className="absolute inset-0 rounded-lg bg-white/20 blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      </button>
+    </section>
 
       {/* Advertisement Section */}
       <section className="mb-8">
