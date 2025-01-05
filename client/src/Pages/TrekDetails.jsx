@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaComments, FaBus, FaHotel, FaStar, FaPhone } from "react-icons/fa";
 import mardi from "../assets/mardi.jpg";
 import RestaurantCard from "@/components/RestaurantCard";
+import ChatBotIcon from "@/components/ChatBotIcon";
 
 const TrekDetails = () => {
   const [reviews, setReviews] = useState([]);
@@ -108,6 +109,9 @@ const TrekDetails = () => {
 
   return (
     <div className="container mx-auto p-6 max-w-2xl bg-white shadow-lg rounded-lg">
+      <div className="fixed bottom-6 right-6 z-50">
+        <ChatBotIcon />
+      </div>
       <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex-1">
@@ -248,29 +252,8 @@ const TrekDetails = () => {
         </Link>
       </div>
 
-      {/* Floating Chat Button */}
-      <div className="fixed bottom-4 right-4">
-        <button
-          className="bg-blue-500 text-white p-3 rounded-full shadow-lg"
-          onClick={handleChatToggle}
-        >
-          <FaComments size={24} />
-        </button>
-      </div>
-
-      {/* Chat Pop-up */}
-      {chatOpen && (
-        <div className="fixed bottom-20 right-4 w-64 bg-white border rounded-lg shadow-lg p-4">
-          <h3 className="text-lg font-semibold mb-2">Group Chat</h3>
-          <div className="h-48 overflow-auto mb-2">
-            {comments.map((comment, index) => (
-              <div key={index} className="mb-1">
-                <strong>User {index + 1}:</strong> {comment}
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+     
+      
     </div>
   );
 };
