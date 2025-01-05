@@ -3,17 +3,41 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaComments, FaBus, FaHotel, FaStar, FaPhone } from "react-icons/fa";
 import mardi from "../assets/mardi.jpg";
+import RestaurantCard from "@/components/RestaurantCard";
 
 const TrekDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [comments, setComments] = useState([]);
   const [chatOpen, setChatOpen] = useState(false);
 
-  const exampleHotels = [
-    { name: "Hotel Machhapuchhre", number: "9860000000", rating: 4.5 },
-    { name: "Hotel Annapurna", number: "9877000006", rating: 4.0 },
+  const restaurants = [
+    {
+      name: "Maison Française",
+      cuisine: "French",
+      rating: 4.8,
+      priceRange: 4,
+      hours: "Mon-Fri: 12:00 PM - 10:00 PM, Sat-Sun: 10:00 AM - 11:00 PM",
+      address: "45 Rue de Provence, Paris, France 75009",
+      phone: "+33 1 42 68 53 12",
+      description:
+        "Maison Française invites you to indulge in authentic French cuisine in the heart of Paris. With a menu curated by our award-winning chefs, we bring traditional French recipes to life using locally-sourced ingredients. Perfect for romantic dinners or special occasions, our ambiance combines timeless elegance with contemporary comfort.",
+      image:
+        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/283798490.jpg?k=b7e235390d9f309f8e32221378ce48f55e4dd34eff32e365ab9e4e98d7bc3c66&o=&hp=1",
+    },
+    {
+      name: "Maison Française",
+      cuisine: "French",
+      rating: 4.8,
+      priceRange: 4,
+      hours: "Mon-Fri: 12:00 PM - 10:00 PM, Sat-Sun: 10:00 AM - 11:00 PM",
+      address: "45 Rue de Provence, Paris, France 75009",
+      phone: "+33 1 42 68 53 12",
+      description:
+        "Maison Française invites you to indulge in authentic French cuisine in the heart of Paris. With a menu curated by our award-winning chefs, we bring traditional French recipes to life using locally-sourced ingredients. Perfect for romantic dinners or special occasions, our ambiance combines timeless elegance with contemporary comfort.",
+      image:
+        "https://cf.bstatic.com/xdata/images/hotel/max1024x768/283798490.jpg?k=b7e235390d9f309f8e32221378ce48f55e4dd34eff32e365ab9e4e98d7bc3c66&o=&hp=1",
+    },
   ];
-
   const itinerary = [
     {
       day: 1,
@@ -52,13 +76,15 @@ const TrekDetails = () => {
       name: "Everest Base Camp Treks",
       contact: "9847654321",
       rating: 4.7,
-      image: "https://i.natgeofe.com/k/578a6a47-3514-4d36-bf4b-254fa7c49c45/nepal-prayer-flags_16x9.jpg?w=1200",
+      image:
+        "https://i.natgeofe.com/k/578a6a47-3514-4d36-bf4b-254fa7c49c45/nepal-prayer-flags_16x9.jpg?w=1200",
     },
     {
       name: "Annapurna Circuit Treks",
       contact: "9812345678",
       rating: 4.6,
-      image: "https://www.rjtravelagency.com/wp-content/uploads/2023/10/Nepal.jpg",
+      image:
+        "https://www.rjtravelagency.com/wp-content/uploads/2023/10/Nepal.jpg",
     },
   ];
 
@@ -82,7 +108,21 @@ const TrekDetails = () => {
 
   return (
     <div className="container mx-auto p-6 max-w-2xl bg-white shadow-lg rounded-lg">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Trek Details</h1>
+      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
+              Trek Details
+            </h1>
+            <div className="h-1 w-20 bg-indigo-600 mt-2 rounded-full"></div>
+          </div>
+          <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-lg">
+            <div className="text-md font-bold text-indigo-600">
+              NPR 6000-9000 <span>*</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Itinerary */}
       <section className="mb-8">
@@ -90,10 +130,10 @@ const TrekDetails = () => {
           Itinerary
         </h2>
         <div className="relative">
-          <div className="absolute left-0 top-0 w-1 bg-gray-300 h-full"></div>
+          <div className="absolute left-4 top-0 w-1 bg-gray-300 h-full"></div>
           {itinerary.map((day, index) => (
-            <div key={index} className="relative mb-10">
-              <div className="absolute -left-7 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded-full p-3 shadow-lg">
+            <div key={index} className="relative mb-10 ">
+              <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white rounded-full p-3 shadow-lg">
                 Day {day.day}
               </div>
               <div className="ml-14 pl-6 border-l-2 border-gray-300">
@@ -133,10 +173,12 @@ const TrekDetails = () => {
             />
             <div>
               <h3 className="text-2xl font-semibold text-gray-800">
-                Travel with <span className="text-yellow-600">Adventure Travel Co.</span>
+                Travel with{" "}
+                <span className="text-yellow-600">Adventure Travel Co.</span>
               </h3>
               <p className="text-gray-600 mt-2">
-                Best trekking experiences and exclusive packages. Book your adventure now!
+                Best trekking experiences and exclusive packages. Book your
+                adventure now!
               </p>
             </div>
           </div>
@@ -147,6 +189,11 @@ const TrekDetails = () => {
           </div>
         </div>
       </section>
+      <section className="py-12">
+  <div className="py-12 px-4 sm:px-6 lg:px-8">
+    <RestaurantCard restaurants={restaurants} />
+  </div>
+</section>
 
       {/* Trekking Agencies */}
       <section className="mb-6">
