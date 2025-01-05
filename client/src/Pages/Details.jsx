@@ -103,7 +103,7 @@ const getDestinationDetails = (id) => {
 
 export default function Details() {
   const [selectedPost, setSelectedPost] = useState(null);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(2);
 
   const handleOpenComments = (post) => {
     setSelectedPost(post);
@@ -122,9 +122,23 @@ export default function Details() {
     profilePicture: null,
     location: "",
   });
+  const [hasVoted, setHasVoted] = useState(false); 
   const [newComment, setNewComment] = useState("");
   const navigate = useNavigate();
 
+  const handleUpvote = () => {
+    if (!hasVoted) {
+      setCount((prevCount) => prevCount + 1);
+      setHasVoted(true);
+    }
+  };
+
+  const handleDownvote = () => {
+    if (!hasVoted) {
+      setCount((prevCount) => prevCount - 1);
+      setHasVoted(true);
+    }
+  };
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -455,9 +469,7 @@ export default function Details() {
                           variant="ghost"
                           size="sm"
                           className="text-green-500 hover:text-green-600"
-                          onClick={() =>
-                            setCount((prevCount) => Math.max(prevCount + 1, 0))
-                          }
+                          onClick={handleUpvote}
                         >
                           <ArrowUp className="h-5 w-5 mr-1" />
                         </Button>
@@ -467,9 +479,7 @@ export default function Details() {
                           variant="ghost"
                           size="sm"
                           className="text-red-500 hover:text-red-600"
-                          onClick={() =>
-                            setCount((prevCount) => Math.max(prevCount - 1, 0))
-                          }
+                          onClick={handleDownvote}
                         >
                           <ArrowDown className="h-5 w-5 mr-1" />
                         </Button>
